@@ -48,8 +48,8 @@ WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and the En
 DBCA_TOTAL_MEMORY | ```2048```| Keep in mind that DBCA fails if you set this value too low
 APEX_PASS | ```Oracle12c!```| Set a different initial APEX ADMIN password (the one which must be changed on first login)
 PASS | ```oracle```| Password for SYS and SYSTEM
-PORT | ```1521```| The database port number used in the container. Since you have to define the ```-p``` parameter anyway when creating a containerto, it is easier to change the port mapping there. E.g. to use port 1522 on the host use ```-p 1522:1521```
-HTTP_PORT | ```8082```| The http port number used in the container for EM and APEX. Since you have to define the ```-p``` parameter anyway when creating a containerto, it is easier to change the port mapping there. E.g. to use port 8080 on the host use ```-p 8080:8082```
+PORT | ```1521```| The database port number used in the container. Since you have to define the ```-p``` parameter anyway when creating a container, it is easier to change the port mapping there. E.g. to use port 1522 on the host use ```-p 1522:1521```
+HTTP_PORT | ```8082```| The http port number used in the container for EM and APEX. Since you have to define the ```-p``` parameter anyway when creating a container, it is easier to change the port mapping there. E.g. to use port 8080 on the host use ```-p 8080:8082```
 
 Here's an example run call amending the SYS/SYSTEM password and DBCA memory settings:
 
