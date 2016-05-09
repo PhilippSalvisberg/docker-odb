@@ -177,7 +177,7 @@ Complete the following steps to restore an image from scratch. There are other w
 
 		docker logs xe
 	
-	The log schould look as follows:
+	The log should look as follows:
 	
 		found files in /u01/app/oracle/oradata Using them instead of initial database
 		ORACLE instance started.
@@ -201,10 +201,10 @@ Complete the following steps to restore an image from scratch. There are other w
 
 ## Issues
 
-Please file your bug reports, enhancement requests, questions and other support requests within [Github's issue tracker](https://help.github.com/articles/about-issues/). 
+Please file your bug reports, enhancement requests, questions and other support requests within [Github's issue tracker](https://help.github.com/articles/about-issues/): 
 
 * [Existing issues](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues)
-* [submit new issue](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues/new).
+* [submit new issue](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues/new)
 
 ## License
 
