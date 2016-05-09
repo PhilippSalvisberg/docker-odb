@@ -57,12 +57,15 @@ case "$1" in
 		if [ $WEB_CONSOLE == "true" ]; then
 			echo 'Starting web management console'
 			su oracle -c 'echo EXEC DBMS_XDB.sethttpport\(${HTTP_PORT}\)\; | $ORACLE_HOME/bin/sqlplus -S / as sysdba'
-			echo "Web management console initialized. Please visit http://#container:${HTTP_PORT}/em http://#container:${HTTP_PORT}/apex for extra configuration if needed"
+			echo "Web management console initialized. Please visit"
+			echo "   - http://localhost:${HTTP_PORT}/em"
+			echo "   - http://localhost:${HTTP_PORT}/apex"
 		else
 			echo 'Disabling web management console'
 			su oracle -c 'echo EXEC DBMS_XDB.sethttpport\(0\)\; | $ORACLE_HOME/bin/sqlplus -S / as sysdba'
 		fi
 		
+		echo ""
 		echo "Database ready to use. Enjoy! ;)"
 
 		##
