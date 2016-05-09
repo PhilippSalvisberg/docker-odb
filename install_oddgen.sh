@@ -114,7 +114,9 @@ EOF
 		@/tmp/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pks
 		@/tmp/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pkb
 		@/tmp/oddgen-master/examples/tutorial/02_extended_view/extended_view.pks
-		@/tmp/oddgen-master/examples/tutorial/02_extended_view/extended_view.pkb		
+		@/tmp/oddgen-master/examples/tutorial/02_extended_view/extended_view.pkb
+		GRANT EXECUTE ON minimal_view TO PUBLIC;
+		GRANT EXECUTE ON extended_view TO PUBLIC;
 EOF
 }
 
