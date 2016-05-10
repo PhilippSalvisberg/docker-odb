@@ -1,7 +1,5 @@
 # oddgen Demo Using An Oracle Database 12c Standard Edition 2
 
-[![](https://badge.imagelayers.io/phsalvisberg/oddgendemo:latest.svg)](https://imagelayers.io/?images=phsalvisberg/oddgendemo:latest 'Get your own badge on imagelayers.io')
-
 ## Content
 
 This Dockerfile is based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/). The resulting image contains the following:
