@@ -44,10 +44,10 @@ Environment variable | Default value | Comments
 -------------------- | ------------- | --------
 WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and the Enterprise Manger console
 DBCA_TOTAL_MEMORY | ```2048```| Keep in mind that DBCA fails if you set this value too low
+ORACLE_SID | ```xe```| The Oracle SID
+SERVICE_NAME | ```xe.oracle.docker``` | The Oracle Service Name
 APEX_PASS | ```Oracle12c!```| Set a different initial APEX ADMIN password (the one which must be changed on first login)
 PASS | ```oracle```| Password for SYS and SYSTEM
-PORT | ```1521```| The database port number used in the container. Since you have to define the ```-p``` parameter anyway when creating a container, it is easier to change the port mapping there. E.g. to use port 1522 on the host use ```-p 1522:1521```
-HTTP_PORT | ```8082```| The http port number used in the container for EM and APEX. Since you have to define the ```-p``` parameter anyway when creating a container, it is easier to change the port mapping there. E.g. to use port 8080 on the host use ```-p 8080:8082```
 
 Here's an example run call amending the SYS/SYSTEM password and DBCA memory settings:
 
@@ -124,8 +124,6 @@ oddgen | oddgen
 ogdemo | ogdemo
 
 Use the following connect string to connect as scott via SQL*Plus or SQLcl: ```scott/tiger@localhost/xe.oracle.docker```
-
-You may configure also TNS entry, e.g. use the XE entry in this [tnsnames.ora](https://github.com/PhilippSalvisberg/docker-oddgendemo/blob/master/tnsnames.ora).  
 
 ## Backup
 

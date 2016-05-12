@@ -1,47 +1,8 @@
 #!/bin/bash
 
-PATH=${ORACLE_HOME}/bin:$PATH
-export PATH
-cp /tmp/tnsnames.ora /u01/app/oracle/product/12.1.0/xe/network/admin/
-
-ftldb(){
-	cd /tmp
-	tar -zxvf /tmp/ftldb.tar.gz
-	cd ftldb*
-	/bin/bash dba_install.sh XE sys ${PASS} ftldb ftldb
-	/bin/bash dba_switch_java_permissions.sh XE sys ${PASS} grant public
-	/bin/bash dba_switch_plsql_privileges.sh XE sys ${PASS} ftldb grant public
-}
-
-teplsql(){
-	sqlplus -s sys/${PASS}@XE AS SYSDBA <<EOF
-		BEGIN
-		   EXECUTE IMMEDIATE 'DROP USER teplsql CASCADE';
-		EXCEPTION
-		   WHEN OTHERS THEN
-		      NULL;
-		END;
-		/
-		CREATE USER teplsql IDENTIFIED BY teplsql
-		DEFAULT TABLESPACE users
-		TEMPORARY TABLESPACE TEMP;
-		GRANT CONNECT, RESOURCE TO teplsql;
-		GRANT SELECT_CATALOG_ROLE, SELECT ANY DICTIONARY TO teplsql;
-		GRANT UNLIMITED TABLESPACE TO teplsql;
-EOF
-	sqlplus -s teplsql/teplsql@XE <<EOF
-		@/tmp/teplsql/TE_TEMPLATES.sql
-		@/tmp/teplsql/tePLSQL.pks
-		@/tmp/teplsql/tePLSQL.pkb
-EOF
-}
-
 oddgen(){
-	cd /tmp
-	rm -rf /tmp/oddgen-master
-	unzip oddgen-master.zip -d /tmp
-	cd /tmp/oddgen-master/examples
-	sqlplus -s sys/${PASS}@XE AS SYSDBA <<EOF
+	cd /opt/oddgen-master/examples
+	sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA <<EOF
 		BEGIN
 		   EXECUTE IMMEDIATE 'DROP USER oddgen CASCADE';
 		EXCEPTION
@@ -72,11 +33,11 @@ oddgen(){
 		GRANT INHERIT PRIVILEGES ON USER sys TO ogdemo;
 		GRANT INHERIT PRIVILEGES ON USER system TO ogdemo;
 EOF
-	sqlplus -s oddgen/oddgen@XE <<EOF
+	sqlplus -s -l oddgen/oddgen@${ORACLE_SID} <<EOF
 		@install.sql
 		EXIT
 EOF
-	sqlplus -s ogdemo/ogdemo@XE <<EOF
+	sqlplus -s -l ogdemo/ogdemo@${ORACLE_SID} <<EOF
 		CREATE TABLE dept (
 		   deptno   NUMBER(2)     CONSTRAINT pk_dept PRIMARY KEY,
 		   dname    VARCHAR2(14),
@@ -111,32 +72,23 @@ EOF
 		INSERT INTO emp VALUES (7902, 'FORD', 'ANALYST', 7566, DATE '1981-12-03', 3000, NULL, 20);
 		INSERT INTO emp VALUES (7934, 'MILLER', 'CLERK', 7782, DATE '1982-01-23', 1300, NULL, 10);
 		COMMIT;
-		@/tmp/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pks
-		@/tmp/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pkb
-		@/tmp/oddgen-master/examples/tutorial/02_extended_view/extended_view.pks
-		@/tmp/oddgen-master/examples/tutorial/02_extended_view/extended_view.pkb
+		@/opt/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pks
+		@/opt/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pkb
+		@/opt/oddgen-master/examples/tutorial/02_extended_view/extended_view.pks
+		@/opt/oddgen-master/examples/tutorial/02_extended_view/extended_view.pkb
 		GRANT EXECUTE ON minimal_view TO PUBLIC;
 		GRANT EXECUTE ON extended_view TO PUBLIC;
 EOF
 }
 
 user_settings(){
-	sqlplus -s sys/${PASS}@XE AS SYSDBA <<EOF
+	sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA <<EOF
 		ALTER PROFILE default LIMIT PASSWORD_LIFE_TIME UNLIMITED;
 		ALTER USER scott ACCOUNT UNLOCK;
 		ALTER USER scott IDENTIFIED BY tiger;
 EOF
 }
 
-oracle_samples(){
-	cd $ORACLE_HOME/demo/schema
-	mkdir /tmp/log
-	sqlplus system/$PASS@xe @mksample $PASS $PASS hr oe pm ix sh bi users temp /tmp/log/ xe
-}
-
 user_settings
-oracle_samples
-ftldb
-teplsql
 oddgen
 cd /
