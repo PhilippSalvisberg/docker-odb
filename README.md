@@ -1,18 +1,20 @@
-# oddgen Demo Using An Oracle Database 12c Standard Edition 2
+# oddgen Demo Using An Oracle Database 12.1.0.2 Enterprise Edition
 
 ## Content
 
-This Dockerfile is based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/). The resulting image contains the following:
+This Dockerfile was originally based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/) but has no dependency to this original image anymore.  
 
-* Ubuntu 14.04.3 LTS
-* Oracle Database 12.1.0.2 Standard Edition 2
-	* Sample schemas SCOTT, HR, OE, PM, IX, SH (without partitioned table sales, costs), BI
+The current resulting image contains the following:
+
+* Oracle Linux 7.2
+* Oracle Database 12.1.0.2 Enterprise Edition
+	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.0.3
-	* FTLDB 1.5.0
+	* FTLDB 1.5.0-RC
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
 	
-Pull the latest trusted build from [here](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
+Pull the latest build from [here](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
 
 
 ## Installation
@@ -27,11 +29,11 @@ Complete the following steps to create a new container:
 
 2. Create the container
 
-		docker run -d -p 8082:8082 -p 1521:1521 -h xe --name xe phsalvisberg/oddgendemo
+		docker run -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-3. wait around **30 minutes** until the Oracle Database is created and APEX is patched to the latest version. Check logs with ```docker logs xe```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+3. wait around **30 minutes** until the Oracle Database is created and APEX is patched to the latest version. Check logs with ```docker logs odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
-Feel free to stop the docker container after a successful installation with ```docker stop xe```. The container should shutdown the database gracefully and persist the data fully (ready for backup). Next time you start the container using ```docker start xe``` the database will start up.
+Feel free to stop the docker container after a successful installation with ```docker stop odb```. The container should shutdown the database gracefully and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
 
 ### Options
@@ -44,23 +46,23 @@ Environment variable | Default value | Comments
 -------------------- | ------------- | --------
 WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and the Enterprise Manger console
 DBCA_TOTAL_MEMORY | ```2048```| Keep in mind that DBCA fails if you set this value too low
-ORACLE_SID | ```xe```| The Oracle SID
-SERVICE_NAME | ```xe.oracle.docker``` | The Oracle Service Name
+ORACLE_SID | ```odb```| The Oracle SID
+SERVICE_NAME | ```odb.docker``` | The Oracle Service Name
 APEX_PASS | ```Oracle12c!```| Set a different initial APEX ADMIN password (the one which must be changed on first login)
 PASS | ```oracle```| Password for SYS and SYSTEM
 
 Here's an example run call amending the SYS/SYSTEM password and DBCA memory settings:
 
 ```
-docker run -e PASS=manager -e DBCA_TOTAL_MEMORY=1536 -d -p 8082:8082 -p 1521:1521 -h xe --name xe phsalvisberg/oddgendemo
+docker run -e PASS=manager -e DBCA_TOTAL_MEMORY=1536 -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
 
 #### Volumes
 
-The image defines a volume for ```/u01/app/oracle```. You may map this volume to a storage solution of your choice. Here's an example using a named volume ```xe```:
+The image defines a volume for ```/u01/app/oracle```. You may map this volume to a storage solution of your choice. Here's an example using a named volume ```odb```:
 
 ```
-docker run -v xe:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h xe --name xe phsalvisberg/oddgendemo
+docker run -v odb:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
 
 It's important to note, that mapping a host directory might not work with this image, at least not with the Docker for Mac Version 1.11.1-beta10 (build: 6662). The volume driver must provide proper size information, otherwise the Oracle installation will fail with a message as follows:
@@ -102,8 +104,8 @@ Property | Value
 -------- | -----
 Hostname | localhost
 Port | 1521
-SID | xe
-Service | xe.oracle.docker
+SID | odb
+Service | odb.docker
 
 The configured user with their credentials are:
 
@@ -123,7 +125,7 @@ teplsql | teplsql
 oddgen | oddgen
 ogdemo | ogdemo
 
-Use the following connect string to connect as scott via SQL*Plus or SQLcl: ```scott/tiger@localhost/xe.oracle.docker```
+Use the following connect string to connect as scott via SQL*Plus or SQLcl: ```scott/tiger@localhost/odb.docker```
 
 ## Backup
 
@@ -131,15 +133,15 @@ Complete the following steps to backup the data volume:
 
 1. Stop the container with 
 
-		docker stop xe
+		docker stop odb
 		
-2. Backup the data volume to a compressed file ```xe.tar.gz``` in the current directory with a little help from the ubuntu image
+2. Backup the data volume to a compressed file ```odb.tar.gz``` in the current directory with a little help from the ubuntu image
 
-		docker run --rm --volumes-from xe -v $(pwd):/backup ubuntu tar czvf /backup/xe.tar.gz /u01/app/oracle
+		docker run --rm --volumes-from odb -v $(pwd):/backup ubuntu tar czvf /backup/odb.tar.gz /u01/app/oracle
 		
 3. Restart the container
 
-		docker start xe
+		docker start odb
 
 ## Restore
 
@@ -147,53 +149,54 @@ Complete the following steps to restore an image from scratch. There are other w
 
 1. Stop the container with 
 
-		docker stop xe
+		docker stop odb
 
 2. Remove the container with its associated volume 
 
-		docker rm -v xe
+		docker rm -v odb
 		
 3. Remove unreferenced volumes, e.g. explicitly created volumes by previous restores
 
-		docker volume ls -qf dangling=true | xargs docker volume rm
+		docker volume ls -qf dangling=true | xargs docker volume odb
 	
-4. Create an empty data volume named ```xe```
+4. Create an empty data volume named ```odb```
 
-		docker volume create --name xe 
+		docker volume create --name odb
 
-5. Populate data volume ```xe``` with backup from file ```xe.tar.gz``` with a little help from the ubuntu image
+5. Populate data volume ```odb``` with backup from file ```odb.tar.gz``` with a little help from the ubuntu image
 
-		docker run --rm -v xe:/u01/app/oracle -v $(pwd):/backup ubuntu tar xvpfz /backup/xe.tar.gz -C /			
+		docker run --rm -v odb:/u01/app/oracle -v $(pwd):/backup ubuntu tar xvpfz /backup/odb.tar.gz -C /			
 
-6. Create the container using the ```xe```volume
+6. Create the container using the ```odb```volume
 
-		docker run -v xe:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h xe --name xe phsalvisberg/oddgendemo
+		docker run -v odb:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-7. Check log of ```xe``` container
+7. Check log of ```odb``` container
 
-		docker logs xe
+		docker logs odb
 	
 	The log should look as follows:
 	
 		found files in /u01/app/oracle/oradata Using them instead of initial database
 		ORACLE instance started.
-		
-		Total System Global Area 1207959552 bytes
-		Fixed Size		    2923776 bytes
-		Variable Size		  436208384 bytes
-		Database Buffers	  754974720 bytes
-		Redo Buffers		   13852672 bytes
+
+		Total System Global Area  629145600 bytes
+		Fixed Size		    2927528 bytes
+		Variable Size		  306185304 bytes
+		Database Buffers	  314572800 bytes
+		Redo Buffers		    5459968 bytes
 		Database mounted.
 		Database opened.
 		Starting web management console
-		
+
 		PL/SQL procedure successfully completed.
 
-		Web management console initialized. Please visit 
-		   - http://localhost:8082/em 
+		Web management console initialized. Please visit
+		   - http://localhost:8082/em
 		   - http://localhost:8082/apex
-		   
+
 		Database ready to use. Enjoy! ;)
+
 
 ## Issues
 
@@ -206,4 +209,4 @@ Please file your bug reports, enhancement requests, questions and other support 
 
 docker-oddgendemo is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>. 
 
-See [Oracle Database Licensing Information User Manual](http://docs.oracle.com/database/121/DBLIC/editions.htm#DBLIC109) and [Oracle Database 12c Standard Edition 2](https://www.oracle.com/database/standard-edition-two/index.html) for further information.
+See [Oracle Database Licensing Information User Manual](http://docs.oracle.com/database/121/DBLIC/editions.htm#DBLIC109) for further information.
