@@ -6,6 +6,7 @@ setenforce Permissive
 # environment variables (not configurable when creating a container)
 export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome
 export ORACLE_BASE=/u01/app/oracle
+export TERM=linux
 
 # Exit script on non-zero command exit status
 set -e
@@ -66,7 +67,7 @@ case "$1" in
 			   -sysPassword ${PASS} -systemPassword ${PASS}"
 			echo "Configuring Apex console"
 			cd ${ORACLE_HOME}/apex
-			gosu oracle bash -c 'echo -e "${APEX_PASS}\n8082" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba @apxconf > /dev/null'
+			gosu oracle bash -c 'echo -e "\n\n${APEX_PASS}\n8082\n" | /opt/sqlcl/bin/sql -s -l / as sysdba @apxconf.sql > /dev/null'
 			gosu oracle bash -c 'echo -e "${ORACLE_HOME}\n\n" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba @apex_epg_config_core.sql > /dev/null'
 			gosu oracle bash -c 'echo -e "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba > /dev/null'
 			echo "Database initialized."
@@ -99,7 +100,7 @@ case "$1" in
 
 		# Successful installation/startup
 		echo ""
-		echo "Database ready to use. Enjoy! ;)"
+		echo "Database ready to use. Enjoy! ;-)"
 
 		# Infinite wait loop, trap interrupt/terminate signal for graceful termination
 		trap "gosu oracle bash -c 'echo shutdown immediate\; | ${ORACLE_HOME}/bin/sqlplus -S / as sysdba'" INT TERM

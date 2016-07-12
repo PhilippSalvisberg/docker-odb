@@ -2,9 +2,9 @@
 
 ## Content
 
-This Dockerfile was originally based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/) but has no dependency to this original image anymore.  
+This Dockerfile was originally based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/) but has no dependency to this image anymore.  
 
-The current resulting image contains the following:
+The oddgen image contains the following:
 
 * Oracle Linux 7.2
 * Oracle Database 12.1.0.2 Enterprise Edition
@@ -13,6 +13,8 @@ The current resulting image contains the following:
 	* FTLDB 1.5.0-RC
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
+* OpenJDK Runtime Environment (build 1.8.0_91-b14)
+* Oracle SQLcl: Release 4.2.0.16.175.1027 RC 
 	
 Pull the latest build from [here](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
 
@@ -195,7 +197,7 @@ Complete the following steps to restore an image from scratch. There are other w
 		   - http://localhost:8082/em
 		   - http://localhost:8082/apex
 
-		Database ready to use. Enjoy! ;)
+		Database ready to use. Enjoy! ;-)
 
 
 ## Issues

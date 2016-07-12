@@ -17,12 +17,13 @@ echo "127.0.0.1 odb.oddgen.org odb" >> /etc/hosts
 # environment variables (not configurable when creating a container)
 echo "export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome" > /.oracle_env
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
-echo "export PATH=/usr/sbin:\$PATH" >> /.oracle_env
+echo "export PATH=/usr/sbin:\$PATH:/opt/sqlcl/bin" >> /.oracle_env
 echo "export PATH=\$ORACLE_HOME/bin:\$PATH" >> /.oracle_env
 echo "export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >> /.oracle_env
 echo "export CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib" >> /.oracle_env
 echo "export TMP=/tmp" >> /.oracle_env
 echo "export TMPDIR=\$TMP" >> /.oracle_env
+echo "export TERM=linux" >> /.oracle_env # avoid in sqlcl: "tput: No value for $TERM and no -T specified"
 chmod +x /.oracle_env
 
 # set environment
@@ -31,7 +32,8 @@ cat /.oracle_env >> /home/oracle/.bash_profile
 cat /.oracle_env >> /root/.bash_profile
 
 # install required OS components
-yum install -y oracle-rdbms-server-12cR1-preinstall \
+yum install -y java-1.8.0-openjdk.x86_64 \
+               oracle-rdbms-server-12cR1-preinstall \
                perl \
                tar \
                unzip \
@@ -49,6 +51,14 @@ ln -s /u01/app/oracle-product /u01/app/oracle/product
 # install gosu as workaround for su problems (see http://grokbase.com/t/gg/docker-user/162h4pekwa/docker-su-oracle-su-cannot-open-session-permission-denied)
 wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.9/gosu-amd64"  -O /usr/local/bin/gosu
 chmod +x /usr/local/bin/gosu
+
+# download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
+echo "downloading SQL Developer CLI..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.175.1027-no-jre.zip -O /tmp/sqlcl.zip
+echo "extracting SQL Developer CLI..."
+unzip /tmp/sqlcl.zip -d /opt > /dev/null
+chown -R oracle:oinstall /opt/sqlcl
+rm -f /tmp/sqlcl.zip
 
 # download and extract Oracle database software
 cd /tmp/oracle
