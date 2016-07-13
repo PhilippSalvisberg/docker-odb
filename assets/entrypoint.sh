@@ -71,7 +71,7 @@ case "$1" in
 				echo "Configuring APEX and APEX EM Database Express 12c"
 				gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(8082\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 				cd ${ORACLE_HOME}/apex
-				gosu oracle bash -c 'echo -e "\n\n${APEX_PASS}" /tmp/input.txt | /opt/sqlcl/bin/sql -s -l / as sysdba @apxchpwd.sql > /dev/null'
+				gosu oracle bash -c 'echo -e "\n\n${APEX_PASS}" | /opt/sqlcl/bin/sql -s -l / as sysdba @apxchpwd.sql > /dev/null'
 				gosu oracle bash -c 'echo -e "${ORACLE_HOME}\n\n" | /opt/sqlcl/bin/sql -s -l / as sysdba @apex_epg_config_core.sql > /dev/null'
 				gosu oracle bash -c 'echo -e "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba > /dev/null'
 			else 
