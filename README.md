@@ -2,9 +2,7 @@
 
 ## Content
 
-This Dockerfile was originally based on Maksym Bilenko's work for [sath89/oracle-12c](https://hub.docker.com/r/sath89/oracle-12c/) but has no dependency to this image anymore.  
-
-The oddgen image contains the following:
+This image contains the following:
 
 * Oracle Linux 7.2
 * Oracle Database 12.1.0.2 Enterprise Edition
@@ -16,7 +14,7 @@ The oddgen image contains the following:
 * OpenJDK Runtime Environment (build 1.8.0_91-b14)
 * Oracle SQLcl: Release 4.2.0.16.175.1027 RC 
 	
-Pull the latest build from [here](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
+Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
 
 
 ## Installation
@@ -207,10 +205,13 @@ Please file your bug reports, enhancement requests, questions and other support 
 * [submit new issue](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues/new)
 
 ## Credits
-This Dockerfile is based on Maksym Bilenko's work for sath89/oracle-12c but has no dependency to this image anymore.
+This Dockerfile is based on the following work:
+
+- Maksym Bilenko's sath89/oracle-12c
+- Frits Hoogland's blog post [Installing the Oracle database in docker](https://fritshoogland.wordpress.com/2015/08/11/installing-the-oracle-database-in-docker/)
 
 ## License
 
 docker-oddgendemo is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>. 
 
-See [Oracle Database Licensing Information User Manual](http://docs.oracle.com/database/121/DBLIC/editions.htm#DBLIC109) for further information.
+See [Oracle Database Licensing Information User Manual](http://docs.oracle.com/database/121/DBLIC/editions.htm#DBLIC109) regarding Oracle Database lincenses.
