@@ -9,7 +9,7 @@ The oddgen image contains the following:
 * Oracle Linux 7.2
 * Oracle Database 12.1.0.2 Enterprise Edition
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 5.0.3
+	* APEX 5.0.4
 	* FTLDB 1.5.0-RC
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
@@ -25,7 +25,7 @@ Pull the latest build from [here](https://hub.docker.com/r/phsalvisberg/oddgende
 
 Complete the following steps to create a new container:
 
-1. Pull the image
+1. Pull the image (optional)
 
 		docker pull phsalvisberg/oddgendemo
 
@@ -33,7 +33,7 @@ Complete the following steps to create a new container:
 
 		docker run -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-3. wait around **30 minutes** until the Oracle Database is created and APEX is patched to the latest version. Check logs with ```docker logs odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+3. wait around **30 minutes** until the Oracle database instance is created and APEX is patched to the latest version. Check logs with ```docker logs odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop odb```. The container should shutdown the database gracefully and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
@@ -46,11 +46,11 @@ You may set the environment variables in the docker run statement to configure t
 
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
-WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and the Enterprise Manger console
+WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and Enterprise Manger Database Express 12c
 DBCA_TOTAL_MEMORY | ```2048```| Keep in mind that DBCA fails if you set this value too low
 ORACLE_SID | ```odb```| The Oracle SID
 SERVICE_NAME | ```odb.docker``` | The Oracle Service Name
-APEX_PASS | ```Oracle12c!```| Set a different initial APEX ADMIN password (the one which must be changed on first login)
+APEX_PASS | ```Oracle12c!```| Initial APEX ADMIN password
 PASS | ```oracle```| Password for SYS and SYSTEM
 
 Here's an example run call amending the SYS/SYSTEM password and DBCA memory settings:
@@ -179,7 +179,7 @@ Complete the following steps to restore an image from scratch. There are other w
 	
 	The log should look as follows:
 	
-		found files in /u01/app/oracle/oradata Using them instead of initial database
+		Found data files in /u01/app/oracle/oradata, initial database does not need to be created.
 		ORACLE instance started.
 
 		Total System Global Area  629145600 bytes
@@ -189,11 +189,10 @@ Complete the following steps to restore an image from scratch. There are other w
 		Redo Buffers		    5459968 bytes
 		Database mounted.
 		Database opened.
-		Starting web management console
 
 		PL/SQL procedure successfully completed.
 
-		Web management console initialized. Please visit
+		APEX and EM Database Express 12c initialized. Please visit
 		   - http://localhost:8082/em
 		   - http://localhost:8082/apex
 
@@ -206,6 +205,9 @@ Please file your bug reports, enhancement requests, questions and other support 
 
 * [Existing issues](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues)
 * [submit new issue](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues/new)
+
+## Credits
+This Dockerfile is based on Maksym Bilenko's work for sath89/oracle-12c but has no dependency to this image anymore.
 
 ## License
 

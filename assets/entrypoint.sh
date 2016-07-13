@@ -43,9 +43,9 @@ case "$1" in
 		fi
 
 		#Check for mounted database files
-		if [ "$(ls -A ${ORACLE_BASE}//oradata)" ]; then
-			echo "found files in ${ORACLE_BASE}/oradata Using them instead of initial database"
-			echo "XE:$ORACLE_HOME:N" >> /etc/oratab
+		if [ "$(ls -A ${ORACLE_BASE}/oradata)" ]; then
+			echo "Found data files in ${ORACLE_BASE}/oradata, initial database does not need to be created."
+			echo "odb:$ORACLE_HOME:N" >> /etc/oratab
 			chown oracle:dba /etc/oratab
 			chown 664 /etc/oratab
 			rm -rf /u01/app/oracle-product/12.1.0.2/dbhome/dbs
@@ -54,7 +54,7 @@ case "$1" in
 			gosu oracle bash -c "${ORACLE_HOME}/bin/tnslsnr &"
 			gosu oracle bash -c 'echo startup\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 		else
-			echo "Database not initialized. Initializing database."
+			echo "No data files found in ${ORACLE_BASE}/oradata, initializing database."
 			mv /u01/app/oracle-product/12.1.0.2/dbhome/dbs /u01/app/oracle/dbs
 			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.1.0.2/dbhome/dbs
 			chown oracle:dba ${ORACLE_HOME}/network/admin/tnsnames.ora
@@ -65,11 +65,18 @@ case "$1" in
 			   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
 			   -totalMemory $DBCA_TOTAL_MEMORY -emConfiguration LOCAL -pdbAdminPassword ${PASS} \
 			   -sysPassword ${PASS} -systemPassword ${PASS}"
-			echo "Configuring Apex console"
-			cd ${ORACLE_HOME}/apex
-			gosu oracle bash -c 'echo -e "\n\n${APEX_PASS}\n8082\n" | /opt/sqlcl/bin/sql -s -l / as sysdba @apxconf.sql > /dev/null'
-			gosu oracle bash -c 'echo -e "${ORACLE_HOME}\n\n" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba @apex_epg_config_core.sql > /dev/null'
-			gosu oracle bash -c 'echo -e "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba > /dev/null'
+			if [ $WEB_CONSOLE == "true" ]; then
+				echo "Upgrading APEX installation."
+				. /assets/upgrade_apex.sh
+				echo "Configuring APEX and APEX EM Database Express 12c"
+				gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(8082\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
+				cd ${ORACLE_HOME}/apex
+				gosu oracle bash -c 'echo -e "\n\n${APEX_PASS}" /tmp/input.txt | /opt/sqlcl/bin/sql -s -l / as sysdba @apxchpwd.sql > /dev/null'
+				gosu oracle bash -c 'echo -e "${ORACLE_HOME}\n\n" | /opt/sqlcl/bin/sql -s -l / as sysdba @apex_epg_config_core.sql > /dev/null'
+				gosu oracle bash -c 'echo -e "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba > /dev/null'
+			else 
+				echo "APEX and EM Database Express 12c are disabled, no need to upgrade APEX."
+			fi			
 			echo "Database initialized."
 			echo "Installing Oracle sample schemas."
 			. /assets/install_oracle_sample_schemas.sh
@@ -79,22 +86,15 @@ case "$1" in
 			. /assets/install_teplsql.sh
 			echo "Installing oddgen examples/tutorials"
 			. /assets/install_oddgen.sh
-			if [ $WEB_CONSOLE == "true" ]; then
-				echo "Upgrading APEX installation."
-				. /assets/upgrade_apex.sh
-			else 
-				echo "web management console and APEX is disabled, no need to upgrade APEX."
-			fi			
 		fi
-
+		
 		if [ $WEB_CONSOLE == "true" ]; then
-			echo 'Starting web management console'
 			gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(8082\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
-			echo "Web management console initialized. Please visit"
+			echo "APEX and EM Database Express 12c initialized. Please visit"
 			echo "   - http://localhost:8082/em"
 			echo "   - http://localhost:8082/apex"
 		else
-			echo 'Disabling web management console'
+			echo 'Disabling APEX and EM Database Express 12c'
 			gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(0\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 		fi
 

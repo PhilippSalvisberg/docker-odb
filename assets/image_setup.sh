@@ -52,14 +52,6 @@ ln -s /u01/app/oracle-product /u01/app/oracle/product
 wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.9/gosu-amd64"  -O /usr/local/bin/gosu
 chmod +x /usr/local/bin/gosu
 
-# download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
-echo "downloading SQL Developer CLI..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.175.1027-no-jre.zip -O /tmp/sqlcl.zip
-echo "extracting SQL Developer CLI..."
-unzip /tmp/sqlcl.zip -d /opt > /dev/null
-chown -R oracle:oinstall /opt/sqlcl
-rm -f /tmp/sqlcl.zip
-
 # download and extract Oracle database software
 cd /tmp/oracle
 echo "downloading Oracle database software..."
@@ -95,6 +87,23 @@ perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
 rm -f /tmp/db-sample-schemas-master.zip
 
+# download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
+echo "downloading SQL Developer CLI..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.175.1027-no-jre.zip -O /tmp/sqlcl.zip
+echo "extracting SQL Developer CLI..."
+unzip /tmp/sqlcl.zip -d /opt > /dev/null
+chown -R oracle:oinstall /opt/sqlcl
+rm -f /tmp/sqlcl.zip
+
+# download and extract APEX software
+echo "downloading APEX..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.0.4_en.zip -O /tmp/apex.zip
+rm -r -f ${ORACLE_HOME}/demo/apex
+echo "extracting APEX..."
+unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
+chown -R oracle:oinstall ${ORACLE_HOME}/apex
+rm -f /tmp/apex.zip
+
 # download and exract FTLDB software
 echo "downloading FTLDB..."
 wget -q --no-check-certificate https://github.com/ftldb/ftldb/releases/download/v1.5.0-rc/ftldb-ora-1.5.0-RC-install-linux.tar.gz -O /tmp/ftldb.tar.gz
@@ -115,15 +124,6 @@ wget -q --no-check-certificate https://github.com/oddgen/oddgen/archive/master.z
 echo "extracting oddgen..."
 unzip /tmp/oddgen-master.zip -d /opt > /dev/null
 rm -f /tmp/oddgen-master.zip
-
-# download and extract APEX software
-echo "downloading APEX..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.0.3_en.zip -O /tmp/apex.zip
-rm -r -f ${ORACLE_HOME}/demo/apex
-echo "extracting APEX..."
-unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
-chown oracle:oinstall ${ORACLE_HOME}/apex
-rm -f /tmp/apex.zip
 
 # cleanup
 rm -r -f /tmp/* 
