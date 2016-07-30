@@ -1,4 +1,4 @@
-FROM oraclelinux:latest
+FROM phsalvisberg/oracle12ee:latest
 
 MAINTAINER philipp.salvisberg@gmail.com
 
