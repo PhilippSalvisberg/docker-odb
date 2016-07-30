@@ -206,7 +206,7 @@ Please file your bug reports, enhancement requests, questions and other support 
 ## Credits
 This Dockerfile is based on the following work:
 
-- Maksym Bilenko's sath89/oracle-12c
+- Maksym Bilenko's GitHub project [sath89/docker-oracle-12c](https://github.com/MaksymBilenko/docker-oracle-12c)
 - Frits Hoogland's blog post [Installing the Oracle database in docker](https://fritshoogland.wordpress.com/2015/08/11/installing-the-oracle-database-in-docker/)
 
 ## License
