@@ -1,11 +1,11 @@
-# oddgen Demo Using An Oracle Database 12.1.0.2 Enterprise Edition
+# oddgen Demo using an Oracle Database 12.1.0.2 Enterprise Edition with non-CDB Architecture
 
 ## Content
 
 This image contains the following:
 
 * Oracle Linux 7.2
-* Oracle Database 12.1.0.2 Enterprise Edition
+* Oracle Database 12.1.0.2 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.0.4
 	* FTLDB 1.5.0-RC
@@ -15,6 +15,8 @@ This image contains the following:
 * Oracle SQLcl: Release 4.2.0.16.175.1027 RC 
 	
 Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
+
+Please note that the non-CDB architecture is deprecated with Oracle 12.1.0.2. See [Oracle Database Upgrade Guide](https://docs.oracle.com/database/121/UPGRD/deprecated.htm#BABDBCJI) and [Readme Information for Oracle Database 12c Release 1 (12.1.0.2)](https://docs.oracle.com/database/121/READM/chapter12102.htm#READM120) for more information.
 
 
 ## Installation
@@ -65,14 +67,11 @@ The image defines a volume for ```/u01/app/oracle```. You may map this volume to
 docker run -v odb:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
 
-It's important to note, that mapping a host directory might not work with this image, at least not with the Docker for Mac Version 1.11.1-beta10 (build: 6662). The volume driver must provide proper size information, otherwise the Oracle installation will fail with a message as follows:
+Here's an example mapping the local directory ```$HOME/docker/odb/u01/app/oracle``` to ```/u01/app/oracle```. 
 
 ```
-/u01/app/oracle/ does not have enough space. Required space is 1580 MB , available space is 861 MB.
+docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
-
-The reported available space may vary (zero is not unusual). But it is most probably different to the real available space.
-
 
 ## Access To Database Services
 
