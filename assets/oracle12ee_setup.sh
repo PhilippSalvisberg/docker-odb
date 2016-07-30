@@ -92,6 +92,9 @@ unzip /tmp/sqlcl.zip -d /opt > /dev/null
 chown -R oracle:oinstall /opt/sqlcl
 rm -f /tmp/sqlcl.zip
 
+# rename original APEX folder
+mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
+
 # download and extract APEX software
 echo "downloading APEX..."
 wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.0.4_en.zip -O /tmp/apex.zip
