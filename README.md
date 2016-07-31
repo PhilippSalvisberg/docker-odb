@@ -18,6 +18,7 @@ Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/od
 
 Please note that the non-CDB architecture is deprecated with Oracle 12.1.0.2. See [Oracle Database Upgrade Guide](https://docs.oracle.com/database/121/UPGRD/deprecated.htm#BABDBCJI) and [Readme Information for Oracle Database 12c Release 1 (12.1.0.2)](https://docs.oracle.com/database/121/READM/chapter12102.htm#READM120) for more information.
 
+See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb) if you are interested in a CDB variant of this image.
 
 ## Installation
 
