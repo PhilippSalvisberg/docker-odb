@@ -74,6 +74,8 @@ Here's an example mapping the local directory ```$HOME/docker/odb/u01/app/oracle
 docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
 
+**Please note**: Volumes mapped to a local directories are not stable, at least not in Docker for Mac 1.12. E.g. creating a database may never finish. So I recommend not to use local mapped directories for the time being. Alternatively you may use a volume plugin. A comprehensive list of volume plugins is listed [here](https://docs.docker.com/engine/extend/plugins/#volume-plugins).
+
 ## Access To Database Services
 
 ### Enterprise Manager Database Express 12c
@@ -175,27 +177,13 @@ Complete the following steps to restore an image from scratch. There are other w
 
 		docker logs odb
 	
-	The log should look as follows:
+	The end of the log should look as follows:
 	
-		Found data files in /u01/app/oracle/oradata, initial database does not need to be created.
-		ORACLE instance started.
+		Reuse existing database.
 
-		Total System Global Area  629145600 bytes
-		Fixed Size		    2927528 bytes
-		Variable Size		  306185304 bytes
-		Database Buffers	  314572800 bytes
-		Redo Buffers		    5459968 bytes
-		Database mounted.
-		Database opened.
-
-		PL/SQL procedure successfully completed.
-
-		APEX and EM Database Express 12c initialized. Please visit
-		   - http://localhost:8082/em
-		   - http://localhost:8082/apex
+		(...)
 
 		Database ready to use. Enjoy! ;-)
-
 
 ## Issues
 
