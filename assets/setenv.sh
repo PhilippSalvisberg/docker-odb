@@ -47,8 +47,7 @@ else
         (ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))\n\
         (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))\n\
       )\n\
-    )\n\
-USE_SID_AS_SERVICE_LISTENER=ON\n" > ${ORACLE_HOME}/network/admin/listener.ora
+    )\n" > ${ORACLE_HOME}/network/admin/listener.ora
 fi
 
 # fix ownership and access rights
