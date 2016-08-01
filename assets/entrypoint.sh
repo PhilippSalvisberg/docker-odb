@@ -28,6 +28,8 @@ case "$1" in
 			gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
 			   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
 			   -totalMemory $DBCA_TOTAL_MEMORY -emConfiguration DBEXPRESS -sysPassword ${PASS} -systemPassword ${PASS}"
+			echo "Configure listener."
+			gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 			if [ $WEB_CONSOLE == "true" ]; then
 				. /assets/upgrade_apex.sh
 			else
