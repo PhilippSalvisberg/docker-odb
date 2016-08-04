@@ -159,7 +159,7 @@ Complete the following steps to restore an image from scratch. There are other w
 		
 3. Remove unreferenced volumes, e.g. explicitly created volumes by previous restores
 
-		docker volume ls -qf dangling=true | xargs docker volume odb
+		docker volume ls -qf dangling=true | xargs docker volume rm
 	
 4. Create an empty data volume named ```odb```
 
