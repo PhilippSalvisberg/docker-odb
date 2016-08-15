@@ -34,7 +34,7 @@ Complete the following steps to create a new container:
 
 		docker run -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-3. wait around **30 minutes** until the Oracle database instance is created and APEX is patched to the latest version. Check logs with ```docker logs odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+3. wait around **20 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs odb -f```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop odb```. The container should shutdown the database gracefully and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
