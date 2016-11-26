@@ -5,7 +5,7 @@ echo "127.0.0.1 odb.oddgen.org odb" >> /etc/hosts
 
 # download and exract FTLDB software
 echo "downloading FTLDB."
-wget -q --no-check-certificate https://github.com/ftldb/ftldb/releases/download/v1.5.0-rc/ftldb-ora-1.5.0-RC-install-linux.tar.gz -O /tmp/ftldb.tar.gz
+wget -q --no-check-certificate https://github.com/ftldb/ftldb/releases/download/v1.5.0/ftldb-ora-1.5.0-install-linux.tar.gz -O /tmp/ftldb.tar.gz
 echo "extracting FTLDB."
 tar -zxvf /tmp/ftldb.tar.gz -C /opt > /dev/null
 rm -f /tmp/ftldb.tar.gz
