@@ -8,7 +8,7 @@ This image contains the following:
 * Oracle Database 12.1.0.2 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.0.4
-	* FTLDB 1.5.0-RC
+	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
 * OpenJDK Runtime Environment (build 1.8.0_91-b14)
