@@ -8,6 +8,9 @@ chown -R oracle:dba /u01/app/oracle
 rm -f /u01/app/oracle/product
 ln -s /u01/app/oracle-product /u01/app/oracle/product
 
+# Set environment variables
+. ~/.bashrc
+
 # Create tnsnames.ora
 if [ -f "${ORACLE_HOME}/network/admin/tnsnames.ora" ]
 then
