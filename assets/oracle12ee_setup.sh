@@ -11,8 +11,23 @@ groupadd --gid 54323 oper
 # create oracle user
 useradd --create-home --gid oinstall --groups oinstall,dba --uid 54321 oracle
 
+# install required OS components
+yum install -y oracle-rdbms-server-12cR1-preinstall \
+               perl \
+               tar \
+               unzip \
+               wget
+
+# download and extract JDK (required by sqlcl)
+echo "downloading JDK..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/jdk-8u111-linux-x64.rpm -O /tmp/jdk.rpm
+echo "installing JDK..."
+rpm -i /tmp/jdk.rpm
+rm /tmp/jdk.rpm              
+
 # environment variables (not configurable when creating a container)
-echo "export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome" > /.oracle_env
+echo "export JAVA_HOME=\$(readlink -f /usr/bin/javac | sed \"s:/bin/javac::\")" > /.oracle_env 
+echo "export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome" >> /.oracle_env
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
 echo "export PATH=/usr/sbin:\$PATH:/opt/sqlcl/bin" >> /.oracle_env
 echo "export PATH=\$ORACLE_HOME/bin:\$PATH" >> /.oracle_env
@@ -26,15 +41,7 @@ chmod +x /.oracle_env
 # set environment
 . /.oracle_env
 cat /.oracle_env >> /home/oracle/.bash_profile
-cat /.oracle_env >> /root/.bash_profile
-
-# install required OS components
-yum install -y java-1.8.0-openjdk.x86_64 \
-               oracle-rdbms-server-12cR1-preinstall \
-               perl \
-               tar \
-               unzip \
-               wget
+cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
 # create directories and separate /u01/app/oracle/product to mount ${ORACLE_BASE} as volume
 mkdir -p /u01/app/oracle
@@ -86,7 +93,7 @@ rm -f /tmp/db-sample-schemas-master.zip
 
 # download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
 echo "downloading SQL Developer CLI..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.175.1027-no-jre.zip -O /tmp/sqlcl.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.355.0402-no-jre.zip -O /tmp/sqlcl.zip
 echo "extracting SQL Developer CLI..."
 unzip /tmp/sqlcl.zip -d /opt > /dev/null
 chown -R oracle:oinstall /opt/sqlcl
@@ -97,7 +104,7 @@ mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.0.4_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1_en.zip -O /tmp/apex.zip
 rm -r -f ${ORACLE_HOME}/demo/apex
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null

@@ -4,12 +4,11 @@
 
 This image contains the following:
 
-* Oracle Linux 7.2
+* Oracle Linux 7.3
 * Oracle Database 12.1.0.2 Enterprise Edition software installation
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
-* APEX 5.0.4
-* OpenJDK Runtime Environment 1.8.0
-* Oracle SQLcl: Release 4.2.0.16.175.1027 RC
+* APEX 5.1
+* Oracle SQLcl: Release 4.2.0.16.355.0402
 	
 Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oracle12ee/).
 
