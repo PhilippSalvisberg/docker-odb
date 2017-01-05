@@ -11,7 +11,6 @@ This image contains the following:
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
-* OpenJDK Runtime Environment (build 1.8.0_91-b14)
 * Oracle SQLcl: Release 4.2.0.16.355.0402
 	
 Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
