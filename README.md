@@ -33,7 +33,7 @@ Complete the following steps to create a new container:
 
 		docker run -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-3. wait around **20 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs odb -f```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+3. wait around **25 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop odb```. The container should shutdown the database gracefully and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
@@ -46,7 +46,7 @@ You may set the environment variables in the docker run statement to configure t
 
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
-WEB_CONSOLE | ```true``` | Set to ```false``` If you do not need APEX and Enterprise Manger Database Express 12c
+WEB_CONSOLE | ```true``` | Set to ```false``` if you do not need APEX and Enterprise Manger Database Express 12c (container is created faster, since APEX will not be upgraded)
 DBCA_TOTAL_MEMORY | ```2048```| Keep in mind that DBCA fails if you set this value too low
 ORACLE_SID | ```odb```| The Oracle SID
 SERVICE_NAME | ```odb.docker``` | The Oracle Service Name
