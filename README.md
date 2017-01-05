@@ -4,15 +4,15 @@
 
 This image contains the following:
 
-* Oracle Linux 7.2
+* Oracle Linux 7.3
 * Oracle Database 12.1.0.2 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 5.0.4
+	* APEX 5.1
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
 * OpenJDK Runtime Environment (build 1.8.0_91-b14)
-* Oracle SQLcl: Release 4.2.0.16.175.1027 RC 
+* Oracle SQLcl: Release 4.2.0.16.355.0402
 	
 Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
 
