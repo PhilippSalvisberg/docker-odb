@@ -53,10 +53,10 @@ SERVICE_NAME | ```odb.docker``` | The Oracle Service Name
 APEX_PASS | ```Oracle12c!```| Initial APEX ADMIN password
 PASS | ```oracle```| Password for SYS and SYSTEM
 
-Here's an example run call amending the SYS/SYSTEM password and DBCA memory settings:
+Here's an example run call amending the SYS/SYSTEM password and skip APEX upgrade:
 
 ```
-docker run -e PASS=manager -e DBCA_TOTAL_MEMORY=1536 -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+docker run -e PASS=manager -e WEB_CONSOLE=false -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 ```
 
 #### Volumes
