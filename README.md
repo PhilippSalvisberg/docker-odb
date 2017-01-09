@@ -13,7 +13,7 @@ This image contains the following:
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
 * Oracle SQLcl: Release 4.2.0.16.355.0402
 	
-Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oddgendemo/).
+Pull the latest build from [Docker Store](https://store.docker.com/community/images/phsalvisberg/oddgendemo).
 
 Please note that the non-CDB architecture is deprecated with Oracle 12.1.0.2. See [Oracle Database Upgrade Guide](https://docs.oracle.com/database/121/UPGRD/deprecated.htm#BABDBCJI) and [Readme Information for Oracle Database 12c Release 1 (12.1.0.2)](https://docs.oracle.com/database/121/READM/chapter12102.htm#READM120) for more information.
 
