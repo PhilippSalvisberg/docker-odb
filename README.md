@@ -1,11 +1,11 @@
-# oddgen Demo using an Oracle Database 12.1.0.2 Enterprise Edition with non-CDB Architecture
+# oddgen Demo using an Oracle Database 12.2.0.1 Enterprise Edition with non-CDB Architecture
 
 ## Content
 
 This image contains the following:
 
 * Oracle Linux 7.3
-* Oracle Database 12.1.0.2 Enterprise Edition with non-CDB architecture
+* Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.1
 	* FTLDB 1.5.0
@@ -15,7 +15,7 @@ This image contains the following:
 	
 Pull the latest build from [Docker Store](https://store.docker.com/community/images/phsalvisberg/oddgendemo).
 
-Please note that the non-CDB architecture is deprecated with Oracle 12.1.0.2. See [Oracle Database Upgrade Guide](https://docs.oracle.com/database/121/UPGRD/deprecated.htm#BABDBCJI) and [Readme Information for Oracle Database 12c Release 1 (12.1.0.2)](https://docs.oracle.com/database/121/READM/chapter12102.htm#READM120) for more information.
+Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
 See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb) if you are interested in a CDB variant of this image.
 

@@ -16,14 +16,14 @@ case "$1" in
 			echo "odb:$ORACLE_HOME:N" >> /etc/oratab
 			chown oracle:dba /etc/oratab
 			chmod 664 /etc/oratab
-			rm -rf /u01/app/oracle-product/12.1.0.2/dbhome/dbs
-			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.1.0.2/dbhome/dbs
+			rm -rf /u01/app/oracle-product/12.2.0.1/dbhome/dbs
+			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.2.0.1/dbhome/dbs
 			gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 			gosu oracle bash -c 'echo startup\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 		else
 			echo "Creating database."
-			mv /u01/app/oracle-product/12.1.0.2/dbhome/dbs /u01/app/oracle/dbs
-			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.1.0.2/dbhome/dbs
+			mv /u01/app/oracle-product/12.2.0.1/dbhome/dbs /u01/app/oracle/dbs
+			ln -s /u01/app/oracle/dbs /u01/app/oracle-product/12.2.0.1/dbhome/dbs
 			gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 			gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
 			   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
@@ -35,6 +35,10 @@ case "$1" in
 			else
 				gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(0\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 			fi
+			echo "Installing schema SCOTT."
+			export TWO_TASK=odb
+			${ORACLE_HOME}/bin/sqlplus sys/oracle@odb as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
+			unset TWO_TASK
 			echo "Installing Oracle sample schemas."
 			. /assets/install_oracle_sample_schemas.sh
 			echo "Installing FTLDB."

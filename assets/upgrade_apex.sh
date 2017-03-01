@@ -23,7 +23,8 @@ apex_upgrade(){
 	echo "Upgrading APEX."
 	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA @apexins SYSAUX SYSAUX TEMP /i/
 	echo "Updating APEX images"
-	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA @apxldimg.sql $ORACLE_HOME
+	# do not load images from path containing soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"
+	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA @apxldimg.sql `readlink -f ${ORACLE_HOME}`
 	echo "Setting APEX ADMIN password."
     echo -e "\n\n${APEX_PASS}" | /opt/sqlcl/bin/sql -s -l sys/${PASS}@${ORACLE_SID} AS sysdba @apxchpwd.sql
 }
