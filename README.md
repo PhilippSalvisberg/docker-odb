@@ -1,11 +1,11 @@
-# Docker Base Image for Oracle Database 12.1.0.2 Enterprise Edition
+# Docker Base Image for Oracle Database 12.2.0.1 Enterprise Edition
 
 ## Content
 
 This image contains the following:
 
 * Oracle Linux 7.3
-* Oracle Database 12.1.0.2 Enterprise Edition software installation
+* Oracle Database 12.2.0.1 Enterprise Edition software installation
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 5.1
 * Oracle SQLcl: Release 4.2.0.16.355.0402
@@ -24,7 +24,7 @@ The following environement variable have been used for the installation:
 Environment variable | Value
 -------------------- | -------------
 ORACLE_BASE | ```/u01/app/oracle```
-ORACLE_HOME | ```/u01/app/oracle/product/12.1.0.2/dbhome```
+ORACLE_HOME | ```/u01/app/oracle/product/12.2.0.1/dbhome```
 
 ## Issues
 

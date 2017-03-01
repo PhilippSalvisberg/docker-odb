@@ -12,7 +12,7 @@ groupadd --gid 54323 oper
 useradd --create-home --gid oinstall --groups oinstall,dba --uid 54321 oracle
 
 # install required OS components
-yum install -y oracle-rdbms-server-12cR1-preinstall \
+yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
                perl \
                tar \
                unzip \
@@ -20,14 +20,14 @@ yum install -y oracle-rdbms-server-12cR1-preinstall \
 
 # download and extract JDK (required by sqlcl)
 echo "downloading JDK..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/jdk-8u111-linux-x64.rpm -O /tmp/jdk.rpm
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/jdk-8u121-linux-x64.rpm -O /tmp/jdk.rpm
 echo "installing JDK..."
 rpm -i /tmp/jdk.rpm
 rm /tmp/jdk.rpm              
 
 # environment variables (not configurable when creating a container)
 echo "export JAVA_HOME=\$(readlink -f /usr/bin/javac | sed \"s:/bin/javac::\")" > /.oracle_env 
-echo "export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome" >> /.oracle_env
+echo "export ORACLE_HOME=/u01/app/oracle/product/12.2.0.1/dbhome" >> /.oracle_env
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
 echo "export PATH=/usr/sbin:\$PATH:/opt/sqlcl/bin" >> /.oracle_env
 echo "export PATH=\$ORACLE_HOME/bin:\$PATH" >> /.oracle_env
@@ -53,21 +53,17 @@ chown -R oracle:oinstall /tmp/oracle
 ln -s /u01/app/oracle-product /u01/app/oracle/product
 
 # install gosu as workaround for su problems (see http://grokbase.com/t/gg/docker-user/162h4pekwa/docker-su-oracle-su-cannot-open-session-permission-denied)
-wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.9/gosu-amd64"  -O /usr/local/bin/gosu
+wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64"  -O /usr/local/bin/gosu
 chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
 cd /tmp/oracle
 echo "downloading Oracle database software..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p21419221_121020_Linux-x86-64_1of10.zip -O /tmp/oracle/db1.zip
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p21419221_121020_Linux-x86-64_2of10.zip -O /tmp/oracle/db2.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/linuxx64_12201_database.zip -O /tmp/oracle/db1.zip
 chown oracle:oinstall /tmp/oracle/db1.zip
-chown oracle:oinstall /tmp/oracle/db2.zip
 echo "extracting Oracle database software..."
 gosu oracle bash -c "unzip -o /tmp/oracle/db1.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "unzip -o /tmp/oracle/db2.zip -d /tmp/oracle/" > /dev/null
 rm -f /tmp/oracle/db1.zip
-rm -f /tmp/oracle/db2.zip
 
 # install Oracle software into ${ORACLE_BASE}
 chown oracle:oinstall /assets/db_install.rsp
@@ -76,7 +72,7 @@ gosu oracle bash -c "/tmp/oracle/database/runInstaller -silent -force -waitforco
 
 # Run Oracle root scripts
 echo "running Oracle root scripts..."
-/u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
+#/u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 echo | ${ORACLE_HOME}/root.sh > /dev/null 2>&1 || true
 
 # download and extract Oracle sample schemas
