@@ -37,7 +37,7 @@ case "$1" in
 			fi
 			echo "Installing schema SCOTT."
 			export TWO_TASK=odb
-			${ORACLE_HOME}/bin/sqlplus sys/oracle@odb as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
+			${ORACLE_HOME}/bin/sqlplus sys/${PASS}@odb as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
 			unset TWO_TASK
 			echo "Installing Oracle sample schemas."
 			. /assets/install_oracle_sample_schemas.sh
