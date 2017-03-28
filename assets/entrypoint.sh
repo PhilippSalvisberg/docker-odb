@@ -31,7 +31,7 @@ case "$1" in
 			echo "Configure listener."
 			gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 			if [ $WEB_CONSOLE == "true" ]; then
-				. /assets/upgrade_apex.sh
+				. /assets/install_apex.sh
 			else
 				gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(0\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 			fi

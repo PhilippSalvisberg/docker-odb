@@ -7,7 +7,7 @@ This image contains the following:
 * Oracle Linux 7.3
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 5.1
+	* APEX 5.1 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
@@ -75,6 +75,27 @@ docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8082:8082 -p
 
 **Please note**: Volumes mapped to local directories are not stable, at least not in Docker for Mac 1.12.0. E.g. creating a database may never finish. So I recommend not to use local mapped directories for the time being. Alternatively you may use a volume plugin. A comprehensive list of volume plugins is listed [here](https://docs.docker.com/engine/extend/plugins/#volume-plugins).
 
+#### Change Timezone
+
+The default timezone of the container is UTC. To query the available timezones run: 
+
+```
+docker exec ocdb ls -RC /usr/share/zoneinfo
+```
+
+To change the timezone to "Central European Time (CET)" run the following two commands:
+
+```
+docker exec ocdb unlink /etc/localtime
+docker exec ocdb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+```
+
+Restart your container to ensure the new setting take effect.
+
+```
+docker restart -t 30 ocdb
+```
+
 ## Access To Database Services
 
 ### Enterprise Manager Database Express 12c
@@ -114,6 +135,9 @@ User | Password
 -------- | -----
 system | oracle
 sys | oracle
+apex_listener | oracle
+apex\_rest\_public\_user | oracle
+apex\_public\_user | oracle
 scott | tiger
 hr | hr
 oe | oe
