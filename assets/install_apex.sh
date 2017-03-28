@@ -54,7 +54,7 @@ disable_http
 apex_create_tablespace
 apex_install
 apex_load_images
-apex_rest_confing
+apex_rest_config
 apex_epg_config
 enable_http
 cd /
