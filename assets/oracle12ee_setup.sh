@@ -100,7 +100,7 @@ mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1.1_en.zip -O /tmp/apex.zip
 rm -r -f ${ORACLE_HOME}/demo/apex
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
