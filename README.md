@@ -7,7 +7,7 @@ This image contains the following:
 * Oracle Linux 7.3
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 5.1 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
+	* APEX 5.1.1 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
