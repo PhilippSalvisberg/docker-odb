@@ -13,7 +13,14 @@ case "$1" in
 		# Startup database if oradata directory is found otherwise create a database
 		if [ -d ${ORACLE_BASE}/oradata ]; then
 			echo "Reuse existing database."
-			echo "odb:$ORACLE_HOME:N" >> /etc/oratab
+			if grep -q "ocdb:" /etc/oratab ; then
+				# starting an existing container
+				echo "Database already registred in /etc/oratab"
+			else
+				# new container with an existing volume
+				echo "Registering Database in /etc/oratab"
+				echo "ocdb:$ORACLE_HOME:N" >> /etc/oratab
+			fi
 			chown oracle:dba /etc/oratab
 			chmod 664 /etc/oratab
 			rm -rf /u01/app/oracle-product/12.2.0.1/dbhome/dbs
