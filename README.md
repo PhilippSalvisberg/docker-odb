@@ -4,7 +4,7 @@
 
 This image contains the following:
 
-* Oracle Linux 7.3
+* Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.1.1 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
@@ -35,7 +35,7 @@ Complete the following steps to create a new container:
 		
 3. wait around **25 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
-Feel free to stop the docker container after a successful installation with ```docker stop -t 30 odb```. The container should shutdown the database gracefully within the given 30 seconds and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
+Feel free to stop the docker container after a successful installation with ```docker stop -t 60 odb```. The container should shutdown the database gracefully within the given 60 seconds and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
 
 ### Options
@@ -80,20 +80,20 @@ docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8082:8082 -p
 The default timezone of the container is UTC. To query the available timezones run: 
 
 ```
-docker exec ocdb ls -RC /usr/share/zoneinfo
+docker exec cdb ls -RC /usr/share/zoneinfo
 ```
 
 To change the timezone to "Central European Time (CET)" run the following two commands:
 
 ```
-docker exec ocdb unlink /etc/localtime
-docker exec ocdb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+docker exec cdb unlink /etc/localtime
+docker exec cdb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 ```
 
 Restart your container to ensure the new setting take effect.
 
 ```
-docker restart -t 30 ocdb
+docker restart -t 60 cdb
 ```
 
 ## Access To Database Services
