@@ -43,6 +43,9 @@ chmod +x /.oracle_env
 cat /.oracle_env >> /home/oracle/.bash_profile
 cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
+# ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"  (for Oracle sample schemas)
+ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
+
 # create directories and separate /u01/app/oracle/product to mount ${ORACLE_BASE} as volume
 mkdir -p /u01/app/oracle
 mkdir -p /u01/app/oracle-product 
@@ -89,7 +92,7 @@ rm -f /tmp/db-sample-schemas-master.zip
 
 # download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
 echo "downloading SQL Developer CLI..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.16.355.0402-no-jre.zip -O /tmp/sqlcl.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.17.073.1038-no-jre.zip -O /tmp/sqlcl.zip
 echo "extracting SQL Developer CLI..."
 unzip /tmp/sqlcl.zip -d /opt > /dev/null
 chown -R oracle:oinstall /opt/sqlcl
