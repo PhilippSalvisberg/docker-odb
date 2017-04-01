@@ -4,7 +4,7 @@
 
 This image contains the following:
 
-* Oracle Linux 7.3
+* Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition software installation
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 5.1.1
