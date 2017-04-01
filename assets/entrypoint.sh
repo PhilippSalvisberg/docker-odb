@@ -53,9 +53,13 @@ case "$1" in
 		echo ""
 		echo "Database ready to use. Enjoy! ;-)"
 
-		# Infinite wait loop, trap interrupt/terminate signal for graceful termination
-		trap "gosu oracle bash -c 'echo shutdown immediate\; | ${ORACLE_HOME}/bin/sqlplus -S / as sysdba'" INT TERM
-		while true; do sleep 1; done
+		# trap interrupt/terminate signal for graceful termination
+		trap "gosu oracle bash -c 'echo Starting graceful shutdown... && echo shutdown immediate\; | ${ORACLE_HOME}/bin/sqlplus -S / as sysdba && ${ORACLE_HOME}/bin/lsnrctl stop'" INT TERM
+
+		# waiting for termination of tns listener
+		PID=`ps -e | grep tnslsnr | awk '{print $1}'`
+		while test -d /proc/$PID; do sleep 1; done
+		echo "Graceful shutdown completed."
 		;;
 
 	*)
