@@ -43,9 +43,6 @@ chmod +x /.oracle_env
 cat /.oracle_env >> /home/oracle/.bash_profile
 cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
-# ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"  (for Oracle sample schemas)
-ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
-
 # create directories and separate /u01/app/oracle/product to mount ${ORACLE_BASE} as volume
 mkdir -p /u01/app/oracle
 mkdir -p /u01/app/oracle-product 
@@ -86,7 +83,11 @@ echo "extracting Oracle sample schemas..."
 unzip /tmp/db-sample-schemas-master.zip -d ${ORACLE_HOME}/demo/ > /dev/null
 mv ${ORACLE_HOME}/demo/db-sample-schemas-master ${ORACLE_HOME}/demo/schema
 cd ${ORACLE_HOME}/demo/schema
+# ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"  (for Oracle sample schemas)
+ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
 perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
+# reset environment (ORACLE_HOME)
+. /.oracle_env
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
 rm -f /tmp/db-sample-schemas-master.zip
 
