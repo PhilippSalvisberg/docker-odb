@@ -18,15 +18,8 @@ yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
                unzip \
                wget
 
-# download and extract JDK (required by sqlcl)
-echo "downloading JDK..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/jdk-8u121-linux-x64.rpm -O /tmp/jdk.rpm
-echo "installing JDK..."
-rpm -i /tmp/jdk.rpm
-rm /tmp/jdk.rpm              
-
 # environment variables (not configurable when creating a container)
-echo "export JAVA_HOME=\$(readlink -f /usr/bin/javac | sed \"s:/bin/javac::\")" > /.oracle_env 
+echo "export JAVA_HOME=/u01/app/oracle/product/12.2.0.1/dbhome/jdk" >> /.oracle_env
 echo "export ORACLE_HOME=/u01/app/oracle/product/12.2.0.1/dbhome" >> /.oracle_env
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
 echo "export PATH=/usr/sbin:\$PATH:/opt/sqlcl/bin" >> /.oracle_env
@@ -85,22 +78,15 @@ mv ${ORACLE_HOME}/demo/db-sample-schemas-master ${ORACLE_HOME}/demo/schema
 # ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"  (for Oracle sample schemas)
 ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
 cd ${ORACLE_HOME}/demo/schema
-perl -p -i.bak -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
+# replace placeholders in files, do not keep original version
+perl -p -i -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
 # reset environment (ORACLE_HOME)
 . /.oracle_env
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
 rm -f /tmp/db-sample-schemas-master.zip
 
-# download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
-echo "downloading SQL Developer CLI..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/sqlcl-4.2.0.17.073.1038-no-jre.zip -O /tmp/sqlcl.zip
-echo "extracting SQL Developer CLI..."
-unzip /tmp/sqlcl.zip -d /opt > /dev/null
-chown -R oracle:oinstall /opt/sqlcl
-rm -f /tmp/sqlcl.zip
-
-# rename original APEX folder
-mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
+# remove original APEX folder to save space
+rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
