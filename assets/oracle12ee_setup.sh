@@ -19,10 +19,10 @@ yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
                wget
 
 # environment variables (not configurable when creating a container)
-echo "export JAVA_HOME=/u01/app/oracle/product/12.2.0.1/dbhome/jdk" >> /.oracle_env
-echo "export ORACLE_HOME=/u01/app/oracle/product/12.2.0.1/dbhome" >> /.oracle_env
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
-echo "export PATH=/usr/sbin:\$PATH:/opt/sqlcl/bin" >> /.oracle_env
+echo "export ORACLE_HOME=\$ORACLE_BASE/product/12.2.0.1/dbhome" >> /.oracle_env
+echo "export JAVA_HOME=\$ORACLE_HOME/jdk" >> /.oracle_env
+echo "export PATH=/usr/sbin:\$PATH" >> /.oracle_env
 echo "export PATH=\$ORACLE_HOME/bin:\$PATH" >> /.oracle_env
 echo "export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >> /.oracle_env
 echo "export CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib" >> /.oracle_env
@@ -63,6 +63,9 @@ chown oracle:oinstall /assets/db_install.rsp
 echo "running Oracle installer to install database software only..."
 gosu oracle bash -c "/tmp/oracle/database/runInstaller -silent -force -waitforcompletion -responsefile /assets/db_install.rsp -ignoresysprereqs -ignoreprereq"
 
+# ensure target SQLcl shell script is executable
+chmod +x ${ORACLE_HOME}/sqldeveloper/sqlcl/bin/sql
+
 # Run Oracle root scripts
 echo "running Oracle root scripts..."
 #/u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
@@ -85,13 +88,12 @@ perl -p -i -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
 rm -f /tmp/db-sample-schemas-master.zip
 
-# remove original APEX folder to save space
+# remove original APEX folder to save disk space
 rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
 wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1.1_en.zip -O /tmp/apex.zip
-rm -r -f ${ORACLE_HOME}/demo/apex
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
