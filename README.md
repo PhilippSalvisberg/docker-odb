@@ -18,7 +18,7 @@ The purpose of this image is provide all software components to create Oracle da
     
 ## Environment Variable
 
-The following environement variable have been used for the installation:
+The following environment variable have been used for the installation:
 
 Environment variable | Value
 -------------------- | -------------
