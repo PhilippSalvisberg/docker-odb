@@ -39,6 +39,7 @@ apex_install(){
 	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA @apexins APEX APEX TEMP /i/
 	echo "Setting APEX ADMIN password."
 	chmod +x ${ORACLE_HOME}/sqldeveloper/sqlcl/bin/sql
+	sync
  	echo -e "\n\n${APEX_PASS}" | ${ORACLE_HOME}/sqldeveloper/sqlcl/bin/sql -s -l sys/${PASS}@${ORACLE_SID} AS sysdba @apxchpwd.sql
 }
 
