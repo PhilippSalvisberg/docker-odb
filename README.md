@@ -2,7 +2,7 @@
 
 ## Content
 
-This image contains the following:
+This private image contains the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
@@ -11,8 +11,6 @@ This image contains the following:
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
-	
-Pull the latest build from [Docker Store](https://store.docker.com/community/images/phsalvisberg/oddgendemo).
 
 Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
