@@ -2,7 +2,7 @@
 
 ## Content
 
-This private image contains the following:
+Dockerfile including scripts to build a private image containing the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition software installation
@@ -34,4 +34,4 @@ Please file your bug reports, enhancement requests, questions and other support 
 
 docker-oddgendemo is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>. 
 
-See [Oracle Database Licensing Information User Manual](http://docs.oracle.com/database/121/DBLIC/editions.htm#DBLIC109) regarding Oracle Database licenses.
+See [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) and [Oracle Database Licensing Information User Manual](https://docs.oracle.com/database/122/DBLIC/Licensing-Information.htm#DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4) regarding Oracle Database licenses.
