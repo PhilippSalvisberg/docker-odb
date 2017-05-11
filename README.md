@@ -2,7 +2,7 @@
 
 ## Content
 
-This private image contains the following:
+Dockerfile including scripts to build a private image containing the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
@@ -14,7 +14,7 @@ This private image contains the following:
 
 Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
-See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb) if you are interested in a CDB variant of this image.
+See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb) for a CDB variant of this image.
 
 ## Installation
 
@@ -22,15 +22,11 @@ See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgende
 
 Complete the following steps to create a new container:
 
-1. Pull the image (optional)
-
-		docker pull phsalvisberg/oddgendemo
-
-2. Create the container
+1. Create the container
 
 		docker run -d -p 8082:8082 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
 		
-3. wait around **25 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+2. wait around **25 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop -t 60 odb```. The container should shutdown the database gracefully within the given 60 seconds and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
@@ -222,4 +218,4 @@ This Dockerfile is based on the following work:
 
 docker-oddgendemo is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>. 
 
-See [Oracle Database Licensing Information User Manual](https://docs.oracle.com/database/122/DBLIC/Licensing-Information.htm#DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4) regarding Oracle Database licenses.
+See [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) and [Oracle Database Licensing Information User Manual](https://docs.oracle.com/database/122/DBLIC/Licensing-Information.htm#DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4) regarding Oracle Database licenses.
