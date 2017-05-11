@@ -2,14 +2,12 @@
 
 ## Content
 
-This image contains the following:
+This private image contains the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition software installation
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 5.1.1
-	
-Pull the latest build from [Docker Hub](https://hub.docker.com/r/phsalvisberg/oracle12ee/).
 
 The purpose of this image is provide all software components to create Oracle database instances including sample schemas and APEX. The intended use is for other images such as
 
