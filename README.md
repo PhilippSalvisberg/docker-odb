@@ -2,7 +2,7 @@
 
 ## Content
 
-Dockerfile including scripts to build a private image containing the following:
+Dockerfile including scripts to build an image containing the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
@@ -15,6 +15,8 @@ Dockerfile including scripts to build a private image containing the following:
 Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
 See [docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb) for a CDB variant of this image.
+
+Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 
 ## Installation
 
