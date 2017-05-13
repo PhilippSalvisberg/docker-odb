@@ -2,7 +2,7 @@
 
 ## Content
 
-Dockerfile including scripts to build a private image containing the following:
+Dockerfile including scripts to build an image containing the following:
 
 * Oracle Linux 7.3-1.0.4.el7.x86_64
 * Oracle Database 12.2.0.1 Enterprise Edition software installation
@@ -13,6 +13,8 @@ The purpose of this image is provide all software components to create Oracle da
 
    * [PhilippSalvisberg/docker-oddgendemo](https://github.com/PhilippSalvisberg/docker-oddgendemo)
    * [PhilippSalvisberg/docker-oddgendemo-cdb](https://github.com/PhilippSalvisberg/docker-oddgendemo-cdb)
+
+Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
     
 ## Environment Variable
 
