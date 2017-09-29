@@ -1,4 +1,4 @@
-FROM oraclelinux:7.3
+FROM oraclelinux:7.4
 
 MAINTAINER philipp.salvisberg@gmail.com
 
