@@ -22,8 +22,8 @@ yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
 echo "export ORACLE_HOME=\$ORACLE_BASE/product/12.2.0.1/dbhome" >> /.oracle_env
 echo "export JAVA_HOME=\$ORACLE_HOME/jdk" >> /.oracle_env
-echo "export PATH=/usr/sbin:\$PATH" >> /.oracle_env
-echo "export PATH=\$ORACLE_HOME/bin:\$PATH" >> /.oracle_env
+echo "export PATH=/usr/sbin:\$PATH:\$JAVA_HOME/bin" >> /.oracle_env
+echo "export PATH=\$ORACLE_HOME/bin:\$ORACLE_HOME/OPatch:\$PATH" >> /.oracle_env
 echo "export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib" >> /.oracle_env
 echo "export CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib" >> /.oracle_env
 echo "export TMP=/tmp" >> /.oracle_env
@@ -38,7 +38,7 @@ cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
 # create directories and separate /u01/app/oracle/product to mount ${ORACLE_BASE} as volume
 mkdir -p /u01/app/oracle
-mkdir -p /u01/app/oracle-product 
+mkdir -p /u01/app/oracle-product
 mkdir -p /u01/app/oraInventory
 mkdir -p /tmp/oracle
 chown -R oracle:oinstall /u01
@@ -50,7 +50,6 @@ wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download
 chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
-cd /tmp/oracle
 echo "downloading Oracle database software..."
 wget -q --no-check-certificate https://www.salvis.com/oracle-assets/linuxx64_12201_database.zip -O /tmp/oracle/db1.zip
 chown oracle:oinstall /tmp/oracle/db1.zip
@@ -66,15 +65,36 @@ gosu oracle bash -c "/tmp/oracle/database/runInstaller -silent -force -waitforco
 # ensure target SQLcl shell script is executable
 chmod +x ${ORACLE_HOME}/sqldeveloper/sqlcl/bin/sql
 
-# Run Oracle root scripts
+# run Oracle root scripts
 echo "running Oracle root scripts..."
 #/u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 echo | ${ORACLE_HOME}/root.sh > /dev/null 2>&1 || true
 
+# remove original OPatch folder to save disk space
+rm -r -f ${ORACLE_HOME}/OPatch
+
+# download and install patch 6880880
+echo "downloading OPatch..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+chown oracle:oinstall /tmp/oracle/p6880880.zip
+echo "extracting and installing OPatch..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
+rm -f /tmp/oracle/p6880880.zip
+
+# download and install patch 26609817
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p26609817_122010_Linux-x86-64.zip -O /tmp/oracle/p26609817.zip
+chown oracle:oinstall /tmp/oracle/p26609817.zip
+echo "extracting and installing Oracle Database Jul2017 Release Update 12.2.0.1.170814..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p26609817.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/26609817 && opatch apply -force -silent"
+rm -f /tmp/oracle/p26609817.zip
+
+# remove original sample schemas to save disk space
+rm -r -f ${ORACLE_HOME}/demo/schema
+
 # download and extract Oracle sample schemas
 echo "downloading Oracle sample schemas..."
 wget -q --no-check-certificate https://github.com/oracle/db-sample-schemas/archive/master.zip -O /tmp/db-sample-schemas-master.zip
-rm -r -f ${ORACLE_HOME}/demo/schema
 echo "extracting Oracle sample schemas..."
 unzip /tmp/db-sample-schemas-master.zip -d ${ORACLE_HOME}/demo/ > /dev/null
 mv ${ORACLE_HOME}/demo/db-sample-schemas-master ${ORACLE_HOME}/demo/schema
@@ -93,12 +113,20 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1.3_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
+# download and extract ORDS
+echo "downloading ORDS..."
+wget -q --no-check-certificate https://www.salvis.com/oracle-assets/ords.3.0.11.180.12.34.zip -O /tmp/ords.zip
+echo "extracting ORDS..."
+mkdir /opt/ords
+unzip /tmp/ords.zip -d /opt/ords/ > /dev/null
+rm -f /tmp/ords.zip
+
 # cleanup
-rm -r -f /tmp/* 
-rm -r -f /var/tmp/* \
+rm -r -f /tmp/*
+rm -r -f /var/tmp/*
