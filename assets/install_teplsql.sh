@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA <<EOF
+sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA <<EOF
 	BEGIN
 	   EXECUTE IMMEDIATE 'DROP USER teplsql CASCADE';
 	EXCEPTION
@@ -15,7 +15,7 @@ sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA <<EOF
 	GRANT SELECT_CATALOG_ROLE, SELECT ANY DICTIONARY TO teplsql;
 	GRANT UNLIMITED TABLESPACE TO teplsql;
 EOF
-sqlplus -s -l teplsql/teplsql@${ORACLE_SID} <<EOF
+sqlplus -s -l teplsql/teplsql@${CONNECT_STRING} <<EOF
 	@/opt/teplsql/TE_TEMPLATES.sql
 	@/opt/teplsql/tePLSQL.pks
 	@/opt/teplsql/tePLSQL.pkb
