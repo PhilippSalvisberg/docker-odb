@@ -12,7 +12,7 @@ Dockerfile including scripts to build a base image containing the following:
 * APEX 5.1.3
 * Oracle REST Data Services 3.0.12
 
-The purpose of this Docker image is provide all software components to fully automate the creation of additional Docker images.
+The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.
 
 This Docker image is not designed to create working Docker containers.
 
