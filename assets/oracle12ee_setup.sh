@@ -122,12 +122,16 @@ unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
+# remove original ORDS folder to save disk space
+rm -r -f ${ORACLE_HOME}/dbhome/ords
+
 # download and extract ORDS
 echo "downloading ORDS..."
 wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.3.0.12.263.15.32.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
-unzip /tmp/ords.zip -d /opt/ords/ > /dev/null
+unzip /tmp/ords.zip -d ${ORACLE_HOME}/dbhome/ords/ > /dev/null
+chown -R oracle:oinstall ${ORACLE_HOME}/dbhome/ords
 rm -f /tmp/ords.zip
 
 # cleanup
