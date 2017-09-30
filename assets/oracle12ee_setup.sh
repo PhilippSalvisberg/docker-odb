@@ -18,6 +18,9 @@ yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
                unzip \
                wget
 
+# set download location for Oracle software which are not available for unattended downloads
+ORACLE_ASSETS=https://www.salvis.com/oracle-assets
+
 # environment variables (not configurable when creating a container)
 echo "export ORACLE_BASE=/u01/app/oracle" >> /.oracle_env
 echo "export ORACLE_HOME=\$ORACLE_BASE/product/12.2.0.1/dbhome" >> /.oracle_env
@@ -51,7 +54,7 @@ chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
 echo "downloading Oracle database software..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/linuxx64_12201_database.zip -O /tmp/oracle/db1.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/linuxx64_12201_database.zip -O /tmp/oracle/db1.zip
 chown oracle:oinstall /tmp/oracle/db1.zip
 echo "extracting Oracle database software..."
 gosu oracle bash -c "unzip -o /tmp/oracle/db1.zip -d /tmp/oracle/" > /dev/null
@@ -75,14 +78,14 @@ rm -r -f ${ORACLE_HOME}/OPatch
 
 # download and install patch 6880880
 echo "downloading OPatch..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
 chown oracle:oinstall /tmp/oracle/p6880880.zip
 echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
 # download and install patch 26609817
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/p26609817_122010_Linux-x86-64.zip -O /tmp/oracle/p26609817.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p26609817_122010_Linux-x86-64.zip -O /tmp/oracle/p26609817.zip
 chown oracle:oinstall /tmp/oracle/p26609817.zip
 echo "extracting and installing Oracle Database Jul2017 Release Update 12.2.0.1.170814..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p26609817.zip -d /tmp/oracle/" > /dev/null
@@ -113,7 +116,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/apex_5.1.3_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_5.1.3_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
@@ -121,7 +124,7 @@ rm -f /tmp/apex.zip
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate https://www.salvis.com/oracle-assets/ords.3.0.11.180.12.34.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.3.0.12.263.15.32.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d /opt/ords/ > /dev/null
