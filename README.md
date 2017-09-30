@@ -10,7 +10,7 @@ Dockerfile including scripts to build a base image containing the following:
   * Database Release Update 12.2.0.1.170814 (patch 21483023)
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 5.1.3
-* Oracle REST Data Services 3.0.11
+* Oracle REST Data Services 3.0.12
 
 The purpose of this Docker image is provide all software components to fully automate the creation of additional Docker images.
 
