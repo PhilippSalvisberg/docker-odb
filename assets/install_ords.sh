@@ -6,8 +6,8 @@ set_params(){
 	else
 		THE_SERVICE_NAME=$SERVICE_NAME
 	fi
-	cat >/opt/ords/params/ords_params.properties <<EOF
-config.dir=/opt/ords/conf
+	cat >${ORACLE_HOME}/ords/params/ords_params.properties <<EOF
+config.dir=${ORACLE_HOME}/ords/conf
 db.hostname=${HOSTNAME}
 db.port=1521
 db.servicename=${THE_SERVICE_NAME}
@@ -22,12 +22,13 @@ schema.tablespace.temp=TEMP
 standalone.mode=false
 standalone.use.https=false
 standalone.http.port=8081
-standalone.access.log=/opt/ords/logs/access_log
+standalone.access.log=${ORACLE_HOME}/ords/logs/access_log
 standalone.context.path=/ords
-standalone.doc.root=/opt/ords/docs/javadoc
+standalone.doc.root=${ORACLE_HOME}/ords/docs/javadoc
 standalone.scheme.do.not.prompt=true
 standalone.static.context.path=/i
 standalone.static.do.not.prompt=true
+# path to images must not contain symbolic links
 standalone.static.images=/u01/app/oracle-product/12.2.0.1/dbhome/apex/images
 user.apex.listener.password=${PASS}
 user.apex.restpublic.password=${PASS}
@@ -40,11 +41,9 @@ EOF
 }
 
 install(){
-	cd /opt/ords
+	cd ${ORACLE_HOME}/ords
 	java -jar ords.war configdir conf
 	java -jar ords.war
-	cd /
-	java -jar /opt/ords/ords.war
 }
 
 # main

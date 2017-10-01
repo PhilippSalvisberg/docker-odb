@@ -1,4 +1,4 @@
-FROM phsalvisberg/oracle12ee:v2.2.1
+FROM phsalvisberg/oracle12ee:v2.2.3
 
 MAINTAINER philipp.salvisberg@gmail.com
 

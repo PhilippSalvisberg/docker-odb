@@ -70,7 +70,7 @@ create_database(){
 	fi
 	if [ $ORDS == "true" ]; then
 		echo "Installing ORDS."
-		. /assets/install_ords.sh
+		gosu oracle bash -c "/assets/install_ords.sh"
 	fi
 	echo "Installing schema SCOTT."
 	# setting TWO_TASK causes connections using O/S authentication to fail, e.g. "sqlplus / as sysdba".
@@ -98,7 +98,7 @@ start_database(){
 	fi
 
 	# start ORDS
-	. /assets/start_ords.sh
+	gosu oracle bash -c "/assets/start_ords.sh"
 
 	# Successful installation/startup
 	echo ""
