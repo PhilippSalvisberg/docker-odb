@@ -6,8 +6,8 @@ set_params(){
 	else
 		THE_SERVICE_NAME=$SERVICE_NAME
 	fi
-	cat >${ORACLE_HOME}/ords/params/ords_params.properties <<EOF
-config.dir=${ORACLE_HOME}/ords/conf
+	cat >${ORACLE_BASE}/ords/params/ords_params.properties <<EOF
+config.dir=${ORACLE_BASE}/ords/conf
 db.hostname=${HOSTNAME}
 db.port=1521
 db.servicename=${THE_SERVICE_NAME}
@@ -22,7 +22,7 @@ schema.tablespace.temp=TEMP
 standalone.mode=false
 standalone.use.https=false
 standalone.http.port=8081
-standalone.access.log=${ORACLE_HOME}/ords/logs/access_log
+standalone.access.log=${ORACLE_BASE}/ords/logs
 standalone.context.path=/ords
 standalone.doc.root=${ORACLE_HOME}/ords/docs/javadoc
 standalone.scheme.do.not.prompt=true
@@ -41,9 +41,14 @@ EOF
 }
 
 install(){
+    mkdir -p ${ORACLE_BASE}/ords/params
+    mkdir -p ${ORACLE_BASE}/ords/conf
+    mkdir -p ${ORACLE_BASE}/ords/logs
 	cd ${ORACLE_HOME}/ords
-	java -jar ords.war configdir conf
-	java -jar ords.war
+	java -jar ords.war configdir ${ORACLE_BASE}/ords/conf
+	java -jar ords.war install \
+		--parameterFile ${ORACLE_BASE}/ords/params/ords_params.properties \
+		--logDir ${ORACLE_BASE}/ords/logs simple
 }
 
 # main
