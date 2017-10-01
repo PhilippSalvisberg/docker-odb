@@ -1,5 +1,11 @@
 #!/bin/bash
 
+mkdirs(){
+    mkdir -p ${ORACLE_BASE}/ords/params
+    mkdir -p ${ORACLE_BASE}/ords/conf
+    mkdir -p ${ORACLE_BASE}/ords/logs
+}
+
 set_params(){
 	if [ $MULTITENANT == "true" ]; then
 		THE_SERVICE_NAME=$PDB_SERVICE_NAME
@@ -41,9 +47,6 @@ EOF
 }
 
 install(){
-    mkdir -p ${ORACLE_BASE}/ords/params
-    mkdir -p ${ORACLE_BASE}/ords/conf
-    mkdir -p ${ORACLE_BASE}/ords/logs
 	cd ${ORACLE_HOME}/ords
 	java -jar ords.war configdir ${ORACLE_BASE}/ords/conf
 	java -jar ords.war install \
@@ -52,5 +55,6 @@ install(){
 }
 
 # main
+mkdirs
 set_params
 install
