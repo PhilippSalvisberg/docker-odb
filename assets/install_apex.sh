@@ -15,6 +15,8 @@ apex_epg_config(){
 		if [ $MULTITENANT == "true" ]; then
 			echo "Unlock anonymous account on CDB"
 			echo "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA
+			echo "Enable on DBMS_XDB HTTP port for EPG on pluggable database"
+			echo "EXEC DBMS_XDB.SETHTTPPORT(8081);" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${ORACLE_SID} AS SYSDBA
 		fi
 		echo "Optimizing EPG performance"
 		echo "ALTER SYSTEM SET SHARED_SERVERS=15 SCOPE=BOTH;" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA
