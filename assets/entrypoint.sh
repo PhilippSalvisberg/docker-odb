@@ -105,7 +105,7 @@ start_database(){
 	echo "Database ready to use. Enjoy! ;-)"
 
 	# trap interrupt/terminate signal for graceful termination
-	trap "gosu oracle bash -c 'echo Starting graceful shutdown... && echo shutdown immediate\; | ${ORACLE_HOME}/bin/sqlplus -S / as sysdba && ${ORACLE_HOME}/bin/lsnrctl stop && /assets/stop_ords.sh'" INT TERM
+	trap "gosu oracle bash -c 'echo Starting graceful shutdown... && echo shutdown immediate\; | ${ORACLE_HOME}/bin/sqlplus -S / as sysdba && /assets/stop_ords.sh && ${ORACLE_HOME}/bin/lsnrctl stop'" INT TERM
 
 	# waiting for termination of tns listener
 	PID=`ps -e | grep tnslsnr | awk '{print $1}'`
