@@ -64,8 +64,11 @@ create_database(){
 	if [ $APEX == "true" ]; then
 		. /assets/install_apex.sh
 	fi
-	if [ $DBEXPRESS == "true" -o  \( $APEX == "true" -a $ORDS == "false" \) ]; then
-		echo "Enabable XDB HTTP port for EM DB Express and EPG."
+	if [ $DBEXPRESS == "true" -o  \( $APEX == "true" -a $ORDS == "false" -a $MULTITENANT == "false" \) ]; then
+		echo "Enabable XDB HTTP port for EM Database Express and EPG on non-CDB database."
+		if [ $MULTITENANT == "true" ]; then
+			gosu oracle bash -c 'echo EXEC DBMS_XDB_CONFIG.setglobalportenabled\(true\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
+		fi
 		gosu oracle bash -c 'echo EXEC DBMS_XDB.sethttpport\(8080\)\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	fi
 	if [ $ORDS == "true" ]; then
@@ -85,7 +88,6 @@ create_database(){
 	. /assets/install_teplsql.sh
 	echo "Installing oddgen examples/tutorials"
 	. /assets/install_oddgen.sh
-
 }
 
 start_database(){
