@@ -8,12 +8,12 @@ Dockerfile including scripts to build an image containing the following:
 * Oracle Database 12.2.0.1 Enterprise Edition with non-CDB architecture
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.1.3 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
+	* Oracle REST Data Services 3.0.12
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
-* Oracle REST Data Services 3.0.12
 
-This image supports CDB and non-CDB architecture. The latter is the default. But please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
+This image supports CDB and non-CDB architecture. The latter is the default. Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 
@@ -41,12 +41,12 @@ You may set the environment variables in the docker run statement to configure t
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
 MULTITENANT | ```false``` | Set to ```true``` if you want to create a database with CDB architecture.
-DBEXPRESS | ```true``` | Set to ```false``` if you do not Enterprise Manger Database Express 12c.
+DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Express.
 APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
 ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
-DBCA_TOTAL_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent. 
-GDBNAME | ```odb.docker``` | Global database name, used by the DBCA
-ORACLE_SID | ```odb```| Oracle SID
+DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent. 
+GDBNAME | ```odb.docker``` | Global database name, used by DBCA
+ORACLE_SID | ```odb```| Oracle System Identifier
 SERVICE_NAME | ```odb.docker``` | Oracle Service Name (for the container database)
 PDB_NAME | ```opdb1``` | Name of the pluggable database
 PDB_SERVICE_NAME | ```opdb1.docker``` | Oracle Service Name for the pluggable database
@@ -104,7 +104,7 @@ docker restart -t 60 cdb
 
 ## Access To Database Services
 
-### Enterprise Manager Database Express 12c
+### Enterprise Manager Database Express
 
 [http://localhost:8080/em/](http://localhost:8080/em/)
 
