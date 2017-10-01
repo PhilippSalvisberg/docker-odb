@@ -44,7 +44,7 @@ MULTITENANT | ```false``` | Set to ```true``` if you want to create a database w
 DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Express.
 APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
 ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
-DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent. 
+DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent.
 GDBNAME | ```odb.docker``` | Global database name, used by DBCA
 ORACLE_SID | ```odb```| Oracle System Identifier
 SERVICE_NAME | ```odb.docker``` | Oracle Service Name (for the container database)
@@ -86,20 +86,20 @@ docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8080-8081:80
 The default timezone of the container is UTC. To query the available timezones run:
 
 ```
-docker exec cdb ls -RC /usr/share/zoneinfo
+docker exec odb ls -RC /usr/share/zoneinfo
 ```
 
 To change the timezone to "Central European Time (CET)" run the following two commands:
 
 ```
-docker exec cdb unlink /etc/localtime
-docker exec cdb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+docker exec odb unlink /etc/localtime
+docker exec odb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 ```
 
 Restart your container to ensure the new setting take effect.
 
 ```
-docker restart -t 60 cdb
+docker restart -t 60 odb
 ```
 
 ## Access To Database Services
