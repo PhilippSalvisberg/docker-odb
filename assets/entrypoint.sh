@@ -52,6 +52,8 @@ create_database(){
 	fi;
 	echo "Applying data patches."
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose)"
+	echo "Workaround for bug 25710407"
+	gosu oracle bash -c 'echo -e "EXEC dbms_stats.init_package();\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	echo "Setting TWO_TASK environment for default connection."
 	if [ $MULTITENANT == "true" ]; then
 		export CONNECT_STRING=${PDB_NAME}
