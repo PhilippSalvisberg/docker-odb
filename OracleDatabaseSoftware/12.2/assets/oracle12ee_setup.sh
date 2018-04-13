@@ -84,13 +84,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 26609817
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p26609817_122010_Linux-x86-64.zip -O /tmp/oracle/p26609817.zip
-chown oracle:oinstall /tmp/oracle/p26609817.zip
-echo "extracting and installing Oracle Database Jul2017 Release Update 12.2.0.1.170814..."
-gosu oracle bash -c "unzip -o /tmp/oracle/p26609817.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/26609817 && opatch apply -force -silent"
-rm -f /tmp/oracle/p26609817.zip
+# download and install patch p27100009
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p27100009_122010_Linux-x86-64.zip -O /tmp/oracle/p27100009.zip
+chown oracle:oinstall /tmp/oracle/p27100009.zip
+echo "extracting and installing Oracle Database Jul2017 Release Update 12.2.0.1.180116..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p27100009.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/p27100009 && opatch apply -force -silent"
+rm -f /tmp/oracle/p27100009.zip
 
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
@@ -116,7 +116,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_5.1.3_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_5.1.4_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
@@ -127,7 +127,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.3.0.12.263.15.32.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.18.1.1.95.1251.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
