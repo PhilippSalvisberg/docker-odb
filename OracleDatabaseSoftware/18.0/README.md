@@ -1,4 +1,4 @@
-# Oracle Database 12.2 Enterprise Edition Software
+# Oracle Database 18.0 Enterprise Edition Software
 
 ## Content
 
