@@ -1,4 +1,4 @@
-# oddgen Demo using an Oracle Database 12.2.0.1 Enterprise Edition
+# Oracle Database 12.2 Enterprise Edition
 
 ## Content
 
@@ -25,7 +25,7 @@ Complete the following steps to create a new container:
 
 1. Create the container
 
-		docker run -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+		docker run -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2
 
 2. wait around **25 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
@@ -56,7 +56,7 @@ APEX_PASS | ```Oracle12c!```| Initial APEX ADMIN password
 Here's an example run call amending the PASS environment variable skip APEX installation:
 
 ```
-docker run -e PASS=manager -e APEX=false -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+docker run -e PASS=manager -e APEX=false -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2
 ```
 
 Here's an other example createing a container database and extending the database port ranges to cover a total of three pluggable databases:
@@ -70,13 +70,13 @@ docker run -e MULTITENANT=true -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 
 The image defines a volume for ```/u01/app/oracle```. You may map this volume to a storage solution of your choice. Here's an example using a named volume ```odb```:
 
 ```
-docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2
 ```
 
 Here's an example mapping the local directory ```$HOME/docker/odb/u01/app/oracle``` to ```/u01/app/oracle```.
 
 ```
-docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2
 ```
 
 **Please note**: Volumes mapped to local directories are not stable, at least not in Docker for Mac 1.12.0. E.g. creating a database may never finish. So I recommend not to use local mapped directories for the time being. Alternatively you may use a volume plugin. A comprehensive list of volume plugins is listed [here](https://docs.docker.com/engine/extend/plugins/#volume-plugins).
@@ -202,7 +202,7 @@ Complete the following steps to restore an image from scratch. There are other w
 
 6. Create the container using the ```odb```volume
 
-		docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/oddgendemo
+		docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2
 
 7. Check log of ```odb``` container
 
@@ -216,21 +216,8 @@ Complete the following steps to restore an image from scratch. There are other w
 
 		Database ready to use. Enjoy! ;-)
 
-## Issues
-
-Please file your bug reports, enhancement requests, questions and other support requests within [Github's issue tracker](https://help.github.com/articles/about-issues/):
-
-* [Existing issues](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues)
-* [submit new issue](https://github.com/PhilippSalvisberg/docker-oddgendemo/issues/new)
-
 ## Credits
 This Dockerfile is based on the following work:
 
 - Maksym Bilenko's GitHub project [sath89/docker-oracle-12c](https://github.com/MaksymBilenko/docker-oracle-12c)
 - Frits Hoogland's blog post [Installing the Oracle database in docker](https://fritshoogland.wordpress.com/2015/08/11/installing-the-oracle-database-in-docker/)
-
-## License
-
-docker-oddgendemo is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>.
-
-See [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) and [Oracle Database Licensing Information User Manual](https://docs.oracle.com/database/122/DBLIC/Licensing-Information.htm#DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4) regarding Oracle Database licenses.
