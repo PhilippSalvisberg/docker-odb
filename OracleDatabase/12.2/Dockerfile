@@ -1,6 +1,7 @@
-FROM phsalvisberg/oracle12ee:v2.2.3
+FROM phsalvisberg/odb:12.2sw
 
-MAINTAINER philipp.salvisberg@gmail.com
+LABEL maintainer="philipp.salvisberg@gmail.com"
+LABEL description="Oracle Database Enterprise Edition 12.2"
 
 # environment variables (defaults for DBCA and entrypoint.sh)
 ENV MULTITENANT=false \
