@@ -89,7 +89,7 @@ wget -q --no-check-certificate ${ORACLE_ASSETS}/p27100009_122010_Linux-x86-64.zi
 chown oracle:oinstall /tmp/oracle/p27100009.zip
 echo "extracting and installing Oracle Database Release Update 12.2.0.1.180116..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p27100009.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/27100009 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/27100009/27105253 && opatch apply -force -silent"
 rm -f /tmp/oracle/p27100009.zip
 
 # remove original sample schemas to save disk space
