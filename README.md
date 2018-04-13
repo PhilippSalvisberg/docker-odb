@@ -9,8 +9,8 @@ Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/
 
 Component                     | Version  | Docker Image
 ----------------------------- | -------- | ------------
-[Oracle Database Software](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware)  | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.2/README.md) | [phsalvisberg/odb:12.2sw](https://hub.docker.com/r/phsalvisberg/odb/tags/)
-[Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase)           | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2/README.md) | [phsalvisberg/odb:12.2](https://hub.docker.com/r/phsalvisberg/odb/tags/)
+[Oracle Database Software](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware)  | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.2) | [phsalvisberg/odb:12.2sw](https://hub.docker.com/r/phsalvisberg/odb/tags/)
+[Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase)           | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2) | [phsalvisberg/odb:12.2](https://hub.docker.com/r/phsalvisberg/odb/tags/)
 
 ## Issues
 

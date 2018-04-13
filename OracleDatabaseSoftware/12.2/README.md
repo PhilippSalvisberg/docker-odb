@@ -16,7 +16,7 @@ The purpose of this Docker image is to provide all software components to fully 
 
 This Docker image is not designed to create working Docker containers.
 
-The intended use is for other Docker images such [Oracle Database 12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2/README.md).
+The intended use is for other Docker images such [Oracle Database 12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2).
 
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 
