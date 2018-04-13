@@ -1,14 +1,16 @@
 # docker-odb
 
 ## Introduction
-docker-odb provides a collection of Dockerfiles to build Oracle Database Docker images.
+docker-odb provides a Dockerfiles to build Oracle Database Docker images.
+
+Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make the resulting images available on a public Docker registry.
 
 ## Components
 
-Component                 | Version
-------------------------- | -------
-Oracle Database Software  | 12.2
-Oracle Database           | 12.2
+Component                     | Version  | Docker Image
+----------------------------- | -------- | ------------
+[Oracle Database Software](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware)  | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.2/README.md) | [phsalvisberg/odb:12.2sw](https://hub.docker.com/r/phsalvisberg/odb/tags/)
+[Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase)           | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2/README.md) | [phsalvisberg/odb:12.2](https://hub.docker.com/r/phsalvisberg/odb/tags/)
 
 ## Issues
 
@@ -27,3 +29,5 @@ Please file your bug reports, enhancement requests, questions and other support 
 ## License
 
 docker-odb is licensed under the Apache License, Version 2.0. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>.
+
+See [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) and [Oracle Database Licensing Information User Manual](https://docs.oracle.com/database/122/DBLIC/Licensing-Information.htm#DBLIC-GUID-B6113390-9586-46D7-9008-DCC9EDA45AB4) regarding Oracle Database licenses.
