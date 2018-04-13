@@ -1,6 +1,7 @@
 FROM oraclelinux:7.4
 
-MAINTAINER philipp.salvisberg@gmail.com
+LABEL maintainer="philipp.salvisberg@gmail.com"
+LABEL description="Oracle Database Enterprise Edition 12.2 software only"
 
 # copy all scripts
 ADD assets /assets/
