@@ -53,14 +53,15 @@ set_timezone(){
 
 remove_domain_from_resolve_conf(){
 	# Workaround to improve startup time of DBCA
-	# see 
+	# remove domain entry, see MOS Doc ID 362092.1
 	cp /etc/resolv.conf /etc/resolv.conf.ori
-	sed 's/name.*//' /etc/resolv.ori > /etc/resolv.conf
+	sed 's/domain.*//' /etc/resolv.conf.ori > /etc/resolv.conf
 }
 
 create_database(){
 	echo "Creating database."
 	provide_data_as_single_volume
+	remove_domain_from_resolve_conf
 	gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 	if [ $DBEXPRESS == "true" ]; then
 		EM_CONFIGURATION=DBEXPRESS
