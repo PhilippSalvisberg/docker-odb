@@ -12,22 +12,55 @@ reuse_database(){
 	fi
 	chown oracle:dba /etc/oratab
 	chmod 664 /etc/oratab
-	rm -rf /u01/app/oracle-product/18.0.0/dbhome/dbs
-	ln -s /u01/app/oracle/dbs /u01/app/oracle-product/18.0.0/dbhome/dbs
+	provide_data_as_single_volume
 	gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 	gosu oracle bash -c 'echo startup\; | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 }
 
+link_dir_to_volume(){
+	LINK=${1}
+	TARGET=${2}
+	if  [ -f ${LINK} -a ! -f ${TARGET} ]; then
+		"Moving original content of ${LINK} to ${TARGET}."
+		mkdir -p ${TARGET}
+		mv ${LINK}/* ${TARGET}
+	fi
+	rm -rf ${LINK}
+	mkdir -p ${TARGET}
+	echo "Link ${LINK} to ${TARGET}."
+	ln -s ${TARGET} ${LINK}
+	chown -R oracle:dba ${LINK}
+}
+
+provide_data_as_single_volume(){
+	echo "Providing persistent data under /u02 to be used as Docker volume."
+	link_dir_to_volume "/u01/app/oracle/product/18.0.0/dbhome/dbs" "/u02/app/oracle/product/18.0.0/dbhome/dbs" 
+	link_dir_to_volume "/u01/app/oracle/admin" "/u02/app/oracle/admin" 
+	link_dir_to_volume "/u01/app/oracle/audit" "/u02/app/oracle/audit"
+	link_dir_to_volume "/u01/app/oracle/cfgtoollogs" "/u02/app/oracle/cfgtoollogs"
+	link_dir_to_volume "/u01/app/oracle/checkpoints" "/u02/app/oracle/checkpoints"
+	link_dir_to_volume "/u01/app/oracle/diag" "/u02/app/oracle/diag"
+	link_dir_to_volume "/u01/app/oracle/oradata" "/u02/app/oracle/oradata"
+	link_dir_to_volume "/u01/app/oracle/ords" "/u02/app/oracle/ords"
+	chown -R oracle:dba /u02
+}
+
 set_timezone(){
-	echo "Change timezone to Central European Time (CET)..."
+	echo "Change timezone to Central European Time (CET)."
 	unlink /etc/localtime
 	ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
 }
 
+remove_domain_from_resolve_conf(){
+	# Workaround to improve startup time of DBCA
+	# see 
+	cp /etc/resolv.conf /etc/resolv.conf.ori
+	sed 's/name.*//' /etc/resolv.ori > /etc/resolv.conf
+}
+
 create_database(){
 	echo "Creating database."
-	mv /u01/app/oracle-product/18.0.0/dbhome/dbs /u01/app/oracle/dbs
-	ln -s /u01/app/oracle/dbs /u01/app/oracle-product/18.0.0/dbhome/dbs
+	provide_data_as_single_volume
 	gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 	if [ $DBEXPRESS == "true" ]; then
 		EM_CONFIGURATION=DBEXPRESS
@@ -96,7 +129,7 @@ create_database(){
 
 start_database(){
 	# Startup database if oradata directory is found otherwise create a database
-	if [ -d ${ORACLE_BASE}/oradata ]; then
+	if [ -d /u02/app/oracle/oradata ]; then
 		reuse_database
 	else
 		set_timezone

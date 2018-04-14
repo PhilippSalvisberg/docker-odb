@@ -35,7 +35,7 @@ standalone.scheme.do.not.prompt=true
 standalone.static.context.path=/i
 standalone.static.do.not.prompt=true
 # path to images must not contain symbolic links
-standalone.static.images=/u01/app/oracle-product/18.0.0/dbhome/apex/images
+standalone.static.images=${ORACLE_HOME}/apex/images
 user.apex.listener.password=${PASS}
 user.apex.restpublic.password=${PASS}
 user.public.password=${PASS}

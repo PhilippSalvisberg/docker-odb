@@ -67,16 +67,16 @@ docker run -e MULTITENANT=true -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 
 
 #### Volumes
 
-The image defines a volume for ```/u01/app/oracle```. You may map this volume to a storage solution of your choice. Here's an example using a named volume ```odb```:
+The image defines a volume for ```/u02```. You may map this volume to a storage solution of your choice. Here's an example using a named volume ```odb```:
 
 ```
-docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
+docker run -v odb:/u02 -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
 ```
 
-Here's an example mapping the local directory ```$HOME/docker/odb/u01/app/oracle``` to ```/u01/app/oracle```.
+Here's an example mapping the local directory ```$HOME/docker/odb/u02``` to ```/u02```.
 
 ```
-docker run -v $HOME/docker/odb/u01/app/oracle:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
+docker run -v $HOME/docker/odb/u02:/u02 -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
 ```
 
 **Please note**: Volumes mapped to local directories are not stable, at least not in Docker for Mac 1.12.0. E.g. creating a database may never finish. So I recommend not to use local mapped directories for the time being. Alternatively you may use a volume plugin. A comprehensive list of volume plugins is listed [here](https://docs.docker.com/engine/extend/plugins/#volume-plugins).
@@ -170,7 +170,7 @@ Complete the following steps to backup the data volume:
 
 2. Backup the data volume to a compressed file ```odb.tar.gz``` in the current directory with a little help from the ubuntu image
 
-		docker run --rm --volumes-from odb -v $(pwd):/backup ubuntu tar czvf /backup/odb.tar.gz /u01/app/oracle
+		docker run --rm --volumes-from odb -v $(pwd):/backup ubuntu tar czvf /backup/odb.tar.gz /u02
 
 3. Restart the container
 
@@ -198,11 +198,11 @@ Complete the following steps to restore an image from scratch. There are other w
 
 5. Populate data volume ```odb``` with backup from file ```odb.tar.gz``` with a little help from the ubuntu image
 
-		docker run --rm -v odb:/u01/app/oracle -v $(pwd):/backup ubuntu tar xvpfz /backup/odb.tar.gz -C /
+		docker run --rm -v odb:/u02 -v $(pwd):/backup ubuntu tar xvpfz /backup/odb.tar.gz -C /
 
 6. Create the container using the ```odb```volume
 
-		docker run -v odb:/u01/app/oracle -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
+		docker run -v odb:/u02 -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0
 
 7. Check log of ```odb``` container
 
