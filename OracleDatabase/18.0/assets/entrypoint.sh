@@ -39,7 +39,7 @@ create_database(){
 		   -gdbname ${GDBNAME} -sid ${ORACLE_SID} -createAsContainerDatabase true -numberOfPDBs 1 -pdbName ${PDB_NAME} \
 		   -responseFile NO_VALUE -characterSet AL32UTF8 -totalMemory ${DBCA_TOTAL_MEMORY} -emConfiguration ${EM_CONFIGURATION} \
 		   -sysPassword ${PASS} -systemPassword ${PASS} -pdbAdminUserName pdbadmin -pdbAdminPassword ${PASS} \
-		   -initparams _exadata_feature_on=TRUE ; echo $?" 
+		   -initparams _exadata_feature_on=TRUE ; echo $?"
 	else
 		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
 		   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
@@ -53,7 +53,7 @@ create_database(){
 		gosu oracle bash -c 'echo -e "ALTER PLUGGABLE DATABASE opdb1 OPEN;\n ALTER PLUGGABLE DATABASE ${PDB_NAME} SAVE STATE;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	fi;
 	echo "Applying data patches."
-	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose)"
+	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose) ; echo $?"
 	echo "Workaround for bug 25710407"
 	gosu oracle bash -c 'echo -e "EXEC dbms_stats.init_package();\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	echo "Setting TWO_TASK environment for default connection."
