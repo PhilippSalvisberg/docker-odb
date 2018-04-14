@@ -39,14 +39,11 @@ chmod +x /.oracle_env
 cat /.oracle_env >> /home/oracle/.bash_profile
 cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
-# create directories and separate /u01/app/oracle/product to mount ${ORACLE_BASE} as volume
 mkdir -p /u01/app/oracle
-mkdir -p /u01/app/oracle-product
 mkdir -p /u01/app/oraInventory
 mkdir -p /tmp/oracle
 chown -R oracle:oinstall /u01
 chown -R oracle:oinstall /tmp/oracle
-ln -s /u01/app/oracle-product /u01/app/oracle/product
 
 # install gosu as workaround for su problems (see http://grokbase.com/t/gg/docker-user/162h4pekwa/docker-su-oracle-su-cannot-open-session-permission-denied)
 wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64"  -O /usr/local/bin/gosu
