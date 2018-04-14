@@ -63,9 +63,6 @@ chown oracle:oinstall /assets/db_install.rsp
 echo "running Oracle installer to install database software only..."
 gosu oracle bash -c "$ORACLE_HOME/runInstaller -silent -force -waitforcompletion -responsefile /assets/db_install.rsp -ignorePrereqFailure"
 
-# ensure target SQLcl shell script is executable
-chmod +x ${ORACLE_HOME}/sqldeveloper/sqlcl/bin/sql
-
 # run Oracle root scripts
 echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
