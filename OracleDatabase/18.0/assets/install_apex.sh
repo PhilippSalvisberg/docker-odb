@@ -48,6 +48,7 @@ apex_install(){
 
 apex_rest_config() {
 	if [ $ORDS == "true" ]; then
+	    cd $ORACLE_HOME/apex
 		echo "Getting ready for ORDS. Creating user APEX_LISTENER and APEX_REST_PUBLIC_USER."
 		echo -e "${PASS}\n${PASS}" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS sysdba @apex_rest_config.sql
 		echo "ALTER USER APEX_PUBLIC_USER ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA
