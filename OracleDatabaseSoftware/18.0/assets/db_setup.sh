@@ -39,6 +39,7 @@ chmod +x /.oracle_env
 cat /.oracle_env >> /home/oracle/.bash_profile
 cat /.oracle_env >> /root/.bashrc # .bash_profile not executed by docker
 
+# create directories
 mkdir -p /u01/app/oracle
 mkdir -p /u01/app/oraInventory
 mkdir -p /tmp/oracle
