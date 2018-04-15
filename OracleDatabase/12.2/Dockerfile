@@ -2,6 +2,8 @@ FROM phsalvisberg/odb:12.2sw
 
 LABEL maintainer="philipp.salvisberg@gmail.com"
 LABEL description="Oracle Database Enterprise Edition 12.2"
+LABEL build.command="docker build . --tag phsalvisberg/odb:12.2"
+LABEL run.command="docker run -v odb:/u02 -it -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:12.2"
 
 # environment variables (defaults for DBCA and entrypoint.sh)
 ENV MULTITENANT=false \
@@ -26,9 +28,8 @@ RUN /assets/image_setup.sh
 # database port, Enterprise Manager Database Express port, ORDS port
 EXPOSE 1521 8080 8081
 
-# use ${ORACLE_BASE} without product subdirectory as data volume
-# /u01/app/oracle/product is a symbolic link and not part of the volume
-VOLUME ["/u01/app/oracle"]
+# all data directories in /u01 are linked to this volume
+VOLUME ["/u02"]
 
 # entrypoint for database creation, startup and graceful shutdown
 ENTRYPOINT ["/assets/entrypoint.sh"]

@@ -4,12 +4,7 @@ apex_epg_config(){
 	if [ $ORDS == "false" ]; then
 		cd ${ORACLE_HOME}/apex
 		echo "Setting up EPG for APEX by running: @apex_epg_config ${ORACLE_HOME}"
-		# ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed" (for APEX images)
-		ORACLE_HOME_OLD=${ORACLE_HOME}
-		ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
 		echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @apex_epg_config ${ORACLE_HOME}
-		# reset ORACLE_HOME
-		ORACLE_HOME=${ORACLE_HOME_OLD}
 		echo "Unlock anonymous account"
 		echo "ALTER USER ANONYMOUS ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA
 		if [ $MULTITENANT == "true" ]; then
@@ -48,6 +43,7 @@ apex_install(){
 
 apex_rest_config() {
 	if [ $ORDS == "true" ]; then
+		cd $ORACLE_HOME/apex
 		echo "Getting ready for ORDS. Creating user APEX_LISTENER and APEX_REST_PUBLIC_USER."
 		echo -e "${PASS}\n${PASS}" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS sysdba @apex_rest_config.sql
 		echo "ALTER USER APEX_PUBLIC_USER ACCOUNT UNLOCK;" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA

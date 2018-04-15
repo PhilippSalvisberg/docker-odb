@@ -3,11 +3,6 @@
 # ignore secure linux
 setenforce Permissive
 
-# Prevent owner issues on mounted folders
-chown -R oracle:dba /u01/app/oracle
-rm -f /u01/app/oracle/product
-ln -s /u01/app/oracle-product /u01/app/oracle/product
-
 # Set environment variables
 . ~/.bashrc
 
@@ -39,7 +34,7 @@ if [ -f "${ORACLE_HOME}/network/admin/listener.ora" ]
 then
 	echo "listener.ora found."
 else
-	echo "Creating listener.ora.ora"
+	echo "Creating listener.ora"
 	printf "LISTENER =\n\
     (DESCRIPTION_LIST =\n\
       (DESCRIPTION =\n\
