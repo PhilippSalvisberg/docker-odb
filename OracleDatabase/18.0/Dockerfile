@@ -3,7 +3,7 @@ FROM phsalvisberg/odb:18.0sw
 LABEL maintainer="philipp.salvisberg@gmail.com"
 LABEL description="Oracle Database Enterprise Edition 18.0"
 LABEL build.command="docker build . --tag phsalvisberg/odb:18.0"
-LABEL run.command="docker run -v odb18:/u02 -it -p 8080-8081:8080-8081 -p 1521:1521 -h odb18 --name odb18 phsalvisberg/odb:18.0"
+LABEL run.command="docker run -v odb:/u02 -it -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:18.0"
 
 # environment variables (defaults for DBCA and entrypoint.sh)
 ENV MULTITENANT=false \
