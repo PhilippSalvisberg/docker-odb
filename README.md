@@ -1,7 +1,7 @@
 # docker-odb
 
 ## Introduction
-docker-odb provides a Dockerfiles to build Oracle Database Docker images.
+docker-odb provides Dockerfiles to build Oracle Database Docker images.
 
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make the resulting images available on a public Docker registry.
 
