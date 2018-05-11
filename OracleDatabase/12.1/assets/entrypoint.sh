@@ -83,6 +83,8 @@ create_database(){
 	if [ $MULTITENANT == "true" ]; then
 		echo "Save open state of PDB."
 		gosu oracle bash -c 'echo -e "ALTER PLUGGABLE DATABASE opdb1 OPEN;\n ALTER PLUGGABLE DATABASE ${PDB_NAME} SAVE STATE;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
+		echo "Remove APEX from CDB"
+		gosu oracle bash -c 'cd ${ORACLE_HOME}/apex.old; echo EXIT | /opt/sqlcl/bin/sql -s -l / as sysdba @apxremov_con.sql'
 	fi;
 	echo "Applying data patches."
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose)"

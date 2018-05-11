@@ -125,8 +125,8 @@ perl -p -i -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
 rm -f /tmp/db-sample-schemas-master.zip
 
-# remove original APEX folder to save disk space
-rm -r -f ${ORACLE_HOME}/apex
+# rename original APEX folder (required for deinstallation of APEX in CDB)
+mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
 
 # download and extract APEX software
 echo "downloading APEX..."
