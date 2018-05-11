@@ -5,7 +5,7 @@
 Dockerfile including scripts to build a base image containing the following:
 
 * Oracle Linux Server 7.4
-* Oracle Database 12.2.0.1 Enterprise Edition software installation, including
+* Oracle Database 12.1.0.2.0 Enterprise Edition software installation, including
   * OPatch 12.2.0.1.12 (patch 6880880)
   * Database Release Update 12.1.0.2.180417 (patch 27338041)
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
@@ -16,7 +16,7 @@ The purpose of this Docker image is to provide all software components to fully 
 
 This Docker image is not designed to create working Docker containers.
 
-The intended use is for other Docker images such [Oracle Database 12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2).
+The intended use is for other Docker images such [Oracle Database 12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.1).
 
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 
