@@ -1,4 +1,4 @@
-# Oracle Database 18.0 Enterprise Edition
+# Oracle Database 18c Enterprise Edition
 
 ## Content
 
