@@ -5,7 +5,7 @@
 Dockerfile including scripts to build an image containing the following:
 
 * Oracle Linux 7.4
-* Oracle Database 18.0.0.0.0 Enterprise Edition
+* Oracle Database 18.2.0.0.180417 Enterprise Edition
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 5.1.4 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
 	* Oracle REST Data Services 18.1.1

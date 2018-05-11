@@ -69,6 +69,25 @@ echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
 
+# remove original OPatch folder to save disk space
+rm -r -f ${ORACLE_HOME}/OPatch
+
+# download and install patch 6880880
+echo "downloading OPatch..."
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_180000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+chown oracle:oinstall /tmp/oracle/p6880880.zip
+echo "extracting and installing OPatch..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
+rm -f /tmp/oracle/p6880880.zip
+
+# download and install patch p27676517
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p27676517_180000_Linux-x86-64.zip -O /tmp/oracle/p27676517.zip
+chown oracle:oinstall /tmp/oracle/p27676517.zip
+echo "extracting and installing Oracle Database Release Update 18.2.0.0.180417..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p27676517.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/27676517 && opatch apply -force -silent"
+rm -f /tmp/oracle/p27676517.zip
+
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
 

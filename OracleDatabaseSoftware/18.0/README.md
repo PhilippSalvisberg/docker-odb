@@ -5,7 +5,9 @@
 Dockerfile including scripts to build a base image containing the following:
 
 * Oracle Linux Server 7.4
-* Oracle Database 18.0.0.0.0 Enterprise Edition software installation
+* Oracle Database 18.0.0.0.0 Enterprise Edition software installation, including
+  * OPatch 12.2.0.1.13 (patch 6880880)
+  * Database Release Update 18.2.0.0.180417 (patch 27676517)
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 5.1.4
 * Oracle REST Data Services 18.1.1
