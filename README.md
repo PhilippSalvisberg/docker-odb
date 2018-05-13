@@ -9,12 +9,14 @@ Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/
 
 | Component                     | Version  | Docker Image |
 | ----------------------------- | -------- | ------------ |
-| [Oracle Database Software](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware)  | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.1) | [phsalvisberg/odb:12.1sw](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
-| | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.2) | [phsalvisberg/odb:12.2sw](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
-| | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/18.0) | [phsalvisberg/odb:18.0sw](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
-| [Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase) | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.1) | [phsalvisberg/odb:12.1](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
-| | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2) | [phsalvisberg/odb:12.2](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
-| | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/18.0) | [phsalvisberg/odb:18.0](https://hub.docker.com/r/phsalvisberg/odb/tags/) |
+| [Oracle Database Software](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware)  | [11.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/11.2) | phsalvisberg/odb:11.2sw |
+| | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.1) | phsalvisberg/odb:12.1sw |
+| | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/12.2) | phsalvisberg/odb:12.2sw |
+| | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabaseSoftware/18.0) | phsalvisberg/odb:18.0sw |
+| [Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase) | [11.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/11.2) | phsalvisberg/odb:11.2 |
+| | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.1) | phsalvisberg/odb:12.1 |
+| | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/12.2) | phsalvisberg/odb:12.2 |
+| | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/master/OracleDatabase/18.0) | phsalvisberg/odb:18.0 |
 
 ## Issues
 
