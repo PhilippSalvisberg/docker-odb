@@ -20,13 +20,14 @@ reuse_database(){
 link_dir_to_volume(){
 	LINK=${1}
 	TARGET=${2}
-	if  [ -f ${LINK} -a ! -f ${TARGET} ]; then
-		"Moving original content of ${LINK} to ${TARGET}."
+	if  [ -d ${LINK} -a ! -d ${TARGET} ]; then
+		echo "Moving original content of ${LINK} to ${TARGET}."
 		mkdir -p ${TARGET}
-		mv ${LINK}/* ${TARGET}
+		mv ${LINK}/* ${TARGET} || true
 	fi
 	rm -rf ${LINK}
 	mkdir -p ${TARGET}
+	chown -R oracle:dba ${TARGET} 
 	echo "Link ${LINK} to ${TARGET}."
 	ln -s ${TARGET} ${LINK}
 	chown -R oracle:dba ${LINK}
