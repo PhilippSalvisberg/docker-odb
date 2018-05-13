@@ -138,13 +138,13 @@ create_database(){
 	${ORACLE_HOME}/bin/sqlplus sys/${PASS}@${TWO_TASK} as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
 	unset TWO_TASK
 	echo "Installing Oracle sample schemas."
-	#. /assets/install_oracle_sample_schemas.sh
+	. /assets/install_oracle_sample_schemas.sh
 	echo "Installing FTLDB."
-	#. /assets/install_ftldb.sh
+	. /assets/install_ftldb.sh
 	echo "Installing tePLSQL."
-	#. /assets/install_teplsql.sh
+	. /assets/install_teplsql.sh
 	echo "Installing oddgen examples/tutorials"
-	#. /assets/install_oddgen.sh
+	. /assets/install_oddgen.sh
 	echo "Save configuration to volume"
 	save_to_volume
 }
