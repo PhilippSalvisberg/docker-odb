@@ -80,7 +80,7 @@ create_database(){
 		   -createAsContainerDatabase true \
 		   -numberOfPDBs 1 \
 		   -pdbName ${PDB_NAME} \
-		   -responseFile NO_VALUE 
+		   -responseFile NO_VALUE \
 		   -characterSet AL32UTF8 \
 		   -totalMemory ${DBCA_TOTAL_MEMORY} \
 		   -emConfiguration ${EM_CONFIGURATION} \
