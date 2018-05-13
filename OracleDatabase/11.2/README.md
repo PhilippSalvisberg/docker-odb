@@ -40,7 +40,7 @@ You may set the environment variables in the docker run statement to configure t
 
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
-DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Express.
+DBCONTROL | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Control.
 APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
 ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
 DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent.
@@ -95,9 +95,9 @@ docker restart -t 60 odb
 
 ## Access To Database Services
 
-### Enterprise Manager Database Express
+### Enterprise Manager Database Control
 
-[http://localhost:8080/em/](http://localhost:8080/em/)
+[http://localhost:1158/em/](http://localhost:1158/em/)
 
 User | Password
 -------- | -----
