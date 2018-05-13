@@ -74,17 +74,17 @@ docker run -v $HOME/docker/odb/u02:/u02 -d -p 1158:1158 -p 8081:8081 -p 1521:152
 
 #### Change Timezone
 
-The default timezone of the container is UTC. To query the available timezones run:
+The default timezone of the container is "Central European Time (CET)". To query the available timezones run:
 
 ```
 docker exec odb ls -RC /usr/share/zoneinfo
 ```
 
-To change the timezone to "Central European Time (CET)" run the following two commands:
+To change the timezone to "Eastern Time" run the following two commands:
 
 ```
 docker exec odb unlink /etc/localtime
-docker exec odb ln -s /usr/share/zoneinfo/Europe/Zurich /etc/localtime
+docker exec odb ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
 ```
 
 Restart your container to ensure the new setting take effect.
