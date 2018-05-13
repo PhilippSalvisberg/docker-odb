@@ -20,13 +20,14 @@ reuse_database(){
 link_dir_to_volume(){
 	LINK=${1}
 	TARGET=${2}
-	if  [ -f ${LINK} -a ! -f ${TARGET} ]; then
-		"Moving original content of ${LINK} to ${TARGET}."
+	if  [ -d ${LINK} -a ! -d ${TARGET} ]; then
+		echo "Moving original content of ${LINK} to ${TARGET}."
 		mkdir -p ${TARGET}
-		mv ${LINK}/* ${TARGET}
+		mv ${LINK}/* ${TARGET} || true
 	fi
 	rm -rf ${LINK}
 	mkdir -p ${TARGET}
+	chown -R oracle:dba ${TARGET} 
 	echo "Link ${LINK} to ${TARGET}."
 	ln -s ${TARGET} ${LINK}
 	chown -R oracle:dba ${LINK}
@@ -40,6 +41,7 @@ provide_data_as_single_volume(){
 	link_dir_to_volume "/u01/app/oracle/cfgtoollogs" "/u02/app/oracle/cfgtoollogs"
 	link_dir_to_volume "/u01/app/oracle/checkpoints" "/u02/app/oracle/checkpoints"
 	link_dir_to_volume "/u01/app/oracle/diag" "/u02/app/oracle/diag"
+	link_dir_to_volume "/u01/app/oracle/fast_recovery_area" "/u02/app/oracle/fast_recovery_area"
 	link_dir_to_volume "/u01/app/oracle/oradata" "/u02/app/oracle/oradata"
 	link_dir_to_volume "/u01/app/oracle/ords" "/u02/app/oracle/ords"
 	chown -R oracle:dba /u02
@@ -69,14 +71,36 @@ create_database(){
 		EM_CONFIGURATION=NONE
 	fi
 	if [ $MULTITENANT == "true" ]; then
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
-		   -gdbname ${GDBNAME} -sid ${ORACLE_SID} -createAsContainerDatabase true -numberOfPDBs 1 -pdbName ${PDB_NAME} \
-		   -responseFile NO_VALUE -characterSet AL32UTF8 -totalMemory ${DBCA_TOTAL_MEMORY} -emConfiguration ${EM_CONFIGURATION} \
-		   -sysPassword ${PASS} -systemPassword ${PASS} -pdbAdminUserName pdbadmin -pdbAdminPassword ${PASS}"
+		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca \
+		   -silent \
+		   -createDatabase \
+		   -templateName General_Purpose.dbc \
+		   -gdbname ${GDBNAME} \
+		   -sid ${ORACLE_SID} \
+		   -createAsContainerDatabase true \
+		   -numberOfPDBs 1 \
+		   -pdbName ${PDB_NAME} \
+		   -responseFile NO_VALUE 
+		   -characterSet AL32UTF8 \
+		   -totalMemory ${DBCA_TOTAL_MEMORY} \
+		   -emConfiguration ${EM_CONFIGURATION} \
+		   -sysPassword ${PASS} \
+		   -systemPassword ${PASS} \
+		   -pdbAdminUserName pdbadmin \
+		   -pdbAdminPassword ${PASS}"
 	else
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
-		   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
-		   -totalMemory $DBCA_TOTAL_MEMORY -emConfiguration ${EM_CONFIGURATION} -sysPassword ${PASS} -systemPassword ${PASS}"
+		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca \
+		   -silent \
+		   -createDatabase \
+		   -templateName General_Purpose.dbc \
+		   -gdbname ${SERVICE_NAME} \
+		   -sid ${ORACLE_SID} \
+		   -responseFile NO_VALUE \
+		   -characterSet AL32UTF8 \
+		   -totalMemory $DBCA_TOTAL_MEMORY \
+		   -emConfiguration ${EM_CONFIGURATION} \
+		   -sysPassword ${PASS} \
+		   -systemPassword ${PASS}"
 	fi
 	echo "Configure listener."
 	gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
@@ -85,6 +109,9 @@ create_database(){
 		gosu oracle bash -c 'echo -e "ALTER PLUGGABLE DATABASE opdb1 OPEN;\n ALTER PLUGGABLE DATABASE ${PDB_NAME} SAVE STATE;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 		echo "Remove APEX from CDB"
 		gosu oracle bash -c 'cd ${ORACLE_HOME}/apex.old; echo EXIT | /opt/sqlcl/bin/sql -s -l / as sysdba @apxremov_con.sql'
+	else
+		echo "Remove old APEX installation"
+		gosu oracle bash -c 'cd ${ORACLE_HOME}/apex.old; echo EXIT | /opt/sqlcl/bin/sql -s -l / as sysdba @apxremov.sql'
 	fi;
 	echo "Applying data patches."
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose)"
