@@ -15,7 +15,7 @@ else
 	printf "${ORACLE_SID} =\n\
 	(DESCRIPTION =\n\
 		(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))\n\
-		(CONNECT_DATA = (SERVICE_NAME = ${SERVICE_NAME})))\n" > ${ORACLE_HOME}/network/admin/tnsnames.ora	fi
+		(CONNECT_DATA = (SERVICE_NAME = ${SERVICE_NAME})))\n" > ${ORACLE_HOME}/network/admin/tnsnames.ora
 fi
 
 # Create listener.ora
