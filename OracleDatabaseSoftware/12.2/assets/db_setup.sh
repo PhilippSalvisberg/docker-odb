@@ -79,7 +79,7 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch p27100009
+# download and install patch p27674384
 wget -q --no-check-certificate ${ORACLE_ASSETS}/p27674384_122010_Linux-x86-64.zip -O /tmp/oracle/p27674384.zip
 chown oracle:oinstall /tmp/oracle/p27674384.zip
 echo "extracting and installing Oracle Database Release Update 12.2.0.1.180417..."
