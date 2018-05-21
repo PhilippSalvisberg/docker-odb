@@ -27,4 +27,4 @@ The following environment variable values have been used for this image:
 Environment variable | Value
 -------------------- | -------------
 ORACLE_BASE | ```/u01/app/oracle```
-ORACLE_HOME | ```/u01/app/oracle/product/12.1.0/dbhome```
+ORACLE_HOME | ```/u01/app/oracle/product/11.2.0/dbhome```
