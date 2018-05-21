@@ -21,7 +21,7 @@ Complete the following steps to create a new container:
 
 		docker run --stop-timeout 60 -d -p 1521:1521 -h odb --name odb phsalvisberg/odb:9.2
 
-2. wait around **20 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+2. wait around **20 minutes** until the Oracle database instance is created. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop odb```. The container should shutdown the database gracefully within the given 60 seconds and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
@@ -37,7 +37,7 @@ Environment variable | Default value | Comments
 GDBNAME | ```odb.docker``` | Global database name, used by DBCA
 ORACLE_SID | ```odb```| Oracle System Identifier
 SERVICE_NAME | ```odb.docker``` | Oracle Service Name (for the container database)
-PASS | ```oracle```| Password for SYS, SYSTEM, APEX_LISTENER, APEX_PUBLIC_USER, APEX_REST_PUBLIC_USER, ORDS_PUBLIC_USER
+PASS | ```oracle```| Password for SYS, SYSTEM
 
 Here's an example run call amending the PASS environment variable:
 
