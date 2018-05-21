@@ -116,7 +116,7 @@ echo -e "\n" | /u01/app/oracle/product/9.2.0/dbhome/root.sh
 
 # install patchset 7 (9.2.0.8)
 echo "running Oracle installer to install patchset 7 (9.2.0.8)..."
-su oracle -l -c "/tmp/oracle/patchset7/Disk1/runInstaller -waitforcompletion -ignoreSysPrereqs -silent -force -responseFile /assets/ps8_install.rsp"
+su oracle -l -c "/tmp/oracle/patchset7/Disk1/runInstaller -waitforcompletion -ignoreSysPrereqs -silent -force -responseFile /assets/ps7_install.rsp"
 echo -e "\ny\ny\ny\n" | /u01/app/oracle/product/9.2.0/dbhome/root.sh
 
 # cleanup
