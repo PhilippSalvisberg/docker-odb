@@ -1,0 +1,124 @@
+#!/bin/sh
+#
+#  Copyright (c) Oracle Corporation 1997, 1998, 2000, 2001. All Rights Reserved.
+#
+#    NAME
+#      dbassist - Shell script to run Database Creation Assistant
+#
+#    DESCRIPTION
+#      Runs Database Creation Assistion java application
+#      Run this script with -h or -help option to get the help.
+#
+#   MODIFIED   (MMDD/YY)
+#   dkapoor    07/05/2000 - Created
+#
+
+#######################################################################
+# Variables set by Oracle Universal Installer for dependent components.
+#######################################################################
+
+# Define ORACLE_HOME -> OH
+OH=/u01/app/oracle/product/9.2.0/dbhome
+
+ORACLE_HOME=$OH 
+export ORACLE_HOME;
+
+# Version specific JAR files
+JRE_FILE=rt.jar
+I18_FILE=i18n.jar
+EWT_FILE=ewt3.jar
+EWT_COMP_FILE=ewtcompat-3_3_15.jar
+SHARE_FILE=share.jar
+HELP_FILE=help3.jar
+ICE_BROWSER_FILE=oracle_ice5.jar
+KODIAK_FILE=kodiak.jar
+SWING_FILE=swingall-1_1_1.jar
+XMLPARSER_FILE=xmlparserv2.jar
+JDBC_FILE=classes111.zip
+VISI_ORB_FILE=vbjorb.jar
+VISI_TOOLS_FILE=vbjtools.jar
+VISI_APP_FILE=vbjapp.jar
+GSS_FILE=gss-1_1.zip
+NETCFG_FILE=netcfg.jar
+SRVM_FILE=srvm.jar
+ASSISTANTS_COMMON_FILE=assistantsCommon.jar
+DBCA_FILE=dbca.jar
+EMBASE_JAR=oembase-9_2_0.jar
+
+# Directory Variables
+JRE_DIR=/u01/app/oracle/product/9.2.0/dbhome/JRE
+LIB_DIR=$OH/lib
+VISI_LIB_DIR=$OH/lib
+LIB32_DIR=$OH/lib32
+JLIB_DIR=$OH/jlib
+DBCA_JLIB_DIR=$OH/assistants/dbca/jlib
+ASSISTANTS_JLIB_DIR=$OH/assistants/jlib
+
+# Classpath
+JRE_CLASSPATH=$JRE_DIR/lib/$JRE_FILE
+I18_CLASSPATH=$JRE_DIR/lib/$I18_FILE
+EWT_CLASSPATH=$JLIB_DIR/$EWT_FILE:$JLIB_DIR/$EWT_COMP_FILE
+SHARE_CLASSPATH=$JLIB_DIR/$SHARE_FILE
+HELP_CLASSPATH=$JLIB_DIR/$HELP_FILE
+ICE_BROWSER_CLASSPATH=$JLIB_DIR/$ICE_BROWSER_FILE
+KODIAK_CLASSPATH=$JLIB_DIR/$KODIAK_FILE
+SWING_CLASSPATH=$JLIB_DIR/$SWING_FILE
+XMLPARSER_CLASSPATH=/u01/app/oracle/product/9.2.0/dbhome/lib/$XMLPARSER_FILE
+JDBC_CLASSPATH=$OH/jdbc/lib/$JDBC_FILE
+VISI_CLASSPATH=$VISI_LIB_DIR/$VISI_ORB_FILE:$VISI_LIB_DIR/$VISI_TOOLS_FILE:$VISI_LIB_DIR/$VISI_APP_FILE
+GSS_CLASSPATH=/u01/app/oracle/product/9.2.0/dbhome/jlib/$GSS_FILE
+NETCFG_CLASSPATH=$JLIB_DIR/$NETCFG_FILE
+SRVM_CLASSPATH=/u01/app/oracle/product/9.2.0/dbhome/jlib/$SRVM_FILE
+EM_CLASSPATH=$OH/classes:$JLIB_DIR/$EMBASE_JAR
+ASSISTANTS_COMMON_CLASSPATH=$ASSISTANTS_JLIB_DIR/$ASSISTANTS_COMMON_FILE
+DBCA_CLASSPATH=$DBCA_JLIB_DIR/$DBCA_FILE
+
+# Silent flag must be first argument to dbassist
+SILENT=$#
+if [ $SILENT -gt 0 ]; then
+   SILENT=$1
+fi
+
+# The environment variable $TWO_TASK cannot be set during the installation
+unset TWO_TASK
+
+# The environment variable $JAVA_HOME cannot be set during the installation
+unset JAVA_HOME
+
+# Basic error checking
+case $OH in
+    "") echo "*** ORACLE_HOME Not Set!"
+        echo "    Set and export ORACLE_HOME, then re-run"
+        echo "    ORACLE_HOME points to the main directory that"
+        echo "    contains all Oracle products."
+        exit 1;;
+esac
+
+# Set the LD_LIBRARY_PATH to set the path for shared objects
+LD_LIBRARY_PATH=$LIB32_DIR:$OH/network/lib32:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH;
+
+# Set SHLIB_PATH for HP to use 32bit native libraries
+SHLIB_PATH=$LIB32_DIR:$ORACLE_HOME/network/lib32:$SHLIB_PATH
+export SHLIB_PATH;
+
+# Set the TNS_ADMIN 
+TNS_ADMIN=$OH/network/admin
+export TNS_ADMIN;
+
+# Set Classpath for Database Creation Assistant
+CLASSPATH=$JRE_CLASSPATH:$I18_CLASSPATH:$DBCA_CLASSPATH:$ASSISTANTS_COMMON_CLASSPATH:$EWT_CLASSPATH:$SHARE_CLASSPATH:$HELP_CLASSPATH:$ICE_BROWSER_CLASSPATH:$KODIAK_CLASSPATH:$SWING_CLASSPATH:$XMLPARSER_CLASSPATH:$GSS_CLASSPATH:$JDBC_CLASSPATH:$VISI_CLASSPATH:$NETCFG_CLASSPATH:$SRVM_CLASSPATH:$EM_CLASSPATH
+
+ARGUMENTS=""
+NUMBER_OF_ARGUMENTS=$#
+if [ $NUMBER_OF_ARGUMENTS -gt 0 ]; then
+        ARGUMENTS=$*
+fi
+
+if [ -f /etc/rac_on ]; then
+# Run DBCA
+$JRE_DIR/bin/java -Djava.awt.headless=true -DORACLE_HOME=$OH -DJDBC_PROTOCOL=thin -mx64m -classpath $CLASSPATH oracle.sysman.assistants.dbca.Dbca $ARGUMENTS
+else
+# Run DBCA
+$JRE_DIR/bin/java -Djava.awt.headless=true -DORACLE_HOME=$OH -DJDBC_PROTOCOL=thin -mx64m -classpath $CLASSPATH oracle.sysman.assistants.dbca.Dbca $ARGUMENTS
+fi

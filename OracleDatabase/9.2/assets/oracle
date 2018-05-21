@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# This is a workaround for "ORA-27125: unable to create shared memory segment" within DBCA
+
+export DISABLE_HUGETLBFS=1
+exec $ORACLE_HOME/bin/oracle.bin $@
