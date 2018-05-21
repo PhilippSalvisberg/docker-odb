@@ -13,8 +13,6 @@ Dockerfile including scripts to build an image containing the following:
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
 
-This image supports CDB and non-CDB architecture. The latter is the default. 
-
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 
 ## Installation
