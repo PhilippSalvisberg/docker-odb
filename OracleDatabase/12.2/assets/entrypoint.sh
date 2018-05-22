@@ -9,6 +9,7 @@ reuse_database(){
 		# new container with an existing volume
 		echo "Registering Database in /etc/oratab"
 		echo "$ORACLE_SID:$ORACLE_HOME:N" >> /etc/oratab
+		set_timezone
 	fi
 	chown oracle:dba /etc/oratab
 	chmod 664 /etc/oratab

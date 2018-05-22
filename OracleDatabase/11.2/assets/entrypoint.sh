@@ -11,6 +11,7 @@ reuse_database(){
 		echo "$ORACLE_SID:$ORACLE_HOME:N" >> /etc/oratab
 		echo "Restore EM DB Console configuration"
 		restore_from_volume
+		set_timezone
 	fi
 	chown oracle:dba /etc/oratab
 	chmod 664 /etc/oratab
