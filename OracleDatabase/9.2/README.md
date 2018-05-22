@@ -151,7 +151,7 @@ Complete the following steps to restore an image from scratch. There are other w
 
 6. Create the container using the ```odb```volume
 
-		docker run -v odb:/u02 -p 1158:1158 -p 8081:8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:9.2
+		docker run --stop-timeout 60 -v odb:/u02 -p 1521:1521 -h odb --name odb phsalvisberg/odb:9.2
 
 7. Check log of ```odb``` container
 
