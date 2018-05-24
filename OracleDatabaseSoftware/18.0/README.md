@@ -9,7 +9,7 @@ Dockerfile including scripts to build a base image containing the following:
   * OPatch 12.2.0.1.13 (patch 6880880)
   * Database Release Update 18.2.0.0.180417 (patch 27676517)
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
-* APEX 5.1.4
+* APEX 18.1.0
 * Oracle REST Data Services 18.1.1
 
 The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.

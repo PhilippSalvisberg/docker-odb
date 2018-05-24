@@ -112,7 +112,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_5.1.4_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_18.1_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
