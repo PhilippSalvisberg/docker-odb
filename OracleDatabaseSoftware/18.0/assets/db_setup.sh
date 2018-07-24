@@ -52,7 +52,7 @@ chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
 echo "downloading Oracle database software..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/V974953-01.zip -O /tmp/oracle/db1.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/LINUX.X64_180000_db_home.zip -O /tmp/oracle/db1.zip
 chown oracle:oinstall /tmp/oracle/db1.zip
 echo "creating ORACLE_HOME directory..."
 gosu oracle bash -c "mkdir -p $ORACLE_HOME"
@@ -68,25 +68,6 @@ gosu oracle bash -c "$ORACLE_HOME/runInstaller -silent -force -waitforcompletion
 echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
-
-# remove original OPatch folder to save disk space
-rm -r -f ${ORACLE_HOME}/OPatch
-
-# download and install patch 6880880
-echo "downloading OPatch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_180000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
-chown oracle:oinstall /tmp/oracle/p6880880.zip
-echo "extracting and installing OPatch..."
-gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
-rm -f /tmp/oracle/p6880880.zip
-
-# download and install patch p27676517
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p27676517_180000_Linux-x86-64.zip -O /tmp/oracle/p27676517.zip
-chown oracle:oinstall /tmp/oracle/p27676517.zip
-echo "extracting and installing Oracle Database Release Update 18.2.0.0.180417..."
-gosu oracle bash -c "unzip -o /tmp/oracle/p27676517.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/27676517 && opatch apply -force -silent"
-rm -f /tmp/oracle/p27676517.zip
 
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
@@ -123,7 +104,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.18.1.1.95.1251.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.2.0.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
