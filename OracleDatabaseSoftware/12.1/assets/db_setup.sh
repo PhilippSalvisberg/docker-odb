@@ -84,19 +84,20 @@ rm -r -f ${ORACLE_HOME}/OPatch
 
 # download and install patch 6880880
 echo "downloading OPatch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_121010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
 chown oracle:oinstall /tmp/oracle/p6880880.zip
 echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch p27100009
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p27338041_121020_Linux-x86-64.zip -O /tmp/oracle/p27338041.zip
-chown oracle:oinstall /tmp/oracle/p27338041.zip
-echo "extracting and installing Oracle Database Release Update 12.1.0.2.180417..."
-gosu oracle bash -c "unzip -o /tmp/oracle/p27338041.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/27338041 && opatch apply -force -silent"
-rm -f /tmp/oracle/p27338041.zip
+# download and install patch p28317206
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p28317206_121020_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle Database Release Update 12.1.0.2.180717..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/28317206/27968010/27547374 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/28317206/27923320 && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
 
 # download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
 echo "downloading SQL Developer CLI..."
@@ -141,7 +142,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.18.1.1.95.1251.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.2.0.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
