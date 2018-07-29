@@ -4,13 +4,13 @@
 
 Dockerfile including scripts to build a base image containing the following:
 
-* Oracle Linux Server 7.4
+* Oracle Linux Server 7.5
 * Oracle Database 11.2.0.4.0 Enterprise Edition software installation, including
   * OPatch 11.2.0.3.19 (patch 6880880)
-  * Database Release Update 11.2.0.4.180417 (patch 27338049)
+  * Database Release Update 11.2.0.4.180717 (patch p28321254)
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 18.1.0
-* Oracle REST Data Services 18.1.1
+* Oracle REST Data Services 18.2.0
 
 The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.
 
