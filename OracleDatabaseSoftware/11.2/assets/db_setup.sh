@@ -90,13 +90,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch p27100009
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p27338049_112040_Linux-x86-64.zip -O /tmp/oracle/p27338049.zip
-chown oracle:oinstall /tmp/oracle/p27338049.zip
-echo "extracting and installing Oracle Database Release Update 11.2.0.4.180417..."
-gosu oracle bash -c "unzip -o /tmp/oracle/p27338049.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/27338049 && opatch apply -force -silent -ocmrf /assets/ocm.rsp"
-rm -f /tmp/oracle/p27338049.zip
+# download and install patch p27734982
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p27734982_112040_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle Database Release Update 11.2.0.4.180717..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/27734982 && opatch apply -force -silent -ocmrf /assets/ocm.rsp"
+rm -f /tmp/oracle/patch.zip
 
 # download and extract SQL Developer CLI as workaround for SQL*Plus issues with "SET TERMOUT OFF/ON"
 echo "downloading SQL Developer CLI..."
@@ -141,7 +141,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords.18.1.1.95.1251.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.2.0.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
