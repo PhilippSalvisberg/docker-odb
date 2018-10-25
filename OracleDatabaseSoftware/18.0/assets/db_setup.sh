@@ -69,6 +69,14 @@ echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
 
+# download and install patch 28655784
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p28655784_180000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle Database Release Update 18.4.0.0.181016..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/28655784 && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
+
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
 
