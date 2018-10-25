@@ -130,7 +130,7 @@ mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_18.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_18.2_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
