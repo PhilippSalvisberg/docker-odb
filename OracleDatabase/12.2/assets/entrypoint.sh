@@ -71,14 +71,34 @@ create_database(){
 		EM_CONFIGURATION=NONE
 	fi
 	if [ $MULTITENANT == "true" ]; then
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
-		   -gdbname ${GDBNAME} -sid ${ORACLE_SID} -createAsContainerDatabase true -numberOfPDBs 1 -pdbName ${PDB_NAME} \
-		   -responseFile NO_VALUE -characterSet AL32UTF8 -totalMemory ${DBCA_TOTAL_MEMORY} -emConfiguration ${EM_CONFIGURATION} \
-		   -sysPassword ${PASS} -systemPassword ${PASS} -pdbAdminUserName pdbadmin -pdbAdminPassword ${PASS}"
+		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent \
+			-createDatabase \
+			-templateName General_Purpose.dbc \
+			-gdbname ${GDBNAME} \
+			-sid ${ORACLE_SID} \
+			-createAsContainerDatabase true \
+			-numberOfPDBs 1 \
+			-pdbName ${PDB_NAME} \
+			-responseFile NO_VALUE \
+			-characterSet AL32UTF8 \
+			-totalMemory ${DBCA_TOTAL_MEMORY} \
+			-emConfiguration ${EM_CONFIGURATION} \
+			-sysPassword ${PASS} \
+			-systemPassword ${PASS} \
+			-pdbAdminUserName pdbadmin \
+			-pdbAdminPassword ${PASS}"
 	else
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent -createDatabase -templateName General_Purpose.dbc \
-		   -gdbname ${SERVICE_NAME} -sid ${ORACLE_SID} -responseFile NO_VALUE -characterSet AL32UTF8 \
-		   -totalMemory $DBCA_TOTAL_MEMORY -emConfiguration ${EM_CONFIGURATION} -sysPassword ${PASS} -systemPassword ${PASS}"
+		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca -silent \
+			-createDatabase \
+			-templateName General_Purpose.dbc \
+			-gdbname ${SERVICE_NAME} \
+			-sid ${ORACLE_SID} \
+			-responseFile NO_VALUE \
+			-characterSet AL32UTF8 \
+			-totalMemory $DBCA_TOTAL_MEMORY \
+			-emConfiguration ${EM_CONFIGURATION} \
+			-sysPassword ${PASS} \
+			-systemPassword ${PASS}"
 	fi
 	echo "Configure listener."
 	gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
