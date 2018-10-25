@@ -139,7 +139,7 @@ create_database(){
 	fi
 	echo "Installing schema SCOTT."
 	# setting TWO_TASK causes connections using O/S authentication to fail, e.g. "sqlplus / as sysdba".
-	TWO_TASK=${CONNECT_STRING}
+	export TWO_TASK=${CONNECT_STRING}
 	${ORACLE_HOME}/bin/sqlplus sys/${PASS}@${TWO_TASK} as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
 	unset TWO_TASK
 	echo "Installing Oracle sample schemas."
