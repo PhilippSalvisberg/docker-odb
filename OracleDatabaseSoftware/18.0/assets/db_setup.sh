@@ -12,7 +12,7 @@ groupadd --gid 54323 oper
 useradd --create-home --gid oinstall --groups oinstall,dba --uid 54321 oracle
 
 # install required OS components
-yum install -y oracle-database-server-12cR2-preinstall.x86_64 \
+yum install -y oracle-database-preinstall-18c.x86_64 \
                perl \
                tar \
                unzip \
