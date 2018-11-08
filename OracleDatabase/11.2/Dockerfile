@@ -1,8 +1,8 @@
-FROM phsalvisberg/odb:11.2sw
+FROM phsalvisberg/odb:11.2swo
 
 LABEL maintainer="philipp.salvisberg@gmail.com"
 LABEL description="Oracle Database Enterprise Edition 11.2"
-LABEL build.command="docker build . --tag phsalvisberg/odb:11.2"
+LABEL build.command="docker build . --tag phsalvisberg/odb:11.2o"
 LABEL run.command="docker run -v odb:/u02 -it -p 1158:1158 -p 8081:8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:11.2"
 
 # environment variables (defaults for DBCA and entrypoint.sh)
