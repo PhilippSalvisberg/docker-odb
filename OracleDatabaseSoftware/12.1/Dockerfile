@@ -1,4 +1,4 @@
-FROM oraclelinux:7.5
+FROM oraclelinux:7.6
 
 LABEL maintainer="philipp.salvisberg@gmail.com"
 LABEL description="Oracle Database Enterprise Edition 12.1 software only"
