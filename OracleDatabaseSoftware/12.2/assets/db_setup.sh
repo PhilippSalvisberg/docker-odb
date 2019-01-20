@@ -79,13 +79,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 28689128
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p28689128_122010_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 28980102
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p28980102_122010_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 12.2.0.1.181016..."
+echo "extracting and installing Oracle Database Release Update 12.2.0.1.190115..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/28689128/28440725 && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/28689128/28662603 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/28980102/28822515 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/28980102/28790651 && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
@@ -123,7 +123,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.3.0.270.1456.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.4.0.354.1002.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
