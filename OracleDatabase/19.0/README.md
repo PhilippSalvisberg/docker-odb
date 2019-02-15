@@ -41,7 +41,7 @@ You may set the environment variables in the docker run statement to configure t
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
 MULTITENANT | ```false``` | Set to ```true``` if you want to create a database with CDB architecture.
-DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Express.
+DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Oracle Cloud Database Express.
 APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
 ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
 DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent.
@@ -104,9 +104,9 @@ docker restart -t 60 odb
 
 ## Access To Database Services
 
-### Enterprise Manager Database Express
+### Oracle Cloud Database Express
 
-[http://localhost:8080/em/](http://localhost:8080/em/)
+[https://localhost:5500/em/](https://localhost:5500/em/)
 
 User | Password
 -------- | -----
