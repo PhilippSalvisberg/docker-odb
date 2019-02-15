@@ -52,7 +52,7 @@ chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
 echo "downloading Oracle database software..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/191000_Beta1_Linux-x86-64_db_home.zip -O /tmp/oracle/db1.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/V981623-01.zip -O /tmp/oracle/db1.zip
 chown oracle:oinstall /tmp/oracle/db1.zip
 echo "creating ORACLE_HOME directory..."
 gosu oracle bash -c "mkdir -p $ORACLE_HOME"
@@ -68,14 +68,6 @@ gosu oracle bash -c "$ORACLE_HOME/runInstaller -silent -force -waitforcompletion
 echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
-
-# download and install patch 28655784
-#wget -q --no-check-certificate ${ORACLE_ASSETS}/p28655784_180000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
-#chown oracle:oinstall /tmp/oracle/patch.zip
-#echo "extracting and installing Oracle Database Release Update 18.4.0.0.181016..."
-#gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-#gosu oracle bash -c "cd /tmp/oracle/28655784 && opatch apply -force -silent"
-#rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
@@ -112,7 +104,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.3.0.270.1456 -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.4.0.354.1002.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
