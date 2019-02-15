@@ -3,7 +3,7 @@ FROM phsalvisberg/odb:19.0sw
 LABEL maintainer="philipp.salvisberg@gmail.com"
 LABEL description="Oracle Database Enterprise Edition 19c"
 LABEL build.command="docker build . --tag phsalvisberg/odb:19.0"
-LABEL run.command="docker run -v odb:/u02 -it -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:19.0"
+LABEL run.command="docker run -v odb:/u02 -it -p 8080-8081:8080-8081 -p 5500:5500 -p 1521:1521 -h odb --name odb phsalvisberg/odb:19.0"
 
 # environment variables (defaults for DBCA and entrypoint.sh)
 ENV MULTITENANT=false \
@@ -26,7 +26,7 @@ ADD assets /assets/
 RUN /assets/image_setup.sh
 
 # database port, Enterprise Manager Database Express port, ORDS port
-EXPOSE 1521 8080 8081
+EXPOSE 1521 8080 8081 5500
 
 # all data directories in /u01 are linked to this volume
 VOLUME ["/u02"]
