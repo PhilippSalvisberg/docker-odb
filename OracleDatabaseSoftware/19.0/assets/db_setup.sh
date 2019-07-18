@@ -80,7 +80,7 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 28980087
+# download and install patch 29699079
 wget -q --no-check-certificate ${ORACLE_ASSETS}/p29699079_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
 echo "extracting and installing Oracle Database Release Update 19.4.0.0.190716..."
