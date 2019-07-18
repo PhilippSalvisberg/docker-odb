@@ -5,10 +5,10 @@
 Dockerfile including scripts to build a base image containing the following:
 
 * Oracle Linux Server 7.6
-* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.2.0.0.0 software installation
+* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.4.0.0.190716 software installation
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
-* APEX 18.2.0
-* Oracle REST Data Services 18.4.0
+* APEX 19.1.0
+* Oracle REST Data Services 19.1.0
 
 The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.
 
@@ -25,4 +25,4 @@ The following environment variable values have been used for this image:
 Environment variable | Value
 -------------------- | -------------
 ORACLE_BASE | ```/u01/app/oracle```
-ORACLE_HOME | ```/u01/app/oracle/product/18.0.0/dbhome```
+ORACLE_HOME | ```/u01/app/oracle/product/19.0.0/dbhome```
