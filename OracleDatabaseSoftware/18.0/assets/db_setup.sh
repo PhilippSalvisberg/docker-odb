@@ -47,7 +47,7 @@ chown -R oracle:oinstall /u01
 chown -R oracle:oinstall /tmp/oracle
 
 # install gosu as workaround for su problems (see http://grokbase.com/t/gg/docker-user/162h4pekwa/docker-su-oracle-su-cannot-open-session-permission-denied)
-wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64"  -O /usr/local/bin/gosu
+wget -q --no-check-certificate "https://github.com/tianon/gosu/releases/download/1.11/gosu-amd64"  -O /usr/local/bin/gosu
 chmod +x /usr/local/bin/gosu
 
 # download and extract Oracle database software
@@ -69,13 +69,24 @@ echo "running Oracle root scripts..."
 /u01/app/oraInventory/orainstRoot.sh > /dev/null 2>&1
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
 
-# download and install patch 28980087
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p28980087_180000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# remove original OPatch folder to save disk space
+rm -r -f ${ORACLE_HOME}/OPatch
+
+# download and install patch 6880880
+echo "downloading OPatch..."
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_180000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+chown oracle:oinstall /tmp/oracle/p6880880.zip
+echo "extracting and installing OPatch..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
+rm -f /tmp/oracle/p6880880.zip
+
+# download and install patch 29699112
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p29699112_180000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 18.5.0.0.190115..."
+echo "extracting and installing Oracle Database Release Update 18.7.0.0.190716..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/28980087/28822489/ && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/28980087/28790647/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/29699112/29757256/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/29699112/29774410/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
@@ -102,7 +113,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_18.2_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_19.1_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
@@ -113,7 +124,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-18.4.0.354.1002.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.1.0.092.1545.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
