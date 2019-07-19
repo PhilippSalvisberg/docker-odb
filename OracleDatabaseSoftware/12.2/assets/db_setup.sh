@@ -79,13 +79,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 29699173
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p29699173_122010_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 29699168
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p29699168_122010_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
 echo "extracting and installing Oracle Database Release Update 12.2.0.1.190716..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/29699173/29708720 && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/29699173/29774415 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/29699168/29757449 && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/29699168/29774415 && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
