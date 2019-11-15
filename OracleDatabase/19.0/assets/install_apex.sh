@@ -43,13 +43,13 @@ begin
    apex_util.set_security_group_id(10);
    l_user_id := apex_util.get_user_id('ADMIN');
    if l_user_id is null then
-   apex_util.create_user(
-      p_user_name                    => 'ADMIN',
-      p_email_address                => 'ADMIN',
-      p_web_password                 => '${APEX_PASS}',
-      p_developer_privs              => 'ADMIN',
-      p_change_password_on_first_use => 'N'
-   );
+      apex_util.create_user(
+         p_user_name                    => 'ADMIN',
+         p_email_address                => 'ADMIN',
+         p_web_password                 => '${APEX_PASS}',
+         p_developer_privs              => 'ADMIN',
+         p_change_password_on_first_use => 'N'
+      );
    else 
       apex_util.edit_user(
          p_user_id                      => l_user_id,
