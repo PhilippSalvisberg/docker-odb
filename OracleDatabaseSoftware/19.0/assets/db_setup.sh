@@ -80,13 +80,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 29699079
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p29699079_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 30133124
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p30133124_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.4.0.0.190716..."
+echo "extracting and installing Oracle Database Release Update 19.5.0.0.191015..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/29699079/29774421/ && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/29699079/29834717/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/30133124/30125133/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/30133124/30128191/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
@@ -113,7 +113,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_19.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_19.2_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
@@ -124,7 +124,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.1.0.092.1545.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.2.0.199.1647.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
