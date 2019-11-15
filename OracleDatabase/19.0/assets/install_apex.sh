@@ -36,9 +36,36 @@ apex_install(){
 	echo "Installing APEX."
 	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @apexins APEX APEX TEMP /i/
 	echo "Setting APEX ADMIN password."
-	chmod +x ${ORACLE_HOME}/sqldeveloper/sqldeveloper/bin/sql
-	sync
- 	echo -e "\n\n${APEX_PASS}" | ${ORACLE_HOME}/sqldeveloper/sqldeveloper/bin/sql -s -l sys/${PASS}@${CONNECT_STRING} AS sysdba @apxchpwd.sql
+	${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA <<EOF
+declare
+   l_user_id INTEGER;
+begin
+   apex_util.set_security_group_id(10);
+   l_user_id := apex_util.get_user_id('ADMIN');
+   if l_user_id is null then
+   apex_util.create_user(
+      p_user_name                    => 'ADMIN',
+      p_email_address                => 'ADMIN',
+      p_web_password                 => '${APEX_PASS}',
+      p_developer_privs              => 'ADMIN',
+      p_change_password_on_first_use => 'N'
+   );
+   else 
+      apex_util.edit_user(
+         p_user_id                      => l_user_id,
+         p_user_name                    => 'ADMIN',
+         p_email_address                => 'ADMIN',
+         p_web_password                 => '${APEX_PASS}',
+         p_new_password                 => '${APEX_PASS}',
+         p_change_password_on_first_use => 'N',
+         p_account_locked               => 'N'
+      );
+   end if;
+   apex_util.set_security_group_id(null);
+   commit;
+end;
+/
+EOF
 }
 
 apex_rest_config() {
