@@ -1,0 +1,67 @@
+##############################################################################
+# Copyright (c) 1991, 2001, 2002 by Oracle Corporation
+##############################################################################
+ 
+###########################################
+# Cache and I/O
+###########################################
+db_block_size=8192
+ 
+###########################################
+# Cursors and Library Cache
+###########################################
+open_cursors=300
+ 
+###########################################
+# Database Identification
+###########################################
+db_domain=docker
+db_name="odb"
+ 
+###########################################
+# File Configuration
+###########################################
+control_files=("/u01/app/oracle/oradata/odb/control01.ctl", "/u01/app/oracle/fast_recovery_area/odb/control02.ctl")
+db_recovery_file_dest="/u01/app/oracle/fast_recovery_area"
+db_recovery_file_dest_size=4385144832
+ 
+###########################################
+# Miscellaneous
+###########################################
+compatible=11.2.0.4.0
+diagnostic_dest=/u01/app/oracle
+java_jit_enabled=FALSE
+ 
+###########################################
+# Processes and Sessions
+###########################################
+processes=150
+ 
+###########################################
+# SGA Memory
+###########################################
+sga_target=1610612736
+ 
+###########################################
+# Security and Auditing
+###########################################
+audit_file_dest="/u01/app/oracle/admin/odb/adump"
+audit_trail=db
+remote_login_passwordfile=EXCLUSIVE
+ 
+###########################################
+# Shared Server
+###########################################
+dispatchers="(PROTOCOL=TCP) (SERVICE=odbXDB)"
+ 
+###########################################
+# Sort, Hash Joins, Bitmap Indexes
+###########################################
+pga_aggregate_target=536870912
+ 
+###########################################
+# System Managed Undo and Rollback Segments
+###########################################
+undo_tablespace=UNDOTBS
+ 
+ 
