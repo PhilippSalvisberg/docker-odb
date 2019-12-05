@@ -1,0 +1,75 @@
+###########################################
+# Undocumented
+###########################################
+_exadata_feature_on=TRUE
+ 
+###########################################
+# Cache and I/O
+###########################################
+db_block_size=8192
+ 
+###########################################
+# Cursors and Library Cache
+###########################################
+open_cursors=300
+ 
+###########################################
+# Database Identification
+###########################################
+db_domain="docker"
+db_name="odb"
+ 
+###########################################
+# File Configuration
+###########################################
+control_files=("/u01/app/oracle/oradata/ODB/control01.ctl", "/u01/app/oracle/oradata/ODB/control02.ctl")
+db_create_file_dest='/u01/app/oracle/oradata'
+
+###########################################
+# Miscellaneous
+###########################################
+compatible=19.0.0
+diagnostic_dest=/u01/app/oracle
+ 
+###########################################
+# NLS
+###########################################
+nls_language="AMERICAN"
+nls_territory="AMERICA"
+ 
+###########################################
+# Network Registration
+###########################################
+local_listener=LISTENER_ODB
+ 
+###########################################
+# Processes and Sessions
+###########################################
+processes=320
+ 
+###########################################
+# SGA Memory
+###########################################
+sga_target=1536m
+ 
+###########################################
+# Security and Auditing
+###########################################
+audit_file_dest="/u01/app/oracle/admin/odb/adump"
+audit_trail=db
+remote_login_passwordfile=EXCLUSIVE
+ 
+###########################################
+# Shared Server
+###########################################
+dispatchers="(PROTOCOL=TCP) (SERVICE=ODBXDB)"
+ 
+###########################################
+# Sort, Hash Joins, Bitmap Indexes
+###########################################
+pga_aggregate_target=512m
+ 
+###########################################
+# System Managed Undo and Rollback Segments
+###########################################
+undo_tablespace=UNDOTBS
