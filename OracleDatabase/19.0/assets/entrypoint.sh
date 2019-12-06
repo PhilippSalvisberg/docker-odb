@@ -65,45 +65,7 @@ create_database(){
 	provide_data_as_single_volume
 	remove_domain_from_resolve_conf
 	gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
-	if [ $DBEXPRESS == "true" ]; then
-		EM_CONFIGURATION=DBEXPRESS
-	else
-		EM_CONFIGURATION=NONE
-	fi
-	if [ $MULTITENANT == "true" ]; then
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca \
-			-silent \
-			-createDatabase \
-			-templateName General_Purpose.dbc \
-			-gdbname ${GDBNAME} \
-			-sid ${ORACLE_SID} \
-			-createAsContainerDatabase true \
-			-numberOfPDBs 1 \
-			-pdbName ${PDB_NAME} \
-			-responseFile NO_VALUE \
-			-characterSet AL32UTF8 \
-			-totalMemory ${DBCA_TOTAL_MEMORY} \
-			-emConfiguration ${EM_CONFIGURATION} \
-			-sysPassword ${PASS} \
-			-systemPassword ${PASS} \
-			-pdbAdminUserName pdbadmin \
-			-pdbAdminPassword ${PASS} \
-			-initparams _exadata_feature_on=TRUE ; echo $?"
-	else
-		gosu oracle bash -c "${ORACLE_HOME}/bin/dbca \
-			-silent \
-			-createDatabase \
-			-templateName General_Purpose.dbc \
-			-gdbname ${SERVICE_NAME} \
-			-sid ${ORACLE_SID} \
-			-responseFile NO_VALUE \
-			-characterSet AL32UTF8 \
-			-totalMemory $DBCA_TOTAL_MEMORY \
-			-emConfiguration ${EM_CONFIGURATION} \
-			-sysPassword ${PASS} \
-			-systemPassword ${PASS} \
-			-initparams _exadata_feature_on=TRUE ; echo $?"
-	fi
+	gosu oracle bash -c "/assets/create_database.sh"
 	echo "Configure listener."
 	gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	if [ $MULTITENANT == "true" ]; then
@@ -114,7 +76,7 @@ create_database(){
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose) ; echo $?"
 	echo "Workaround for bug 25710407"
 	gosu oracle bash -c 'echo -e "EXEC dbms_stats.init_package();\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
-	echo "Setting TWO_TASK environment for default connection."
+	echo "Setting CONNECT_STRING for default connection."
 	if [ $MULTITENANT == "true" ]; then
 		export CONNECT_STRING=${PDB_NAME}
 	else
@@ -137,19 +99,29 @@ create_database(){
 		echo "Installing ORDS."
 		gosu oracle bash -c "/assets/install_ords.sh"
 	fi
-	echo "Installing schema SCOTT."
-	# setting TWO_TASK causes connections using O/S authentication to fail, e.g. "sqlplus / as sysdba".
-	export TWO_TASK=${CONNECT_STRING}
-	${ORACLE_HOME}/bin/sqlplus sys/${PASS}@${TWO_TASK} as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
-	unset TWO_TASK
-	echo "Installing Oracle sample schemas."
-	. /assets/install_oracle_sample_schemas.sh
-	echo "Installing FTLDB."
-	. /assets/install_ftldb.sh
-	echo "Installing tePLSQL."
-	. /assets/install_teplsql.sh
-	echo "Installing oddgen examples/tutorials"
-	. /assets/install_oddgen.sh
+	if [ $SCOTT == "true" ]; then
+		echo "Installing schema SCOTT."
+		# setting TWO_TASK causes connections using O/S authentication to fail, e.g. "sqlplus / as sysdba".
+		export TWO_TASK=${CONNECT_STRING}
+		${ORACLE_HOME}/bin/sqlplus sys/${PASS}@${TWO_TASK} as sysdba @${ORACLE_HOME}/rdbms/admin/utlsampl.sql
+		unset TWO_TASK
+	fi
+	if [ $SAMPLE_SCHEMAS == "true" ]; then
+		echo "Installing Oracle sample schemas."
+		. /assets/install_oracle_sample_schemas.sh
+	fi
+	if [ $FTLDB == "true" -a \( $JSERVER == "true" -o $DBCA == "true" \) ]; then
+		echo "Installing FTLDB."
+		. /assets/install_ftldb.sh
+	fi
+	if [ $TEPLSQL == "true" ]; then
+		echo "Installing tePLSQL."
+		. /assets/install_teplsql.sh
+	fi
+	if [ $ODDGEN == "true" ]; then
+		echo "Installing oddgen examples/tutorials"
+		. /assets/install_oddgen.sh
+	fi
 }
 
 start_database(){
