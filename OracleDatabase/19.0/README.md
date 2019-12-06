@@ -40,20 +40,28 @@ You may set the environment variables in the docker run statement to configure t
 
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
-MULTITENANT | ```false``` | Set to ```true``` if you want to create a database with CDB architecture.
-DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Oracle Cloud Database Express.
-APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
-ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
-DBCA\_TOTAL\_MEMORY | ```2048```| Memory in kilobytes for the Database Creation Assistent.
-GDBNAME | ```odb.docker``` | Global database name, used by DBCA
-ORACLE_SID | ```odb```| Oracle System Identifier
-SERVICE_NAME | ```odb.docker``` | Oracle Service Name (for the container database)
-PDB_NAME | ```opdb1``` | Name of the pluggable database
-PDB_SERVICE_NAME | ```opdb1.docker``` | Oracle Service Name for the pluggable database
-PASS | ```oracle```| Password for SYS, SYSTEM, APEX_LISTENER, APEX_PUBLIC_USER, APEX_REST_PUBLIC_USER, ORDS_PUBLIC_USER
-APEX_PASS | ```Oracle12c!```| Initial APEX ADMIN password
+MULTITENANT | `false` | Set to `true` if you want to create a database with CDB architecture.
+DBCA | `true` | Set to `false` if you want to use another character set than `AL32UTF8`, `UTF8` or `US7ASCII`. The database is created with the `CREATE DATABASE` statement rather than copying and extending predefined database templates.
+CHARSET | `AL32UTF8` | Standard character set. If you change the value to a character set which is not a binary subset of `AL32UTF8` (e.g. `CL8ISO8859P5`), then you have set `DBCA=false`, otherwise a database in `US7ASCII` is created.
+JSERVER | `true` | Set to `false` if you do not want to install the Oracle Java virutal machine.
+DBEXPRESS | `true` | Set to `false` if you do not want to use Oracle Cloud Database Express.
+APEX | `true` | Set to `false` if you do not want to install Oracle Application Express (container will be created faster).
+ORDS | `true` | Set to `false` if you do not want to install Oracle REST Data Services.
+FTLDB | `true` | Set to `false` if you do not want to install FTLDB.
+TEPLSQL | `true` | Set to `false` if you do not want to install TePLSQL.
+ODDGEN | `true` | Set to `false` if you do not want to install the `ODDGEN` and `OGDEMO` schemas.
+SCOTT | `true` | Set to `false` if you do not want to install schema `SCOTT`.
+SAMPLE\_SCHEMAS | `true` | Set to `false` if you do not want to install the Oracle sample schemas (`HR`, `OE`, `PM`, `IX`, `SH`, `BI`).
+DBCA\_TOTAL\_MEMORY | `2048`| Memory in kilobytes for the Database Creation Assistent.
+GDBNAME | `odb.docker` | Global database name, used by DBCA
+ORACLE_SID | `odb`| Oracle System Identifier
+SERVICE_NAME | `odb.docker` | Oracle Service Name (for the container database)
+PDB_NAME | `opdb1` | Name of the pluggable database
+PDB_SERVICE_NAME | `opdb1.docker` | Oracle Service Name for the pluggable database
+PASS | `oracle`| Password for `SYS`, `SYSTEM`, `APEX_LISTENER`, `APEX_PUBLIC_USER`, `APEX_REST_PUBLIC_USER`, `ORDS_PUBLIC_USER`
+APEX_PASS | `Oracle12c!`| Initial APEX ADMIN password
 
-Here's an example run call amending the PASS environment variable skip APEX installation:
+Here's an example run call amending the PASS environment variable and skipping the APEX installation:
 
 ```
 docker run -e PASS=manager -e APEX=false -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:19.0
@@ -62,7 +70,7 @@ docker run -e PASS=manager -e APEX=false -d -p 8080-8081:8080-8081 -p 1521:1521 
 Here's an other example createing a container database and extending the database port ranges to cover a total of three pluggable databases:
 
 ```
-docker run -e MULTITENANT=true -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 -h ocdb --name ocdb phsalvisberg/oddgendemo
+docker run -e MULTITENANT=true -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 -h ocdb --name ocdb phsalvisberg/odb:19.0
 ```
 
 #### Volumes
