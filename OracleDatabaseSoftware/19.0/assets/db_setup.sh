@@ -119,6 +119,13 @@ unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
+# download and extract APEX patch
+echo "download APEX patch"
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p30392181_1920_Generic.zip -O /tmp/apex_patch.zip
+unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
+mv ${ORACLE_HOME}/30392181 ${ORACLE_HOME}/apex_patch
+chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
+
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
 
