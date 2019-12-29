@@ -7,8 +7,8 @@ Dockerfile including scripts to build an image containing the following:
 * Oracle Linux 7.6
 * Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.5.0.0.191015
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 19.2.0 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
-	* Oracle REST Data Services 19.2.0
+	* APEX 19.2.0 (with patch 30392181) including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
+	* Oracle REST Data Services 19.4.0
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
@@ -46,7 +46,7 @@ CHARSET | `AL32UTF8` | Standard character set. If you change the value to a char
 JSERVER | `true` | Set to `false` if you do not want to install the Oracle Java virutal machine.
 DBEXPRESS | `true` | Set to `false` if you do not want to use Oracle Cloud Database Express.
 APEX | `true` | Set to `false` if you do not want to install Oracle Application Express (container will be created faster).
-ORDS | `true` | Set to `false` if you do not want to install Oracle REST Data Services.
+ORDS | `true` | Set to `false` if you do not want to install Oracle REST Data Services. ORDS is required for SQL Deveoper Web.
 FTLDB | `true` | Set to `false` if you do not want to install FTLDB.
 TEPLSQL | `true` | Set to `false` if you do not want to install TePLSQL.
 ODDGEN | `true` | Set to `false` if you do not want to install the `ODDGEN` and `OGDEMO` schemas.
@@ -121,6 +121,13 @@ User | Password
 system | oracle
 sys | oracle
 
+### SQL Developer Web
+
+[http://localhost:8081/ords/sql-developer](http://localhost:8081/ords/sql-developer)
+
+User | Password
+-------- | -----
+admin | oracle
 
 ### APEX
 
