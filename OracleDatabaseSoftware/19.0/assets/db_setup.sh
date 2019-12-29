@@ -120,8 +120,9 @@ chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
 # download and extract APEX patch
-echo "download APEX patch"
+echo "downloading APEX patch..."
 wget -q --no-check-certificate ${ORACLE_ASSETS}/p30392181_1920_Generic.zip -O /tmp/apex_patch.zip
+echo "extracting APEX patch..."
 unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
 mv ${ORACLE_HOME}/30392181 ${ORACLE_HOME}/apex_patch
 chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
@@ -138,5 +139,7 @@ chown -R oracle:oinstall ${ORACLE_HOME}/ords
 rm -f /tmp/ords.zip
 
 # cleanup
+echo "cleaning up..."
 rm -r -f /tmp/*
 rm -r -f /var/tmp/*
+echo "done."
