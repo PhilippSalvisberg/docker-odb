@@ -4,7 +4,7 @@
 
 Dockerfile including scripts to build a base image containing the following:
 
-* Oracle Linux Server 7.6
+* Oracle Linux Server 7.7
 * Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 software installation, including
   * OPatch 12.2.0.1.18
   * Database Release Update 19.5.0.0.191015

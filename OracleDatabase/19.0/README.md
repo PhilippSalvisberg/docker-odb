@@ -4,7 +4,7 @@
 
 Dockerfile including scripts to build an image containing the following:
 
-* Oracle Linux 7.6
+* Oracle Linux 7.7
 * Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.5.0.0.191015
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
 	* APEX 19.2.0 (with patch 30392181) including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
