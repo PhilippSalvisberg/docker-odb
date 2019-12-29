@@ -43,6 +43,10 @@ user.tablespace.default=APEX
 user.tablespace.temp=TEMP
 sys.user=SYS
 sys.password=${PASS}
+# to enable SQL Developer Web
+restEnabledSql.active=true
+feature.sdw=true
+security.verifySSL=false
 EOF
 }
 
