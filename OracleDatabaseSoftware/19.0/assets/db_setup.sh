@@ -133,7 +133,6 @@ rm -r -f ${ORACLE_HOME}/ords
 echo "downloading ORDS..."
 wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.2.0.199.1647.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
-mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords
 rm -f /tmp/ords.zip
