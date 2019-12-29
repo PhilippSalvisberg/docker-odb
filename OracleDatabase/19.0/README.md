@@ -157,6 +157,7 @@ User | Password
 -------- | -----
 system | oracle
 sys | oracle
+admin | oracle
 apex_listener | oracle
 apex\_rest\_public\_user | oracle
 apex\_public\_user | oracle
