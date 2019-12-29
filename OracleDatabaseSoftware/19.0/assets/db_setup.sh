@@ -119,18 +119,27 @@ unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
+# download and extract APEX patch
+echo "downloading APEX patch..."
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p30392181_1920_Generic.zip -O /tmp/apex_patch.zip
+echo "extracting APEX patch..."
+unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
+mv ${ORACLE_HOME}/30392181 ${ORACLE_HOME}/apex_patch
+chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
+
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.2.0.199.1647.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-19.4.0.352.1226.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
-mkdir /opt/ords
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords
 rm -f /tmp/ords.zip
 
 # cleanup
+echo "cleaning up..."
 rm -r -f /tmp/*
 rm -r -f /var/tmp/*
+echo "done."
