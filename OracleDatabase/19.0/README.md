@@ -4,10 +4,10 @@
 
 Dockerfile including scripts to build an image containing the following:
 
-* Oracle Linux 7.7
-* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.5.0.0.191015
+* Oracle Linux 7.8
+* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.7.0.0.200414
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 19.2.0 (with patch 30392181) including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
+	* APEX 20.1.0 including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
 	* Oracle REST Data Services 19.4.0
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
@@ -27,7 +27,7 @@ Complete the following steps to create a new container:
 
 		docker run -d -p 8080-8081:8080-8081 -p 1521:1521 -h odb --name odb phsalvisberg/odb:19.0
 
-2. wait around **15 minutes** until the Oracle database instance is created and APEX is updated to the latest version. Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
+2. wait around **45 minutes** until the Oracle database instance is created and APEX is updated to the latest version (applying release updates takes more then 20 minutes). Check logs with ```docker logs -f -t odb```. The container is ready to use when the last line in the log is ```Database ready to use. Enjoy! ;-)```. The container stops if an error occurs. Check the logs to determine how to proceed.
 
 Feel free to stop the docker container after a successful installation with ```docker stop -t 60 odb```. The container should shutdown the database gracefully within the given 60 seconds and persist the data fully (ready for backup). Next time you start the container using ```docker start odb``` the database will start up.
 
