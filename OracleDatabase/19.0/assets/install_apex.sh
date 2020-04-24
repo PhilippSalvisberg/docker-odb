@@ -78,19 +78,8 @@ apex_rest_config() {
 	fi
 }
 
-apex_update() {
-	cd $ORACLE_HOME/apex_patch
-	echo "Installing APEX patch."
-	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @catpatch.sql
-	cp -rf images $ORACLE_HOME/apex/images
-	if [ $ORDS == "false" ]; then
-		echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @epg_install_images.sql $ORACLE_HOME/apex_patch
-	fi
-}
-
 apex_create_tablespace
 apex_install
-apex_update
 apex_epg_config
 apex_rest_config
 cd /
