@@ -80,13 +80,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 30133124
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p30133124_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 30783543
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p30783543_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.5.0.0.191015..."
+echo "extracting and installing Oracle Database Release Update 19.7.0.0.200414..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/30133124/30125133/ && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/30133124/30128191/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/30783543/30869156/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/30783543/30805684/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
@@ -113,19 +113,11 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_19.2_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_20.1_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
-
-# download and extract APEX patch
-echo "downloading APEX patch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p30392181_1920_Generic.zip -O /tmp/apex_patch.zip
-echo "extracting APEX patch..."
-unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-mv ${ORACLE_HOME}/30392181 ${ORACLE_HOME}/apex_patch
-chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
