@@ -14,7 +14,7 @@ Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/
 | | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabaseSoftware/12.1) | phsalvisberg/odb:12.1sw |
 | | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabaseSoftware/12.2) | phsalvisberg/odb:12.2sw |
 | | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabaseSoftware/18.0) | phsalvisberg/odb:18.0sw |
-| | [19.0](https://github.com/PhilippSalvisberg/docker-odb/blob/masmainter/OracleDatabaseSoftware/19.0) | phsalvisberg/odb:19.0sw |
+| | [19.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabaseSoftware/19.0) | phsalvisberg/odb:19.0sw |
 | [Oracle Database](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase) | [9.2](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/9.2) | phsalvisberg/odb:9.2 |
 | | [11.2](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/11.2) | phsalvisberg/odb:11.2 |
 | | [12.1](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/12.1) | phsalvisberg/odb:12.1 |
