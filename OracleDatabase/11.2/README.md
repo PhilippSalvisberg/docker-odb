@@ -11,7 +11,7 @@ Dockerfile including scripts to build an image containing the following:
 	* Oracle REST Data Services 18.4.0
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
-	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
+	* oddgen example/tutorial schemas ODDGEN, OGDEMO (main branch as of build time)
 
 Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/standard-license-152015.html) I cannot make this image available on a public Docker registry.
 

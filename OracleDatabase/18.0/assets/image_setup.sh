@@ -19,10 +19,10 @@ wget -q --no-check-certificate https://raw.githubusercontent.com/osalvador/tePLS
 
 # download and extract oddgen software
 echo "downloading oddgen."
-wget -q --no-check-certificate https://github.com/oddgen/oddgen/archive/master.zip -O /tmp/oddgen-master.zip
+wget -q --no-check-certificate https://github.com/oddgen/oddgen/archive/main.zip -O /tmp/oddgen-main.zip
 echo "extracting oddgen."
-unzip /tmp/oddgen-master.zip -d /opt > /dev/null
-rm -f /tmp/oddgen-master.zip
+unzip /tmp/oddgen-main.zip -d /opt > /dev/null
+rm -f /tmp/oddgen-main.zip
 
 # cleanup
 rm -r -f /tmp/* 

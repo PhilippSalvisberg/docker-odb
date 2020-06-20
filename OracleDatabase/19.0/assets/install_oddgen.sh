@@ -1,7 +1,7 @@
 #!/bin/bash
 
 oddgen(){
-	cd /opt/oddgen-master/examples
+	cd /opt/oddgen-main/examples
 	sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA <<EOF
 		BEGIN
 		   EXECUTE IMMEDIATE 'DROP USER oddgen CASCADE';
@@ -72,11 +72,11 @@ EOF
 		INSERT INTO emp VALUES (7902, 'FORD', 'ANALYST', 7566, DATE '1981-12-03', 3000, NULL, 20);
 		INSERT INTO emp VALUES (7934, 'MILLER', 'CLERK', 7782, DATE '1982-01-23', 1300, NULL, 10);
 		COMMIT;
-		@/opt/oddgen-master/examples/package/oddgen_types.pks
-		@/opt/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pks
-		@/opt/oddgen-master/examples/tutorial/01_minimal_view/minimal_view.pkb
-		@/opt/oddgen-master/examples/tutorial/02_extended_view/extended_view.pks
-		@/opt/oddgen-master/examples/tutorial/02_extended_view/extended_view.pkb
+		@/opt/oddgen-main/examples/package/oddgen_types.pks
+		@/opt/oddgen-main/examples/tutorial/01_minimal_view/minimal_view.pks
+		@/opt/oddgen-main/examples/tutorial/01_minimal_view/minimal_view.pkb
+		@/opt/oddgen-main/examples/tutorial/02_extended_view/extended_view.pks
+		@/opt/oddgen-main/examples/tutorial/02_extended_view/extended_view.pkb
 		GRANT EXECUTE ON minimal_view TO PUBLIC;
 		GRANT EXECUTE ON extended_view TO PUBLIC;
 EOF

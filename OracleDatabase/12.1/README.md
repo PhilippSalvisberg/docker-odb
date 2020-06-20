@@ -11,7 +11,7 @@ Dockerfile including scripts to build an image containing the following:
 	* Oracle REST Data Services 19.1.0
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
-	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
+	* oddgen example/tutorial schemas ODDGEN, OGDEMO (main branch as of build time)
 
 This image supports CDB and non-CDB architecture. The latter is the default. 
 

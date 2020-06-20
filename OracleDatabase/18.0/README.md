@@ -11,7 +11,7 @@ Dockerfile including scripts to build an image containing the following:
 	* Oracle REST Data Services 19.1.0
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
-	* oddgen example/tutorial schemas ODDGEN, OGDEMO (master branch as of build time)
+	* oddgen example/tutorial schemas ODDGEN, OGDEMO (main branch as of build time)
 
 This image supports CDB and non-CDB architecture. The latter is the default. Please note that the non-CDB architecture is deprecated with Oracle 12.2.0.1. See [Oracle Database Upgrade Guide](http://docs.oracle.com/database/122/UPGRD/deprecated-features-oracle-database-12c-r2.htm#UPGRD-GUID-23F9C9D3-4267-4638-824D-C198D042B05B) for more information.
 
