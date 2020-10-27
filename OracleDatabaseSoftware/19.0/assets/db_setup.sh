@@ -80,13 +80,13 @@ echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 
-# download and install patch 31326362
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p31326362_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 31720396
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p31720396_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.8.0.0.200714..."
+echo "extracting and installing Oracle Database Release Update 19.9.0.0.201020..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/31326362/31281355/ && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/31326362/31219897/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/31720396/31771877/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/31720396/31668882/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 
 # remove original sample schemas to save disk space
@@ -113,27 +113,27 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_20.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_20.2_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
- # download and extract APEX patch
-echo "download APEX patch"
-echo "downloading APEX patch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p30990551_2010_Generic.zip -O /tmp/apex_patch.zip
-echo "extracting APEX patch..."
-unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-mv ${ORACLE_HOME}/30990551 ${ORACLE_HOME}/apex_patch
-chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
+ # download and extract APEX patch (no patch for 20.2 yet)
+#echo "download APEX patch"
+#echo "downloading APEX patch..."
+#wget -q --no-check-certificate ${ORACLE_ASSETS}/p30990551_2010_Generic.zip -O /tmp/apex_patch.zip
+#echo "extracting APEX patch..."
+#unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
+#mv ${ORACLE_HOME}/30990551 ${ORACLE_HOME}/apex_patch
+#chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.2.0.178.1804.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.2.1.227.0350.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords

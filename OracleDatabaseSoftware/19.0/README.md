@@ -7,12 +7,11 @@ Dockerfile including scripts to build a base image containing the following:
 * Oracle Linux Server 7.8
 * Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 software installation, including
   * OPatch 12.2.0.1.21
-  * Database Release Update 19.8.0.0.200714
+  * Database Release Update 19.9.0.0.201020
   * OJVM Component Release Update 19.8.0.0.200714
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
-* APEX 20.1.0 
-  * Patch Set Exception : Bug 30990551 - PSE BUNDLE FOR APEX 20.1 (PSES ON TOP OF 20.1.0.00.13), Update Aug 18, 2020
-* Oracle REST Data Services 20.2.0
+* APEX 20.2.0 
+* Oracle REST Data Services 20.2.1
 
 The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.
 

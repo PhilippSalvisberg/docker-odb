@@ -90,7 +90,8 @@ apex_update() {
 
 apex_create_tablespace
 apex_install
-apex_update
+# no update for APEX 20.2 yet
+#apex_update
 apex_epg_config
 apex_rest_config
 cd /
