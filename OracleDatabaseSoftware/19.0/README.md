@@ -8,7 +8,7 @@ Dockerfile including scripts to build a base image containing the following:
 * Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 software installation, including
   * OPatch 12.2.0.1.21
   * Database Release Update 19.9.0.0.201020
-  * OJVM Component Release Update 19.8.0.0.200714
+  * OJVM Component Release Update 19.9.0.0.201020
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
 * APEX 20.2.0 
 * Oracle REST Data Services 20.2.1
