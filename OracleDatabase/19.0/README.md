@@ -5,10 +5,10 @@
 Dockerfile including scripts to build an image containing the following:
 
 * Oracle Linux 7.9
-* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.9.0.0.201020
+* Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.10.0.0.210119
 	* Sample schemas SCOTT, HR, OE, PM, IX, SH, BI (master branch as of build time)
-	* APEX 20.2.0 (with patch p30990551) including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
-	* Oracle REST Data Services 20.2.1
+	* APEX 20.2.0 (with PSE version 2021.02.05) including APEX\_LISTENER and APEX\_REST\_PUBLIC\_USER
+	* Oracle REST Data Services 20.4.1
 	* FTLDB 1.5.0
 	* tePLSQL (master branch as of build time)
 	* oddgen example/tutorial schemas ODDGEN, OGDEMO (main branch as of build time)

@@ -72,22 +72,41 @@ ${ORACLE_HOME}/root.sh > /dev/null 2>&1
 # remove original OPatch folder to save disk space
 rm -r -f ${ORACLE_HOME}/OPatch
 
-# download and install patch 6880880
+# download and install patch 6880880 (OPatch)
 echo "downloading OPatch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_190000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
 chown oracle:oinstall /tmp/oracle/p6880880.zip
 echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
+opatch version
 
-# download and install patch 31720396
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p31720396_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 32218454 (RU Common)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32218454_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.9.0.0.201020..."
+echo "extracting and installing Oracle Database Release Update 19.10.0.0.210119..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/31720396/31771877/ && opatch apply -force -silent"
-gosu oracle bash -c "cd /tmp/oracle/31720396/31668882/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/32218454/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
+opatch version
+
+# download and install patch 32067171 (RU OJVM)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32067171_190000_Linux-x86-64 -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle JavaVM Component Release Update 19.10.0.0.210119..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/32067171/ && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
+opatch version
+
+# download and install patch 32431413 (Bugfix Blockchain Table)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32431413_1910000DBRU_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle Database 19 Release 19.10.0.0.210119DBRU..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/32431413/ && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
+opatch version
 
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
@@ -119,21 +138,21 @@ unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
- # download and extract APEX patch (no patch for 20.2 yet)
-#echo "download APEX patch"
-#echo "downloading APEX patch..."
-#wget -q --no-check-certificate ${ORACLE_ASSETS}/p30990551_2010_Generic.zip -O /tmp/apex_patch.zip
-#echo "extracting APEX patch..."
-#unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-#mv ${ORACLE_HOME}/30990551 ${ORACLE_HOME}/apex_patch
-#chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
+# download and extract APEX patch
+echo "download APEX patch"
+echo "downloading APEX patch..."
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32006852_2020_Generic.zip -O /tmp/apex_patch.zip
+echo "extracting APEX patch..."
+unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
+mv ${ORACLE_HOME}/32006852 ${ORACLE_HOME}/apex_patch
+chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.2.1.227.0350.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.4.1.013.1644.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords
