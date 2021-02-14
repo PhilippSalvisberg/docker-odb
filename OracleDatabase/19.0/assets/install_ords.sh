@@ -55,7 +55,8 @@ install(){
 	java -jar ords.war configdir ${ORACLE_BASE}/ords/conf
 	java -jar ords.war install \
 		--parameterFile ${ORACLE_BASE}/ords/params/ords_params.properties \
-		--logDir ${ORACLE_BASE}/ords/logs simple
+		--logDir ${ORACLE_BASE}/ords/logs \
+		--silent
 }
 
 create_user_admin(){
