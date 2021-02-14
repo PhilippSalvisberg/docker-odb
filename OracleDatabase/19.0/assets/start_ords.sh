@@ -9,7 +9,8 @@ if [ $ORDS == "true" ]; then
 	java -jar ords.war configdir ${ORACLE_BASE}/ords/conf
 	# start ORDS as background process, increase default content size (was 200000).
 	nohup java -Dorg.eclipse.jetty.server.Request.maxFormContentSize=1000000 -jar ords.war \
-		standalone --parameterFile ${ORACLE_BASE}/ords/params/ords_params.properties --port 8081 >> $LOGFILE 2>&1 &
+		standalone --parameterFile ${ORACLE_BASE}/ords/params/ords_params.properties \
+		--apex-images ${ORACLE_HOME}/apex/images --port 8081 >> $LOGFILE 2>&1 &
 	# save PID for for kill in stop_ords.sh
 	echo $! > /tmp/ords.pid
 fi
