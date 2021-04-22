@@ -81,30 +81,21 @@ gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /de
 rm -f /tmp/oracle/p6880880.zip
 opatch version
 
-# download and install patch 32218454 (RU Common)
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32218454_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 32545013 (RU Common)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32545013_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.10.0.0.210119..."
+echo "extracting and installing Oracle Database Release Update 19.11.0.0.210420..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/32218454/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/32545013/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 opatch version
 
-# download and install patch 32067171 (RU OJVM)
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32067171_190000_Linux-x86-64 -O /tmp/oracle/patch.zip
+# download and install patch 32399816 (RU OJVM)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p32399816_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle JavaVM Component Release Update 19.10.0.0.210119..."
+echo "extracting and installing Oracle JavaVM Component Release Update 19.11.0.0.210420..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/32067171/ && opatch apply -force -silent"
-rm -f /tmp/oracle/patch.zip
-opatch version
-
-# download and install patch 32431413 (Bugfix Blockchain Table)
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32431413_1910000DBRU_Linux-x86-64.zip -O /tmp/oracle/patch.zip
-chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database 19 Release 19.10.0.0.210119DBRU..."
-gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/32431413/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/32399816/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 opatch version
 
@@ -152,7 +143,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.4.1.013.1644.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-20.4.3.050.1904.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords
