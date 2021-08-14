@@ -82,7 +82,7 @@ apex_update() {
 	cd $ORACLE_HOME/apex_patch
 	echo "Installing APEX patch."
 	echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @catpatch.sql
-	/bin/cp -rf images $ORACLE_HOME/apex/images
+	/bin/cp -rfv images/* $ORACLE_HOME/apex/images
 	if [ $ORDS == "false" ]; then
 		echo "EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA @epg_install_images.sql $ORACLE_HOME/apex_patch
 	fi
