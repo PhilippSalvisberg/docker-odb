@@ -40,6 +40,7 @@ You may set the environment variables in the docker run statement to configure t
 
 Environment variable | Default value | Comments
 -------------------- | ------------- | --------
+MULTITENANT | ```false``` | Set to ```true``` if you want to create a database with CDB architecture.
 DBEXPRESS | ```true``` | Set to ```false``` if you do not want to use Enterprise Manger Database Express.
 APEX | ```true``` | Set to ```false``` if you do not want to install Oracle Application Express (container will be created faster).
 ORDS | ```true``` | Set to ```false``` if you do not want to install Oracle REST Data Services.
@@ -61,7 +62,7 @@ docker run -e PASS=manager -e APEX=false -d -p 8080-8081:8080-8081 -p 1521:1521 
 Here's an other example createing a container database and extending the database port ranges to cover a total of three pluggable databases:
 
 ```
-docker run -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 -h ocdb --name ocdb phsalvisberg/oddgendemo
+docker run -e MULTITENANT=true -d -p 8080-8081:8080-8081 -p 1521-1523:1521-1523 -h ocdb --name ocdb phsalvisberg/oddgendemo
 ```
 
 #### Volumes
