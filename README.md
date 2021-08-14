@@ -22,7 +22,7 @@ Due to [OTN Developer License Terms](http://www.oracle.com/technetwork/licenses/
 | | [12.2](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/12.2) | phsalvisberg/odb:12.2 |
 | | [18.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/18.0) | phsalvisberg/odb:18.0 |
 | | [19.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/19.0) | phsalvisberg/odb:19.0 |
-| | [21.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/19.0) | phsalvisberg/odb:21.0 |
+| | [21.0](https://github.com/PhilippSalvisberg/docker-odb/blob/main/OracleDatabase/21.0) | phsalvisberg/odb:21.0 |
 
 ## Issues
 
