@@ -108,7 +108,7 @@ create_database(){
 	gosu oracle bash -c 'echo -e "ALTER SYSTEM SET LOCAL_LISTENER='"'"'(ADDRESS = (PROTOCOL = TCP)(HOST = $(hostname))(PORT = 1521))'"'"' SCOPE=BOTH;\n ALTER SYSTEM REGISTER;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	if [ $MULTITENANT == "true" ]; then
 		echo "Save open state of PDB."
-		gosu oracle bash -c 'echo -e "ALTER PLUGGABLE DATABASE opdb1 OPEN;\n ALTER PLUGGABLE DATABASE ${PDB_NAME} SAVE STATE;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
+		gosu oracle bash -c 'echo -e "ALTER PLUGGABLE DATABASE ${PDB_NAME} OPEN;\n ALTER PLUGGABLE DATABASE ${PDB_NAME} SAVE STATE;\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
 	fi;
 	echo "Applying data patches."
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose) ; echo $?"
