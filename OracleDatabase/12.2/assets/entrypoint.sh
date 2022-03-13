@@ -78,7 +78,7 @@ create_database(){
 			-sid ${ORACLE_SID} \
 			-createAsContainerDatabase true \
 			-numberOfPDBs 1 \
-			-pdbName ${PDB_NAME} \
+			-pdbName ${PDB_SERVICE_NAME} \
 			-responseFile NO_VALUE \
 			-characterSet AL32UTF8 \
 			-totalMemory ${DBCA_TOTAL_MEMORY} \
