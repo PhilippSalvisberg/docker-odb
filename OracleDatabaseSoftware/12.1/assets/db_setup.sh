@@ -112,10 +112,10 @@ rm -r -f ${ORACLE_HOME}/demo/schema
 
 # download and extract Oracle sample schemas
 echo "downloading Oracle sample schemas..."
-wget -q --no-check-certificate https://github.com/oracle/db-sample-schemas/archive/master.zip -O /tmp/db-sample-schemas-master.zip
+wget -q --no-check-certificate https://github.com/oracle/db-sample-schemas/archive/main.zip -O /tmp/db-sample-schemas-main.zip
 echo "extracting Oracle sample schemas..."
-unzip /tmp/db-sample-schemas-master.zip -d ${ORACLE_HOME}/demo/ > /dev/null
-mv ${ORACLE_HOME}/demo/db-sample-schemas-master ${ORACLE_HOME}/demo/schema
+unzip /tmp/db-sample-schemas-main.zip -d ${ORACLE_HOME}/demo/ > /dev/null
+mv ${ORACLE_HOME}/demo/db-sample-schemas-main ${ORACLE_HOME}/demo/schema
 # ensure ORACLE_HOME does not contain soft links to avoid "ORA-22288: file or LOB operation FILEOPEN failed"  (for Oracle sample schemas)
 ORACLE_HOME=`readlink -f ${ORACLE_HOME}`
 cd ${ORACLE_HOME}/demo/schema
@@ -124,7 +124,7 @@ perl -p -i -e 's#__SUB__CWD__#'$(pwd)'#g' *.sql */*.sql */*.dat > /dev/null
 # reset environment (ORACLE_HOME)
 . /.oracle_env
 chown oracle:oinstall ${ORACLE_HOME}/demo/schema
-rm -f /tmp/db-sample-schemas-master.zip
+rm -f /tmp/db-sample-schemas-main.zip
 
 # rename original APEX folder (required for deinstallation of APEX)
 mv ${ORACLE_HOME}/apex ${ORACLE_HOME}/apex.old
