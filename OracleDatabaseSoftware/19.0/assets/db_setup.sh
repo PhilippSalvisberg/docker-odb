@@ -74,28 +74,28 @@ rm -r -f ${ORACLE_HOME}/OPatch
 
 # download and install patch 6880880 (OPatch)
 echo "downloading OPatch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_122010_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_190000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
 chown oracle:oinstall /tmp/oracle/p6880880.zip
 echo "extracting and installing OPatch..."
 gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
 rm -f /tmp/oracle/p6880880.zip
 opatch version
 
-# download and install patch 32904851 (RU Common)
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32904851_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 33515361 (RU Common)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p33515361_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle Database Release Update 19.12.0.0.210720..."
+echo "extracting and installing Oracle Database Release Update 19.14.0.0.220118..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/32904851/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/33515361/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 opatch version
 
-# download and install patch 32876380 (RU OJVM)
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32876380_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+# download and install patch 33561310 (RU OJVM)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p33561310_190000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
 chown oracle:oinstall /tmp/oracle/patch.zip
-echo "extracting and installing Oracle JavaVM Component Release Update 19.12.0.0.210720..."
+echo "extracting and installing Oracle JavaVM Component Release Update 19.14.0.0.220118..."
 gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
-gosu oracle bash -c "cd /tmp/oracle/32876380/ && opatch apply -force -silent"
+gosu oracle bash -c "cd /tmp/oracle/33561310/ && opatch apply -force -silent"
 rm -f /tmp/oracle/patch.zip
 opatch version
 
@@ -123,7 +123,7 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_21.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_21.2_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
@@ -132,10 +132,10 @@ rm -f /tmp/apex.zip
 # download and extract APEX patch
 echo "download APEX patch"
 echo "downloading APEX patch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32598392_2110_Generic.zip -O /tmp/apex_patch.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p33420059_21200_Generic.zip -O /tmp/apex_patch.zip
 echo "extracting APEX patch..."
 unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-mv ${ORACLE_HOME}/32598392 ${ORACLE_HOME}/apex_patch
+mv ${ORACLE_HOME}/33420059 ${ORACLE_HOME}/apex_patch
 chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
@@ -143,7 +143,7 @@ rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-21.2.0.174.1826.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-21.4.2.062.1806.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords
