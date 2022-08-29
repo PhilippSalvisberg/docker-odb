@@ -1,62 +1,47 @@
 #!/bin/bash
 
 mkdirs(){
-    mkdir -p ${ORACLE_BASE}/ords/params
     mkdir -p ${ORACLE_BASE}/ords/conf
     mkdir -p ${ORACLE_BASE}/ords/logs
 }
 
-set_params(){
+configure(){
 	if [ $MULTITENANT == "true" ]; then
 		THE_SERVICE_NAME=$PDB_SERVICE_NAME
 	else
 		THE_SERVICE_NAME=$SERVICE_NAME
 	fi
-	cat >${ORACLE_BASE}/ords/params/ords_params.properties <<EOF
-config.dir=${ORACLE_BASE}/ords/conf
-db.hostname=${HOSTNAME}
-db.port=1521
-db.servicename=${THE_SERVICE_NAME}
-db.username=APEX_PUBLIC_USER
-db.password=${PASS}
-migrate.apex.rest=false
-plsql.gateway.add=true
-rest.services.apex.add=true
-rest.services.ords.add=true
-schema.tablespace.default=APEX
-schema.tablespace.temp=TEMP
-standalone.mode=false
-standalone.use.https=false
-standalone.http.port=8081
-standalone.access.log=${ORACLE_BASE}/ords/logs
-standalone.context.path=/ords
-standalone.doc.root=${ORACLE_HOME}/ords/docs/javadoc
-standalone.scheme.do.not.prompt=true
-standalone.static.context.path=/i
-standalone.static.do.not.prompt=true
-# path to images must not contain symbolic links
-standalone.static.images=${ORACLE_HOME}/apex/images
-user.apex.listener.password=${PASS}
-user.apex.restpublic.password=${PASS}
-user.public.password=${PASS}
-user.tablespace.default=APEX
-user.tablespace.temp=TEMP
-sys.user=SYS
-sys.password=${PASS}
-# to enable SQL Developer Web
-restEnabledSql.active=true
-feature.sdw=true
-security.verifySSL=false
-EOF
+	cd ${ORACLE_HOME}/ords
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set db.hostname ${HOSTNAME}
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set db.port 1521
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set db.servicename ${THE_SERVICE_NAME}
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set db.username ORDS_PUBLIC_USER
+	echo ${PASS} | ./bin/ords --config ${ORACLE_BASE}/ords/conf config secret --password-stdin db.password
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set standalone.http.port 8081
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set standalone.context.path /ords
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set standalone.static.context.path /i
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set standalone.doc.root ${ORACLE_HOME}/ords/docs/javadoc
+	# path to images must not contain symbolic links
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set standalone.static.path ${ORACLE_HOME}/apex/images
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set security.verifySSL false
+	# to enable SQL Developer Web
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set restEnabledSql.active true
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set database.api.enabled true
+	./bin/ords --config ${ORACLE_BASE}/ords/conf config set feature.sdw true
 }
 
 install(){
 	cd ${ORACLE_HOME}/ords
-	java -jar ords.war configdir ${ORACLE_BASE}/ords/conf
-	java -jar ords.war install \
-		--parameterFile ${ORACLE_BASE}/ords/params/ords_params.properties \
-		--logDir ${ORACLE_BASE}/ords/logs \
-		--silent
+	./bin/ords --config ${ORACLE_BASE}/ords/conf install \
+		--log-folder ${ORACLE_BASE}/ords/logs \
+		--admin-user SYS \
+		--gateway-mode proxied \
+		--gateway-user APEX_PUBLIC_USER \
+		--proxy-user \
+		--password-stdin <<EOF
+${PASS}
+${PASS}
+EOF
 }
 
 create_user_admin(){
@@ -93,7 +78,8 @@ EOF
 }
 
 # main
+export JAVA_HOME=/usr/lib/jvm/jre-11-openjdk
 mkdirs
-set_params
+configure
 install
 create_user_admin

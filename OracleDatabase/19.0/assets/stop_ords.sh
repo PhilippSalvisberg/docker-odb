@@ -2,10 +2,5 @@
 
 if [ $ORDS == "true" ]; then
     echo "Stopping ORDS."
-	if [ -f /tmp/ords.pid ]; then
-		kill -9 `cat /tmp/ords.pid`
-		rm /tmp/ords.pid
-	else
-		kill `ps -ef | grep "ords.war" | awk '{print $2}'`
-	fi
+	kill `ps -ef | grep "ords -D" | awk '{print $2}'`
 fi
