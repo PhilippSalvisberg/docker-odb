@@ -17,7 +17,7 @@ dbca(){
 			-createAsContainerDatabase true \
 			-numberOfPDBs 1 \
             -pdbOptions JSERVER:${JSERVER} \
-			-pdbName ${PDB_SERVICE_NAME} \
+			-pdbName ${PDB_NAME} \
 			-responseFile NO_VALUE \
 			-characterSet ${CHARSET} \
 			-totalMemory ${DBCA_TOTAL_MEMORY} \
