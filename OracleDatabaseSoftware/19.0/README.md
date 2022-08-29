@@ -10,7 +10,7 @@ Dockerfile including scripts to build a base image containing the following:
   * Database Release Update 19.16.0.0.220719
   * OJVM Component Release Update 19.16.0.0.220719
 * Sample schemas HR, OE, PM, IX, SH, BI (master branch as of build time)
-* APEX 22.2.4
+* APEX 22.1.4
 * Oracle REST Data Services 22.2.1
 
 The purpose of this Docker image is to provide all software components to fully automate the creation of additional Docker images.
