@@ -11,12 +11,13 @@ groupadd --gid 54323 oper
 # create oracle user
 useradd --create-home --gid oinstall --groups oinstall,dba --uid 54321 oracle
 
-# install required OS components (TODO: change to 21c package when it becomes available)
-yum install -y oracle-database-preinstall-19c.x86_64 \
+# install required OS components
+yum install -y oracle-database-preinstall-21c \
                perl \
                tar \
                unzip \
-               wget
+               wget \
+               java-11-openjdk.x86_64
 
 # set download location for Oracle software which are not available for unattended downloads
 ORACLE_ASSETS=https://www.salvis.com/oracle-assets
@@ -70,7 +71,34 @@ echo "running Oracle root scripts..."
 ${ORACLE_HOME}/root.sh > /dev/null 2>&1
 
 # remove original OPatch folder to save disk space
-#rm -r -f ${ORACLE_HOME}/OPatch
+rm -r -f ${ORACLE_HOME}/OPatch
+
+# download and install patch 6880880 (OPatch)
+echo "downloading OPatch..."
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p6880880_210000_Linux-x86-64.zip -O /tmp/oracle/p6880880.zip
+chown oracle:oinstall /tmp/oracle/p6880880.zip
+echo "extracting and installing OPatch..."
+gosu oracle bash -c "unzip -o /tmp/oracle/p6880880.zip -d ${ORACLE_HOME}/" > /dev/null
+rm -f /tmp/oracle/p6880880.zip
+opatch version
+
+# download and install patch 34527084 (RU Common)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p34527084_210000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing Oracle Database Release Update 21.8.0.0.221018..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/34527084/ && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
+opatch version
+
+# download and install patch 34422622 (RU JDK)
+wget -q --no-check-certificate ${ORACLE_ASSETS}/p34422622_210000_Linux-x86-64.zip -O /tmp/oracle/patch.zip
+chown oracle:oinstall /tmp/oracle/patch.zip
+echo "extracting and installing DATABASE CLIENT JDK IN ORACLE HOME TO JDK8u351..."
+gosu oracle bash -c "unzip -o /tmp/oracle/patch.zip -d /tmp/oracle/" > /dev/null
+gosu oracle bash -c "cd /tmp/oracle/34422622/ && opatch apply -force -silent"
+rm -f /tmp/oracle/patch.zip
+opatch version
 
 # remove original sample schemas to save disk space
 rm -r -f ${ORACLE_HOME}/demo/schema
@@ -96,27 +124,27 @@ rm -r -f ${ORACLE_HOME}/apex
 
 # download and extract APEX software
 echo "downloading APEX..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_21.1_en.zip -O /tmp/apex.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/apex_22.2_en.zip -O /tmp/apex.zip
 echo "extracting APEX..."
 unzip -o /tmp/apex.zip -d ${ORACLE_HOME} > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/apex
 rm -f /tmp/apex.zip
 
 # download and extract APEX patch
-echo "download APEX patch"
-echo "downloading APEX patch..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/p32598392_2110_Generic.zip -O /tmp/apex_patch.zip
-echo "extracting APEX patch..."
-unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-mv ${ORACLE_HOME}/32598392 ${ORACLE_HOME}/apex_patch
-chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
+#echo "download APEX patch"
+#echo "downloading APEX patch..."
+#wget -q --no-check-certificate ${ORACLE_ASSETS}/p34020981_2210_Generic.zip -O /tmp/apex_patch.zip
+#echo "extracting APEX patch..."
+#unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
+#mv ${ORACLE_HOME}/34020981 ${ORACLE_HOME}/apex_patch
+#chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
 rm -r -f ${ORACLE_HOME}/ords
 
 # download and extract ORDS
 echo "downloading ORDS..."
-wget -q --no-check-certificate ${ORACLE_ASSETS}/ords-21.2.0.174.1826.zip -O /tmp/ords.zip
+wget -q --no-check-certificate ${ORACLE_ASSETS}/V1032368-01.zip -O /tmp/ords.zip
 echo "extracting ORDS..."
 unzip /tmp/ords.zip -d ${ORACLE_HOME}/ords/ > /dev/null
 chown -R oracle:oinstall ${ORACLE_HOME}/ords

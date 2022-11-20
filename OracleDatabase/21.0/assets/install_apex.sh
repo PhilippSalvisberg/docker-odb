@@ -84,7 +84,7 @@ apex_update() {
 
 apex_create_tablespace
 apex_install
-apex_update
+#apex_update
 apex_epg_config
 apex_rest_config
 cd /
