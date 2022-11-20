@@ -121,7 +121,7 @@ User | Password
 system | oracle
 sys | oracle
 
-### SQL Developer Web
+### Database Actions
 
 [http://localhost:8081/ords/sql-developer](http://localhost:8081/ords/sql-developer)
 
