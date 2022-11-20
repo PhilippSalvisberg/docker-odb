@@ -19,7 +19,7 @@ apex_epg_config(){
 
 apex_create_tablespace(){
 	echo "Creating APEX tablespace."
-	DATAFILE=${ORACLE_BASE}/oradata/${ORACLE_SID}/${PDB_NAME}/apex01.dbf
+	DATAFILE=/u02/app/oracle/oradata/${ORACLE_SID}/${PDB_NAME}/apex01.dbf
 	${ORACLE_HOME}/bin/sqlplus -s -l sys/${PASS}@${CONNECT_STRING} AS SYSDBA <<EOF
 		CREATE TABLESPACE apex DATAFILE '${DATAFILE}' SIZE 100M AUTOEXTEND ON NEXT 10M;
 EOF

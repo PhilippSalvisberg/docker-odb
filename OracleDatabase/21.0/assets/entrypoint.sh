@@ -44,7 +44,6 @@ provide_data_as_single_volume(){
 	link_dir_to_volume "/u01/app/oracle/dbs" "/u02/app/oracle/dbs"
 	link_dir_to_volume "/u01/app/oracle/diag" "/u02/app/oracle/diag"
 	link_dir_to_volume "/u01/app/oracle/homes" "/u02/app/oracle/homes"
-	link_dir_to_volume "/u01/app/oracle/oradata" "/u02/app/oracle/oradata"
 	link_dir_to_volume "/u01/app/oracle/ords" "/u02/app/oracle/ords"
 	chown -R oracle:dba /u02
 }
@@ -64,7 +63,6 @@ remove_domain_from_resolve_conf(){
 
 create_database(){
 	echo "Creating database."
-	provide_data_as_single_volume
 	remove_domain_from_resolve_conf
 	gosu oracle bash -c "${ORACLE_HOME}/bin/lsnrctl start"
 	gosu oracle bash -c "/assets/create_database.sh"
@@ -76,6 +74,8 @@ create_database(){
 	gosu oracle bash -c "cd ${ORACLE_HOME}/OPatch && (./datapatch -verbose) ; echo $?"
 	echo "Workaround for bug 25710407"
 	gosu oracle bash -c 'echo -e "EXEC dbms_stats.init_package();\n EXIT" | ${ORACLE_HOME}/bin/sqlplus -s -l / as sysdba'
+	echo "Delayed creatioon of symmbolic links to avoid ORA-29283: invalid file operation: path traverses a symlink during DBCA."
+	provide_data_as_single_volume
 	echo "Setting CONNECT_STRING for default connection."
 	export CONNECT_STRING=${PDB_NAME}
 	echo "export CONNECT_STRING=${CONNECT_STRING}" >> /.oracle_env

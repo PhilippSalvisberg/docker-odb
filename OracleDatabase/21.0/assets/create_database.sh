@@ -10,6 +10,7 @@ dbca(){
         -silent \
         -createDatabase \
         -templateName General_Purpose.dbc \
+        -datafileDestination "/u02/app/oracle/oradata/" \
         -gdbname ${GDBNAME} \
         -sid ${ORACLE_SID} \
         -dbOptions JSERVER:${JSERVER} \
@@ -29,23 +30,24 @@ dbca(){
 }
 
 create_directories(){
-    mkdir -p /u01/app/oracle/oradata/${ORACLE_SID}
-    mkdir -p /u01/app/oracle/admin/${ORACLE_SID}/adump
-    mkdir -p /u01/app/oracle/oradata/${ORACLE_SID}/pdbseed
+    mkdir -p /u02/app/oracle/oradata/${ORACLE_SID}
+    mkdir -p /u02/app/oracle/admin/${ORACLE_SID}/adump
+    mkdir -p /u02/app/oracle/oradata/${ORACLE_SID}/pdbseed
 }
 
 create_spfile() {
     # create pfile
     cat <<EOF >> ${ORACLE_BASE}/dbs/pfile${ORACLE_SID}.ora
 _exadata_feature_on=TRUE
-audit_file_dest='/u01/app/oracle/admin/${ORACLE_SID}/adump'
+_disable_directory_link_check=TRUE
+audit_file_dest='/u02/app/oracle/admin/${ORACLE_SID}/adump'
 audit_trail='db'
 compatible='21.0.0'
-control_files='/u01/app/oracle/oradata/${ORACLE_SID}/control01.ctl','/u01/app/oracle/oradata/${ORACLE_SID}/control02.ctl'
+control_files='/u02/app/oracle/oradata/${ORACLE_SID}/control01.ctl','/u02/app/oracle/oradata/${ORACLE_SID}/control02.ctl'
 db_block_size=8192
 db_domain='docker'
 db_name='odb'
-diagnostic_dest='/u01/app/oracle'
+diagnostic_dest='/u02/app/oracle'
 dispatchers='(PROTOCOL=TCP) (SERVICE=ODBXDB)'
 local_listener='(ADDRESS = (PROTOCOL = TCP)(HOST = odb210)(PORT = 1521))'
 nls_language='AMERICAN'
@@ -77,21 +79,21 @@ create database
     character set ${CHARSET}
     national character set AL16UTF16
     extent management local
-    datafile '/u01/app/oracle/oradata/${ORACLE_SID}/system01.dbf' 
+    datafile '/u02/app/oracle/oradata/${ORACLE_SID}/system01.dbf' 
         size 500m reuse autoextend on maxsize unlimited
-    sysaux datafile '/u01/app/oracle/oradata/${ORACLE_SID}/sysaux01.dbf' 
+    sysaux datafile '/u02/app/oracle/oradata/${ORACLE_SID}/sysaux01.dbf' 
         size 300m reuse autoextend on maxsize unlimited
-    default tablespace users datafile '/u01/app/oracle/oradata/${ORACLE_SID}/users01.dbf' 
+    default tablespace users datafile '/u02/app/oracle/oradata/${ORACLE_SID}/users01.dbf' 
         size 50m reuse autoextend on maxsize unlimited
-    default temporary tablespace temp tempfile '/u01/app/oracle/oradata/${ORACLE_SID}/temp01.dbf' 
+    default temporary tablespace temp tempfile '/u02/app/oracle/oradata/${ORACLE_SID}/temp01.dbf' 
         size 30m reuse
-    undo tablespace undotbs1 datafile '/u01/app/oracle/oradata/${ORACLE_SID}/undotbs01.dbf' 
+    undo tablespace undotbs1 datafile '/u02/app/oracle/oradata/${ORACLE_SID}/undotbs01.dbf' 
         size 200m reuse autoextend on maxsize unlimited
     enable pluggable database
         seed
         file_name_convert=(
-            '/u01/app/oracle/oradata/${ORACLE_SID}/',
-            '/u01/app/oracle/oradata/${ORACLE_SID}/pdbseed/'
+            '/u02/app/oracle/oradata/${ORACLE_SID}/',
+            '/u02/app/oracle/oradata/${ORACLE_SID}/pdbseed/'
         )
         system datafiles size 125m autoextend on next 10m maxsize unlimited
         sysaux datafiles size 100m;
@@ -121,8 +123,8 @@ create_pdb() {
 create pluggable database ${PDB_NAME} admin user pdbadmin identified by ${PASS}
     storage unlimited tempfile reuse
     file_name_convert=(
-        '/u01/app/oracle/oradata/${ORACLE_SID}/pdbseed/', 
-        '/u01/app/oracle/oradata/${ORACLE_SID}/${PDB_NAME}/'
+        '/u02/app/oracle/oradata/${ORACLE_SID}/pdbseed/', 
+        '/u02/app/oracle/oradata/${ORACLE_SID}/${PDB_NAME}/'
     );
 EOF
 }
