@@ -109,7 +109,7 @@ echo "downloading APEX patch..."
 wget -q --no-check-certificate ${ORACLE_ASSETS}/p35283657_2310_Generic.zip -O /tmp/apex_patch.zip
 echo "extracting APEX patch..."
 unzip -o /tmp/apex_patch.zip -d ${ORACLE_HOME} > /dev/null
-mv ${ORACLE_HOME}/34020981 ${ORACLE_HOME}/apex_patch
+mv ${ORACLE_HOME}/35283657 ${ORACLE_HOME}/apex_patch
 chown -R oracle:oinstall ${ORACLE_HOME}/apex_patch
 
 # remove original ORDS folder to save disk space
